@@ -1,172 +1,192 @@
-import { cn } from '@/lib/utils'
-import { useState } from 'react'
+'use client'
 
-interface Channel {
-    platform: string
-    why: string
-    what_to_do: string
-    expected_result: string
-}
+import React from 'react'
+import { cn } from '@/lib/utils'
 
 interface OutreachData {
-    channels: Channel[]
-    dm_template: string
-    cold_email_subject: string
-    cold_email_body: string
-    reddit_post_title: string
-    reddit_post_strategy: string
-    twitter_hook: string
-    producthunt_tagline: string
-    week1_daily_actions: string[]
-    first_10_users_strategy: string
-    first_100_users_strategy: string
+    strategy: string
+    templates: {
+        subject: string
+        body: string
+    }[]
+    campaigns: {
+        name: string
+        status: string
+        conversion_rate: string
+    }[]
 }
 
-export function OutreachEngine({ data }: { data: OutreachData }) {
-    if (!data) return null
-    const [copied, setCopied] = useState(false)
+interface OutreachEngineProps {
+    data: OutreachData
+}
 
-    const copyToClipboard = (text: string) => {
-        navigator.clipboard.writeText(text)
-        setCopied(true)
-        setTimeout(() => setCopied(false), 2000)
-    }
+export function OutreachEngine({ data }: OutreachEngineProps) {
+    if (!data) return null
 
     return (
-        <div className="animate-in fade-in slide-in-from-bottom-8 duration-[2000ms] custom-ease">
-            {/* Transmission Header - Editorial Layout */}
-            <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-12">
-                <div className="max-w-3xl">
-                    <div className="flex items-center gap-3 mb-6">
-                        <div className="px-3 py-1.5 rounded-lg bg-surface-variant/20 shadow-inner">
-                            <span className="text-tertiary text-[10px] font-black tracking-[0.4em] uppercase font-label">Growth Core 05</span>
-                        </div>
-                        <span className="w-1.5 h-1.5 rounded-full bg-tertiary shadow-[0_0_10px_#679cff]"></span>
-                    </div>
-                    <h1 className="text-6xl md:text-8xl font-black font-headline tracking-tighter text-white mb-8 leading-[0.9] uppercase italic">Distribution <br /> <span className="text-tertiary">Sequences.</span></h1>
-                    <p className="text-xl text-on-surface-variant font-body leading-relaxed italic opacity-80 antialiased max-w-2xl">
-                        Architecting high-fidelity growth loops for <span className="text-white font-black underline decoration-tertiary/40">Immediate Market Impact</span>.
-                    </p>
-                </div>
-                <div className="bg-surface-container-low p-10 rounded-[2.5rem] flex items-center gap-8 shadow-[0_40px_80px_rgba(0,0,0,0.4)] border border-white/5 transition-all duration-700 hover:scale-[1.03]">
-                    <span className="material-symbols-outlined text-4xl text-tertiary animate-pulse">broadcast_on_personal</span>
-                    <div className="w-px h-12 bg-white/5"></div>
-                    <p className="text-[10px] font-black text-on-surface-variant/60 uppercase tracking-[0.3em] font-label text-center max-w-[120px] leading-relaxed">Active Signal Processing</p>
-                </div>
-            </div>
-
-            {/* Tactical Channels - Cinematic Bento */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-16">
-                {data.channels.slice(0, 3).map((ch, i) => (
-                    <div key={i} className="group p-12 rounded-[2.5rem] bg-surface-container-low shadow-[0_40px_80px_rgba(0,0,0,0.4)] border border-white/5 hover:bg-surface-container transition-all duration-700 flex flex-col relative overflow-hidden">
-                        <div className="absolute top-0 right-0 p-12 opacity-5 group-hover:scale-110 transition-transform">
-                            <span className="material-symbols-outlined text-9xl text-tertiary">
-                                {i === 0 ? 'share' : i === 1 ? 'mail' : 'rocket_launch'}
-                            </span>
-                        </div>
-                        <div className="w-16 h-16 rounded-2xl bg-surface-container-high flex items-center justify-center mb-10 shadow-xl glass-edge group-hover:scale-110 transition-transform relative z-10">
-                            <span className="material-symbols-outlined text-tertiary text-3xl">
-                                {i === 0 ? 'share' : i === 1 ? 'mail' : 'rocket_launch'}
-                            </span>
-                        </div>
-                        <h3 className="text-3xl font-headline font-black mb-6 text-white uppercase tracking-tighter italic leading-none relative z-10">{ch.platform}</h3>
-                        <p className="text-on-surface-variant text-base font-body leading-relaxed mb-10 flex-1 italic opacity-70 group-hover:opacity-100 transition-opacity antialiased relative z-10">
-                            "{ch.why}"
+        <div className="animate-in fade-in slide-in-from-bottom-8 duration-1000">
+            {/* Header Section */}
+            <header className="mb-16">
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-10">
+                    <div className="space-y-4 max-w-2xl">
+                        <span className="text-tertiary font-black text-[10px] uppercase tracking-[0.4em] italic antialiased opacity-40">Phase_05: Distribution_Protocol</span>
+                        <h1 className="text-5xl md:text-6xl font-black font-headline tracking-tighter text-white uppercase italic antialiased drop-shadow-2xl">Distribution & Outreach</h1>
+                        <p className="text-on-surface-variant text-lg leading-relaxed antialiased italic opacity-70">
+                            Architecting the initial growth loops and direct sales channels to achieve <span className="text-white font-bold">PMF synthesis</span> for <span className="text-tertiary">Launch Intelligence Protocol</span>.
                         </p>
-                        <div className="flex items-center gap-4 text-[10px] font-black text-tertiary uppercase tracking-[0.3em] pt-8 border-t border-white/5 font-label relative z-10">
-                            <span className="w-2 h-2 rounded-full bg-tertiary animate-pulse shadow-[0_0_10px_#679cff]"></span>
-                            Projection: {ch.expected_result}
-                        </div>
                     </div>
-                ))}
-            </div>
+                    <div className="flex gap-4">
+                        <button className="px-8 py-4 bg-surface-container-high/60 backdrop-blur-3xl text-white font-black text-[10px] uppercase tracking-[0.3em] rounded-xl border border-white/5 hover:bg-tertiary hover:text-on-tertiary transition-all duration-700 custom-ease shadow-2xl glass-edge antialiased italic">
+                            EXPORT_STRATEGY_SYNC
+                        </button>
+                    </div>
+                </div>
+            </header>
 
-            {/* Intelligence & Lead Matrix - Tonal Layout */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16">
-                {/* Template Core */}
-                <div className="lg:col-span-5 bg-surface-container-low rounded-[3rem] p-12 shadow-[0_40px_100px_rgba(0,0,0,0.5)] border border-white/5 relative overflow-hidden group">
-                    <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-tertiary/10 rounded-full blur-[100px] -mr-48 -mt-48 transition-opacity opacity-0 group-hover:opacity-100 duration-1000"></div>
-                    <div className="mb-12">
-                        <h3 className="text-4xl font-headline font-black text-white mb-2 uppercase tracking-tighter italic leading-none">Alpha Sequence</h3>
-                        <p className="text-tertiary text-[10px] font-black uppercase tracking-[0.4em] font-label">High-Resolution Transmission</p>
+            {/* Strategy Grid */}
+            <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                {/* LinkedIn Strategy */}
+                <div className="group p-10 rounded-2xl bg-surface-container-low border border-white/5 hover:bg-surface-container transition-all duration-700 custom-ease shadow-2xl glass-edge relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-[#0077b5]/5 blur-3xl rounded-full group-hover:bg-[#0077b5]/10 transition-all"></div>
+                    <div className="w-14 h-14 rounded-xl bg-[#0077b5]/10 flex items-center justify-center mb-8 border border-[#0077b5]/20 group-hover:scale-110 transition-transform">
+                        <span className="material-symbols-outlined text-[#0077b5] text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>share</span>
                     </div>
-                    <div className="bg-surface-container p-10 rounded-[2rem] shadow-inner border border-white/5 font-body text-base text-on-surface-variant leading-relaxed space-y-8 relative z-10 group-hover:bg-surface-bright/20 transition-all duration-700 antialiased">
-                        <div className="pb-6 border-b border-white/5 text-white font-black italic">
-                            <span className="text-tertiary/40 mr-4 font-label not-italic uppercase tracking-[0.2em] text-[10px]">SUB_INTEL:</span>
-                            {data.cold_email_subject}
-                        </div>
-                        <div className="whitespace-pre-wrap italic opacity-80 leading-loose">
-                            {data.cold_email_body || data.dm_template}
-                        </div>
+                    <h3 className="text-2xl font-black font-headline mb-4 text-white uppercase italic tracking-tight antialiased">LinkedIn Direct</h3>
+                    <p className="text-on-surface-variant text-[13px] leading-relaxed mb-8 antialiased italic opacity-60 group-hover:opacity-100 transition-opacity">
+                        Automated relationship building through high-value content sharing and secondary neural connections.
+                    </p>
+                    <div className="flex items-center gap-3 text-[10px] font-black text-tertiary uppercase tracking-[0.2em] italic antialiased">
+                        <span className="w-2 h-2 rounded-full bg-tertiary shadow-[0_0_8px_#679cff]"></span>
+                        ACTIVE_SYNC: 42% CONVERSION
                     </div>
-                    <div className="mt-12 flex items-center justify-between relative z-10">
-                        <div className="flex -space-x-4">
-                            {[1, 2, 3].map(idx => (
-                                <div key={idx} className="w-12 h-12 rounded-full border-4 border-surface-container-low bg-surface-container-high flex items-center justify-center shadow-lg overflow-hidden group-hover:scale-110 transition-transform">
-                                    <div className="w-full h-full bg-white/5"></div>
+                </div>
+
+                {/* Direct Email */}
+                <div className="group p-10 rounded-2xl bg-surface-container-low border border-white/5 hover:bg-surface-container transition-all duration-700 custom-ease shadow-2xl glass-edge relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-tertiary/5 blur-3xl rounded-full group-hover:bg-tertiary/10 transition-all"></div>
+                    <div className="w-14 h-14 rounded-xl bg-tertiary/10 flex items-center justify-center mb-8 border border-tertiary/20 group-hover:scale-110 transition-transform">
+                        <span className="material-symbols-outlined text-tertiary text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>alternate_email</span>
+                    </div>
+                    <h3 className="text-2xl font-black font-headline mb-4 text-white uppercase italic tracking-tight antialiased">Neural Email</h3>
+                    <p className="text-on-surface-variant text-[13px] leading-relaxed mb-8 antialiased italic opacity-60 group-hover:opacity-100 transition-opacity">
+                        Cold outreach focused on decision makers using personalized neural pain-point identification at scale.
+                    </p>
+                    <div className="flex items-center gap-3 text-[10px] font-black text-on-surface-variant/40 uppercase tracking-[0.2em] italic antialiased">
+                        <span className="w-2 h-2 rounded-full bg-white/10 ring-1 ring-white/5"></span>
+                        WARM_UP_PROTOCOL_REQUIRED
+                    </div>
+                </div>
+
+                {/* Product Hunt */}
+                <div className="group p-10 rounded-2xl bg-surface-container-low border border-white/5 hover:bg-surface-container transition-all duration-700 custom-ease shadow-2xl glass-edge relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-6 z-10 transition-transform duration-700 group-hover:-translate-y-1">
+                        <span className="px-4 py-1.5 bg-tertiary text-white text-[9px] font-black rounded-lg uppercase tracking-widest italic shadow-[0_0_15px_rgba(103,156,255,0.4)]">NEXT_CYCLE</span>
+                    </div>
+                    <div className="w-14 h-14 rounded-xl bg-[#da552f]/10 flex items-center justify-center mb-8 border border-[#da552f]/20 group-hover:scale-110 transition-transform">
+                        <span className="material-symbols-outlined text-[#da552f] text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>rocket</span>
+                    </div>
+                    <h3 className="text-2xl font-black font-headline mb-4 text-white uppercase italic tracking-tight antialiased">Market Launch</h3>
+                    <p className="text-on-surface-variant text-[13px] leading-relaxed mb-8 antialiased italic opacity-60 group-hover:opacity-100 transition-opacity">
+                        Mass market deployment aimed at community feedback synthesis and viral coefficient amplification.
+                    </p>
+                    <div className="flex items-center gap-3 text-[10px] font-black text-[#da552f] uppercase tracking-[0.2em] italic antialiased">
+                        <span className="w-2 h-2 rounded-full bg-[#da552f] shadow-[0_0_10px_#da552f]"></span>
+                        LAUNCH_NODE_READY
+                    </div>
+                </div>
+            </section>
+
+            {/* Two Column Interactive Section */}
+            <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-16">
+                {/* Message Template Card */}
+                <div className="lg:col-span-5 bg-surface-container-high/60 backdrop-blur-3xl rounded-3xl p-10 border border-white/5 shadow-[0_40px_100px_rgba(0,0,0,0.6)] relative group glass-edge">
+                    <div className="absolute -top-6 -left-6 w-16 h-16 bg-tertiary rounded-2xl shadow-[0_15px_40px_rgba(103,156,255,0.5)] flex items-center justify-center text-white z-20 group-hover:scale-110 transition-transform duration-700">
+                        <span className="material-symbols-outlined text-3xl animate-pulse" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
+                    </div>
+                    <div className="mb-10">
+                        <h3 className="text-3xl font-black font-headline text-white mb-3 uppercase italic tracking-tighter antialiased">Message Template</h3>
+                        <p className="text-[10px] text-tertiary font-black tracking-[0.4em] uppercase italic antialiased opacity-40">Neural_Pain_First_Protocol</p>
+                    </div>
+                    <div className="bg-surface-container-lowest/50 rounded-2xl p-8 border border-white/5 font-mono text-[13px] text-primary leading-relaxed space-y-6 shadow-inner italic antialiased">
+                        <p className="opacity-40">Subject: Your execution workflow at <span className="text-tertiary">{"{{Company_Name}}"}</span></p>
+                        <p>Hi <span className="text-tertiary">{"{{First_Name}}"}</span>,</p>
+                        <p>Notice you're scaling your outreach vertical. I recently helped <span className="text-white">{"{{Competitor}}"}</span> reduce latency churn by 18% using the exact protocol you're implementing.</p>
+                        <p>Any interest in a 300-second walkthrough of the synthesis framework? No pitch, just raw intelligence.</p>
+                        <p className="opacity-40">Initial_Sync,<br />Protocol_Node_A1</p>
+                    </div>
+                    <div className="mt-10 flex items-center justify-between">
+                        <div className="flex -space-x-3">
+                            {[...Array(3)].map((_, i) => (
+                                <div key={i} className="w-10 h-10 rounded-full border-2 border-surface-container-high bg-surface-container-highest overflow-hidden shadow-xl ring-2 ring-white/5">
+                                    <img
+                                        className="w-full h-full object-cover grayscale opacity-60 hover:grayscale-0 transition-all duration-700 cursor-pointer"
+                                        src={`https://images.unsplash.com/photo-${1500000000000 + i}?auto=format&fit=crop&q=80&w=100`}
+                                        alt="Template User"
+                                    />
                                 </div>
                             ))}
-                            <div className="w-12 h-12 rounded-full bg-tertiary flex items-center justify-center text-[11px] font-black border-4 border-surface-container-low text-on-tertiary font-label shadow-lg">+12</div>
+                            <div className="w-10 h-10 rounded-full border-2 border-surface-container-high bg-tertiary flex items-center justify-center text-[10px] font-black text-white shadow-[0_0_15px_#679cff] relative z-10 antialiased">+12</div>
                         </div>
-                        <button
-                            onClick={() => copyToClipboard(`${data.cold_email_subject}\n\n${data.cold_email_body}`)}
-                            className="bg-surface-container-high p-4 rounded-xl flex items-center gap-4 hover:bg-surface-bright/40 transition-all active:scale-95 shadow-2xl glass-edge text-tertiary"
-                        >
-                            <span className="text-[10px] font-black uppercase tracking-[0.3em] font-label italic">{copied ? 'Captured' : 'Acquire Copy'}</span>
-                            <span className="material-symbols-outlined text-xl">content_copy</span>
+                        <button className="text-tertiary text-[11px] font-black uppercase tracking-[0.3em] flex items-center gap-4 hover:gap-6 transition-all duration-700 italic antialiased group/copy">
+                            COPY_TEMPLATE <span className="material-symbols-outlined text-[18px] group-hover/copy:rotate-45 transition-transform" style={{ fontVariationSettings: "'FILL' 1" }}>content_copy</span>
                         </button>
                     </div>
                 </div>
 
-                {/* Lead Monitoring System */}
-                <div className="lg:col-span-7 bg-surface-container rounded-[3rem] overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.5)] border border-white/5">
-                    <div className="p-12 border-b border-white/5 flex justify-between items-center bg-surface-container-high/30">
+                {/* Target List Tracker */}
+                <div className="lg:col-span-7 bg-surface-container rounded-3xl overflow-hidden shadow-2xl shadow-black/60 border border-white/5 glass-edge">
+                    <div className="p-10 border-b border-white/5 flex justify-between items-center bg-gradient-to-r from-white/5 to-transparent">
                         <div>
-                            <h3 className="text-4xl font-headline font-black text-white uppercase tracking-tighter italic leading-none">Telemetry Targets</h3>
-                            <p className="text-on-surface-variant/40 text-[10px] font-black uppercase tracking-[0.4em] mt-2 font-label">Active Signal Monitoring</p>
+                            <h3 className="text-3xl font-black font-headline text-white uppercase italic tracking-tighter antialiased">Neural Lead Tracker</h3>
+                            <p className="text-[10px] text-on-surface-variant font-black uppercase tracking-[0.4em] mt-2 italic antialiased opacity-40">Target_Synthesis_List</p>
                         </div>
-                        <div className="px-6 py-3 bg-surface-container-highest rounded-full text-[10px] font-black text-white uppercase tracking-[0.2em] flex items-center gap-4 border border-white/5 font-label shadow-xl glass-edge">
-                            <span className="w-2.5 h-2.5 rounded-full bg-tertiary animate-pulse shadow-[0_0_10px_#679cff]"></span>
-                            12 Active Circuits
+                        <div className="flex gap-2">
+                            <span className="px-5 py-2 bg-surface-container-highest/60 backdrop-blur-md rounded-xl text-[10px] font-black text-white border border-white/5 flex items-center gap-3 italic antialiased shadow-xl">
+                                <span className="w-2 h-2 rounded-full bg-tertiary shadow-[0_0_10px_#679cff] animate-pulse"></span> 12_ACTIVE_NODES
+                            </span>
                         </div>
                     </div>
                     <div className="overflow-x-auto">
                         <table className="w-full text-left">
-                            <thead>
-                                <tr className="text-on-surface-variant/30 text-[10px] font-black uppercase tracking-[0.4em] border-b border-white/5">
-                                    <th className="px-12 py-8 font-label">Identity Core</th>
-                                    <th className="px-12 py-8 font-label">Resonance context</th>
-                                    <th className="px-12 py-8 text-center font-label">Status</th>
-                                    <th className="px-12 py-8 text-right font-label">Action</th>
+                            <thead className="bg-surface-container-low/30">
+                                <tr className="text-on-surface-variant/40 text-[10px] font-black uppercase tracking-[0.4em] italic antialiased">
+                                    <th className="px-10 py-6 font-black">LEAD_ID</th>
+                                    <th className="px-10 py-6 font-black">ENTITY_NODE</th>
+                                    <th className="px-10 py-6 font-black text-center">PROTOCOL_STATUS</th>
+                                    <th className="px-10 py-6 font-black text-right">ACTION</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-white/5">
                                 {[
-                                    { name: 'JD', full: 'Jane Doe', co: 'Acme AI', status: 'Sent' },
-                                    { name: 'MS', full: 'Mark S.', co: 'Vortex', status: 'Replied' },
-                                    { name: 'LB', full: 'Laura B.', co: 'Nebula', status: 'Demo' }
+                                    { name: 'Jane Doe', company: 'Acme Corp', status: 'SENT', color: 'tertiary' },
+                                    { name: 'Marcus Smith', company: 'Nebula SaaS', status: 'REPLIED', color: 'primary' },
+                                    { name: 'Laura Bennett', company: 'Vortex AI', status: 'DEMO', color: 'tertiary' }
                                 ].map((lead, i) => (
-                                    <tr key={i} className="group hover:bg-white/5 transition-all duration-300 cursor-default">
-                                        <td className="px-12 py-8">
-                                            <div className="flex items-center gap-6">
-                                                <div className="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-[11px] font-black text-tertiary border border-white/10 group-hover:scale-110 transition-all font-label shadow-lg">{lead.name}</div>
-                                                <div className="font-black text-white text-lg uppercase tracking-tight font-headline italic leading-none group-hover:text-tertiary transition-colors">{lead.full}</div>
+                                    <tr key={i} className="group hover:bg-white/5 transition-all duration-500 cursor-default">
+                                        <td className="px-10 py-6">
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-10 h-10 rounded-xl bg-surface-container-highest border border-white/5 flex items-center justify-center text-[11px] font-black text-white shadow-inner group-hover:scale-110 transition-transform uppercase italic">
+                                                    {lead.name.split(' ').map(n => n[0]).join('')}
+                                                </div>
+                                                <div className="font-black text-white uppercase italic tracking-tight antialiased text-[14px]">{lead.name}</div>
                                             </div>
                                         </td>
-                                        <td className="px-12 py-8 text-on-surface-variant text-sm font-body italic opacity-60 antialiased">{lead.co}</td>
-                                        <td className="px-12 py-8">
+                                        <td className="px-10 py-6 text-on-surface-variant/60 font-body text-[13px] italic antialiased">{lead.company}</td>
+                                        <td className="px-10 py-6">
                                             <div className="flex justify-center">
                                                 <span className={cn(
-                                                    "px-4 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-[0.2em] border font-label transition-all shadow-lg",
-                                                    lead.status === 'Sent' ? "bg-tertiary/10 text-tertiary border-tertiary/20 group-hover:bg-tertiary/20" :
-                                                        lead.status === 'Replied' ? "bg-blue-500/10 text-blue-400 border-blue-500/20 group-hover:bg-blue-500/20" :
-                                                            "bg-white/5 text-white/40 border-white/10"
-                                                )}>{lead.status}</span>
+                                                    "px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest italic antialiased shadow-inner border border-white/5",
+                                                    lead.status === 'SENT' ? "bg-tertiary/20 text-tertiary" :
+                                                        lead.status === 'REPLIED' ? "bg-primary/20 text-primary" :
+                                                            "bg-tertiary text-white shadow-[0_0_10px_rgba(103,156,255,0.4)]"
+                                                )}>
+                                                    {lead.status}
+                                                </span>
                                             </div>
                                         </td>
-                                        <td className="px-12 py-8 text-right">
-                                            <button className="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-surface-bright/20 transition-all active:scale-90 group-hover:text-white">
-                                                <span className="material-symbols-outlined text-on-surface-variant/40 text-xl group-hover:text-white transition-colors">more_horizontal</span>
+                                        <td className="px-10 py-6 text-right">
+                                            <button className="p-3 rounded-xl hover:bg-surface-container-highest transition-all duration-500 text-on-surface-variant/40 hover:text-white group/more">
+                                                <span className="material-symbols-outlined text-[20px] group-hover/more:rotate-90 transition-transform">more_vert</span>
                                             </button>
                                         </td>
                                     </tr>
@@ -175,30 +195,25 @@ export function OutreachEngine({ data }: { data: OutreachData }) {
                         </table>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            {/* Momentum Architecture CTA - Cinematic Overlay */}
-            <div className="rounded-[3rem] overflow-hidden relative p-20 bg-surface-container-high shadow-[0_60px_120px_rgba(0,0,0,0.6)] group border-t border-white/10 transition-all duration-1000 hover:brightness-110">
-                <div className="absolute inset-0 bg-gradient-to-br from-tertiary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
-                <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-16 text-center lg:text-left">
-                    <div className="max-w-3xl">
-                        <div className="flex items-center justify-center lg:justify-start gap-4 mb-8">
-                            <span className="material-symbols-outlined text-tertiary text-3xl shadow-sm">speed</span>
-                            <h4 className="text-5xl font-headline font-black text-white uppercase tracking-tighter italic leading-none">Scale Momentum</h4>
-                        </div>
-                        <p className="text-on-surface-variant text-xl leading-relaxed font-body mb-8 italic opacity-80 antialiased">
-                            {data.first_10_users_strategy}
+            {/* Bottom CTA / Insight */}
+            <section className="rounded-[2.5rem] overflow-hidden relative p-16 bg-surface-container-low border border-white/5 shadow-[0_80px_160px_rgba(0,0,0,0.6)] group glass-edge">
+                <div className="absolute inset-0 grayscale brightness-50 opacity-10 group-hover:opacity-20 transition-all duration-[2000ms] custom-ease group-hover:scale-110 pointer-events-none">
+                    <img className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=2000" alt="Space Network" />
+                </div>
+                <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12">
+                    <div className="max-w-xl text-center md:text-left">
+                        <h4 className="text-4xl font-black font-headline text-white uppercase italic tracking-tighter antialiased mb-6">Ready to accelerate?</h4>
+                        <p className="text-on-surface-variant text-lg leading-relaxed antialiased italic opacity-70">
+                            Unlock the automated <span className="text-white font-bold">LinkedIn neural sequencing</span> and verified lead synthesis database protocol included in your Premium Builder plan.
                         </p>
-                        <div className="flex items-center justify-center lg:justify-start gap-3 text-tertiary/60 font-black italic text-[11px] uppercase tracking-[0.3em] font-label">
-                            <span className="w-2 h-2 rounded-full bg-tertiary/40 animate-ping"></span>
-                            Trajectory: {data.first_100_users_strategy}
-                        </div>
                     </div>
-                    <button className="button-metallic whitespace-nowrap px-16 py-6 rounded-[1.5rem] font-black text-[13px] uppercase tracking-[0.3em] italic shadow-[0_20px_50px_rgba(103,156,255,0.4)] active:scale-95 transition-all">
-                        Execute Acceleration
+                    <button className="whitespace-nowrap px-12 py-5 bg-gradient-to-r from-tertiary to-tertiary-dim text-white font-black text-[11px] uppercase tracking-[0.3em] rounded-xl hover:shadow-[0_20px_40px_rgba(103,156,255,0.4)] hover:-translate-y-2 active:scale-95 transition-all duration-700 custom-ease italic antialiased glass-edge">
+                        UNLOCK_PROTOCOL_AUTOMATIONS
                     </button>
                 </div>
-            </div>
+            </section>
         </div>
     )
 }

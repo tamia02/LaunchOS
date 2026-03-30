@@ -1,4 +1,6 @@
-import { cn } from '@/lib/utils'
+'use client'
+
+import React from 'react'
 
 interface NicheData {
     niche_name: string
@@ -6,158 +8,144 @@ interface NicheData {
     why_this_niche: string
     audience_size: string
     pain_level: string
-    secondary_niches: string[]
     audience_tags: string[]
     where_they_hang_out: string[]
+    secondary_niches: string[]
 }
 
-export function NicheEngine({ data }: { data: NicheData }) {
+interface NicheEngineProps {
+    data: NicheData
+}
+
+export function NicheEngine({ data }: NicheEngineProps) {
     if (!data) return null
 
     return (
-        <div className="animate-in fade-in slide-in-from-bottom-8 duration-[2000ms] custom-ease">
+        <div className="animate-in fade-in slide-in-from-bottom-8 duration-1000">
             {/* Header Section: Editorial Layout */}
-            <header className="flex flex-col md:flex-row justify-between items-end gap-16 mb-24">
-                <div className="max-w-3xl">
-                    <div className="flex items-center gap-3 mb-6">
-                        <div className="px-3 py-1.5 rounded-lg bg-surface-variant/20 shadow-inner">
-                            <span className="text-tertiary text-[10px] font-black tracking-[0.4em] uppercase font-label">Vertical Analysis</span>
-                        </div>
-                        <span className="w-1.5 h-1.5 rounded-full bg-tertiary shadow-[0_0_10px_#679cff]"></span>
-                    </div>
-                    <h1 className="text-6xl md:text-8xl font-black font-headline tracking-tighter text-white mb-8 leading-[0.9] uppercase italic">
-                        The <span className="text-tertiary">Precision</span> <br />
-                        Market Entry.
+            <header className="flex flex-col md:flex-row justify-between items-end gap-8 mb-20">
+                <div className="max-w-2xl">
+                    <h1 className="text-5xl font-extrabold font-headline tracking-tighter text-on-surface mb-6 leading-[1.1] uppercase italic antialiased">
+                        Architecting <span className="text-tertiary">Precision</span> Market Fits.
                     </h1>
-                    <p className="text-xl text-on-surface-variant font-body leading-relaxed opacity-80 italic antialiased">
-                        Intelligence clusters confirm a high-integrity signal. Your primary deployment trajectory should focus on <span className="text-white font-black not-italic px-1 bg-white/5 rounded-md">/ {data.niche_name}</span>.
+                    <p className="text-lg text-on-surface-variant font-light leading-relaxed antialiased">
+                        {data.why_this_niche} We recommend prioritizing <span className="text-white font-bold">{data.niche_name}</span> as your primary entry point.
                     </p>
                 </div>
-
                 <div className="flex flex-col items-end">
-                    <div className="bg-surface-container-low rounded-3xl p-10 flex items-center gap-10 shadow-[0_40px_80px_rgba(0,0,0,0.4)] glass-edge transition-all duration-700 hover:scale-[1.03] group">
-                        <div className="relative w-28 h-28">
+                    <div className="bg-surface-container-high glass-edge rounded-xl p-6 border border-white/5 flex items-center gap-6 shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
+                        <div className="relative w-24 h-24">
                             <svg className="w-full h-full transform -rotate-90">
-                                <circle className="text-surface-container-high" cx="56" cy="56" fill="transparent" r="50" stroke="currentColor" strokeWidth="6"></circle>
-                                <circle className="text-tertiary transition-all duration-[2000ms] custom-ease" cx="56" cy="56" fill="transparent" r="50" stroke="currentColor" strokeDasharray="314.159" strokeDashoffset="37.7" strokeWidth="8" strokeLinecap="round"></circle>
+                                <circle className="text-surface-container-low" cx="48" cy="48" fill="transparent" r="42" stroke="currentColor" strokeWidth="6"></circle>
+                                <circle className="text-tertiary transition-all duration-1000" cx="48" cy="48" fill="transparent" r="42" stroke="currentColor" strokeDasharray="263.89" strokeDashoffset="31.66" strokeWidth="8"></circle>
                             </svg>
                             <div className="absolute inset-0 flex items-center justify-center">
-                                <span className="text-3xl font-black font-headline text-white italic">88%</span>
+                                <span className="text-2xl font-black font-headline">88%</span>
                             </div>
                         </div>
                         <div>
-                            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-on-surface-variant/40 mb-2 font-label">Niche Fit Confidence</p>
-                            <h3 className="text-2xl font-headline font-black text-white uppercase italic leading-none mb-1">Strong Signal</h3>
-                            <p className="text-[10px] text-tertiary font-black uppercase tracking-widest font-label animate-pulse">Ready for Sequence</p>
+                            <p className="text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-1 antialiased">Niche Fit</p>
+                            <h3 className="text-xl font-headline font-bold text-white antialiased">Strong Alpha</h3>
+                            <p className="text-xs text-on-surface-variant antialiased">Recommended for Immediate Execution</p>
                         </div>
                     </div>
                 </div>
             </header>
 
-            {/* Bento Grid Canvas */}
-            <div className="grid grid-cols-12 gap-10 mb-16">
-                {/* Main Archetype Frame */}
-                <div className="col-span-12 lg:col-span-8 bg-surface-container rounded-[2.5rem] overflow-hidden group shadow-[0_40px_100px_rgba(0,0,0,0.5)] relative h-[550px] border border-white/5">
-                    <img
-                        alt={data.niche_name}
-                        className="absolute inset-0 w-full h-full object-cover grayscale opacity-20 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[3000ms] ease-out"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBb-cWPgefi502vndUs2LzzXNteDO04_8FH_9NPRsj0oDIz2Z_BRmNoaW-mP01IDiNs7Aw7szjy30Hd7vK47XS3oQ7zW7f_iqm6sL_7ZyVP8aGzTjqRwrw7ydJi0B8mvho7WE4Fxt8-noxNFvfdFmDPGu2ewBhfWIh407X0fYA2GgGnwz-emqjcf2QRdUAWnKCXVFvJqOrSlGKAZCWr3eT3nqnlTx8jrPiP_alf4YaeOnctoyCMtt5oSU9bL56JKFlSuOW_W_oPmD1q"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-surface-container via-surface-container/30 to-transparent"></div>
-                    <div className="absolute bottom-0 left-0 p-16 w-full">
-                        <div className="inline-block px-4 py-1.5 bg-tertiary/10 text-tertiary text-[10px] font-black tracking-[0.4em] uppercase rounded-lg mb-8 font-label glass-edge italic">Primary Archetype</div>
-                        <h2 className="text-5xl font-headline font-black tracking-tight text-white mb-6 uppercase italic leading-none">{data.niche_name}</h2>
-                        <p className="text-on-surface-variant max-w-2xl text-xl font-body leading-relaxed italic opacity-70 antialiased">{data.niche_description}</p>
-
-                        <div className="grid grid-cols-3 gap-16 mt-16 pt-16 bg-gradient-to-r from-white/5 to-transparent h-px w-full" />
-                        <div className="grid grid-cols-3 gap-16 mt-8">
-                            <div>
-                                <p className="text-[10px] font-black text-on-surface-variant/40 uppercase tracking-[0.3em] mb-3 font-label">Market Alpha</p>
-                                <p className="text-3xl font-headline font-black text-white italic">{data.audience_size}</p>
-                            </div>
-                            <div>
-                                <p className="text-[10px] font-black text-on-surface-variant/40 uppercase tracking-[0.3em] mb-3 font-label">Pain Intensity</p>
-                                <p className="text-3xl font-headline font-black text-tertiary italic">{data.pain_level}</p>
-                            </div>
-                            <div>
-                                <p className="text-[10px] font-black text-on-surface-variant/40 uppercase tracking-[0.3em] mb-3 font-label">Liquidity</p>
-                                <p className="text-3xl font-headline font-black text-white italic uppercase tracking-tighter">High Flow</p>
-                            </div>
+            {/* Bento Grid */}
+            <div className="grid grid-cols-12 gap-6">
+                {/* Main Recommendation Card */}
+                <div className="col-span-12 lg:col-span-8 bg-surface-container-low rounded-xl overflow-hidden border border-white/5 group shadow-2xl">
+                    <div className="relative h-[400px]">
+                        <img
+                            alt={data.niche_name}
+                            className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                            src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=2070"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-surface-container-low via-surface-container-low/40 to-transparent"></div>
+                        <div className="absolute bottom-0 left-0 p-10">
+                            <div className="inline-block px-3 py-1 bg-tertiary/20 text-tertiary text-[10px] font-bold tracking-[0.2em] uppercase rounded mb-4 antialiased">Core Recommendation</div>
+                            <h2 className="text-4xl font-headline font-extrabold tracking-tighter mb-4 text-white uppercase italic antialiased">{data.niche_name}</h2>
+                            <p className="text-on-surface-variant max-w-lg antialiased leading-relaxed">{data.niche_description}</p>
+                        </div>
+                    </div>
+                    <div className="p-10 grid grid-cols-3 gap-8 border-t border-white/5">
+                        <div>
+                            <p className="text-xs font-bold text-on-surface-variant uppercase mb-2 antialiased tracking-widest">Market Size</p>
+                            <p className="text-2xl font-headline font-bold text-white antialiased">{data.audience_size} <span className="text-sm text-on-surface-variant font-normal tracking-normal uppercase ml-1">TAM</span></p>
+                        </div>
+                        <div>
+                            <p className="text-xs font-bold text-on-surface-variant uppercase mb-2 antialiased tracking-widest">Pain Level</p>
+                            <p className="text-2xl font-headline font-bold text-white antialiased">{data.pain_level}</p>
+                        </div>
+                        <div>
+                            <p className="text-xs font-bold text-on-surface-variant uppercase mb-2 antialiased tracking-widest">Entry Barrier</p>
+                            <p className="text-2xl font-headline font-bold text-tertiary antialiased uppercase italic">Low-Complexity</p>
                         </div>
                     </div>
                 </div>
 
-                {/* Persona & Momentum Cluster */}
-                <div className="col-span-12 lg:col-span-4 space-y-10">
-                    <div className="bg-surface-container-high rounded-[2.5rem] p-12 shadow-2xl relative overflow-hidden group border border-white/5 transition-all duration-700 hover:bg-surface-bright/40">
-                        <div className="flex items-center gap-6 mb-12">
-                            <div className="w-24 h-24 rounded-2xl overflow-hidden glass-edge shadow-2xl group-hover:scale-105 transition-transform duration-700 border border-white/10">
-                                <img alt="Founder Persona" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBigGewIk6cC7sL2oXw7hrxHA72cVmCUqeCdAWnHc_NAffduR3oXJ17InAUoOQv6_YA-2zafIFvPATQk_YTuAb7859a3xcWT6uf2lmZuPTA2CMfr-NvxM5a54jBk39u8Eui2cFICd5PQJUYKDkml8k0AEht2nBAe48hYmMMPIMuNNxu3Xyak5lt6jruWQr8vRVlDqKHQ9vEOuC8T4JUCKa_q1W-yq0Sj16oAUcGHt2c2iA0wKBcnZPd3sb0buK1on-CufhXvjg-6q_H" />
+                {/* Persona Card */}
+                <div className="col-span-12 lg:col-span-4 space-y-6">
+                    <div className="bg-surface-container glass-edge rounded-xl p-8 border border-white/5 shadow-2xl">
+                        <div className="flex items-center gap-4 mb-8">
+                            <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-tertiary shadow-[0_0_15px_#679cff]">
+                                <img
+                                    alt="Target Persona"
+                                    src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=1000"
+                                    className="w-full h-full object-cover"
+                                />
                             </div>
                             <div>
-                                <h4 className="text-2xl font-headline font-black text-white uppercase italic tracking-tight leading-none mb-2">Target Profile</h4>
-                                <p className="text-[10px] text-tertiary font-black uppercase tracking-[0.3em] font-label">{data.audience_tags[0]}</p>
+                                <h4 className="text-xl font-headline font-bold text-white antialiased tracking-tight">Clara J.</h4>
+                                <p className="text-xs text-tertiary font-bold uppercase tracking-widest italic antialiased">Primary Persona</p>
                             </div>
                         </div>
-                        <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-on-surface-variant/30 mb-8 font-label">Mission Critical Friction</h5>
-                        <ul className="space-y-6">
-                            {data.audience_tags.slice(1, 4).map((tag, i) => (
-                                <li key={i} className="flex items-start gap-5 group/item">
-                                    <span className="material-symbols-outlined text-tertiary text-xl group-hover/item:scale-125 transition-transform">bolt</span>
-                                    <p className="text-base text-on-surface-variant font-medium italic opacity-70 group-hover/item:opacity-100 transition-opacity">{tag}</p>
+                        <h5 className="text-sm font-bold mb-4 text-white uppercase tracking-widest antialiased">Key Pain Points</h5>
+                        <ul className="space-y-4">
+                            {data.audience_tags.slice(0, 3).map((tag, i) => (
+                                <li key={i} className="flex items-start gap-3 group">
+                                    <span className="material-symbols-outlined text-tertiary text-sm mt-0.5 group-hover:scale-125 transition-transform">priority_high</span>
+                                    <p className="text-sm text-on-surface-variant antialiased leading-relaxed">{tag}: High cognitive load and initialization friction.</p>
                                 </li>
                             ))}
                         </ul>
                     </div>
-
-                    <div className="bg-surface-container rounded-[2.5rem] p-12 shadow-2xl relative overflow-hidden border-t border-white/5 transition-all duration-700 hover:brightness-110">
-                        <div className="absolute top-0 right-0 p-8 opacity-5">
-                            <span className="material-symbols-outlined text-[100px] text-tertiary">trending_up</span>
-                        </div>
-                        <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-on-surface-variant/30 mb-10 font-label">Market Momentum</h4>
-                        <div className="space-y-8">
+                    <div className="bg-surface-container-high glass-edge rounded-xl p-8 border border-white/5 shadow-2xl group hover:bg-surface-container-high/80 transition-all duration-500">
+                        <h4 className="text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-6 antialiased italic">Market Momentum</h4>
+                        <div className="space-y-4">
                             <div className="flex justify-between items-end">
-                                <span className="text-[11px] font-black text-white uppercase italic tracking-[0.3em] font-label">Latent Demand</span>
-                                <span className="text-3xl font-black font-headline text-tertiary tracking-tighter animate-pulse shadow-sm">+240%</span>
+                                <span className="text-sm font-medium text-white antialiased">Inbound Demand</span>
+                                <span className="text-2xl font-headline font-bold text-tertiary antialiased tracking-tighter italic">+240%</span>
                             </div>
-                            <div className="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden shadow-inner">
-                                <div className="w-3/4 h-full bg-gradient-to-r from-tertiary to-primary shadow-[0_0_15px_rgba(103,156,255,0.4)]"></div>
+                            <div className="w-full h-1.5 bg-surface-container-low rounded-full overflow-hidden">
+                                <div className="w-3/4 h-full bg-tertiary shadow-[0_0_10px_#679cff]"></div>
                             </div>
-                            <p className="text-[11px] text-on-surface-variant/50 leading-relaxed font-body italic antialiased">Algorithmic telemetry confirms surge in vertical interest across strategic intelligence clusters.</p>
+                            <p className="text-[11px] text-on-surface-variant leading-relaxed antialiased italic tracking-tight">Search volume for {data.niche_name} has spiked by 2.4x in the last 2 cycles.</p>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {/* Expansion Trajectories - No-Line Separation */}
-            <div className="bg-surface-container-low p-16 rounded-[3rem] shadow-[0_40px_80px_rgba(0,0,0,0.5)] relative overflow-hidden group">
-                <div className="absolute top-0 right-0 p-16 opacity-5">
-                    <span className="material-symbols-outlined text-[200px] text-tertiary">explore</span>
-                </div>
-                <div className="flex justify-between items-center mb-16 relative z-10 transition-all">
-                    <div>
-                        <h3 className="text-4xl font-headline font-black text-white uppercase italic tracking-tighter mb-2 leading-none">Expansion Trajectories</h3>
-                        <p className="text-[10px] text-on-surface-variant/30 font-black uppercase tracking-[0.4em] font-label">Adjacent High-Integrity Verticals</p>
+                {/* Adjacent Opportunities */}
+                <div className="col-span-12 bg-surface-container-low p-10 rounded-xl border border-white/5 shadow-inner">
+                    <div className="flex justify-between items-center mb-10">
+                        <h3 className="text-3xl font-headline font-black text-white uppercase italic tracking-tighter antialiased">Adjacent Intelligence</h3>
+                        <button className="text-[10px] text-tertiary font-black uppercase tracking-[0.4em] flex items-center gap-3 group/link italic transition-all antialiased hover:tracking-[0.6em]">
+                            EXPLORE_NETWORK <span className="material-symbols-outlined group-hover/link:translate-x-2 transition-transform">arrow_forward</span>
+                        </button>
                     </div>
-                    <button className="button-metallic text-on-primary px-8 py-3 rounded-xl font-headline font-black text-[10px] uppercase tracking-[0.2em] italic group/btn active:scale-95 transition-all">
-                        <span className="flex items-center gap-3">
-                            Execute Pivot <span className="material-symbols-outlined group-hover/btn:translate-x-2 transition-transform text-lg">arrow_forward</span>
-                        </span>
-                    </button>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-10 relative z-10">
-                    {data.secondary_niches.map((niche, i) => (
-                        <div key={i} className="bg-surface-container rounded-3xl p-10 shadow-xl transition-all duration-700 hover:bg-surface-bright/40 group/card cursor-default border border-white/5">
-                            <div className="flex justify-between items-start mb-8">
-                                <div className="w-14 h-14 bg-surface-container-high rounded-xl flex items-center justify-center shadow-lg group-hover/card:scale-110 transition-transform">
-                                    <span className="material-symbols-outlined text-3xl text-on-surface-variant/40 group-hover/card:text-tertiary transition-colors duration-500">api</span>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {data.secondary_niches.map((niche, i) => (
+                            <div key={i} className="bg-surface-container-high/40 rounded-xl p-8 border border-white/5 hover:border-tertiary/40 transition-all duration-500 cursor-pointer group hover:bg-surface-container-high/60 shadow-xl">
+                                <div className="flex justify-between items-start mb-6">
+                                    <span className="material-symbols-outlined text-4xl text-on-surface-variant group-hover:text-tertiary transition-all group-hover:scale-110">shield</span>
+                                    <span className="px-3 py-1 bg-surface-bright text-[9px] font-black tracking-widest rounded-full border border-white/10">{60 + i * 12}% MATCH</span>
                                 </div>
-                                <span className="px-3 py-1 bg-surface-bright/20 text-white text-[9px] font-black rounded-lg uppercase tracking-[0.2em] glass-edge border border-white/5 italic">72% Alpha</span>
+                                <h4 className="font-headline font-black text-white mb-3 uppercase italic tracking-tight antialiased">{niche}</h4>
+                                <p className="text-xs text-on-surface-variant leading-relaxed antialiased">Strategic expansion vector for the {data.niche_name} core protocol.</p>
                             </div>
-                            <h4 className="font-headline text-2xl font-black text-white mb-4 uppercase italic leading-none">{niche}</h4>
-                            <p className="text-sm text-on-surface-variant/60 font-body leading-relaxed italic opacity-80 antialiased">Strategic architectural overlap confirmed by vertical-level entropy audit.</p>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>

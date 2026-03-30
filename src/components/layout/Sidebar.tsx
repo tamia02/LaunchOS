@@ -18,21 +18,18 @@ export function Sidebar() {
     const pathname = usePathname()
 
     return (
-        <aside className="fixed left-0 h-screen w-80 z-40 glass-panel glass-edge flex flex-col py-16 mt-20 transition-all custom-ease overflow-hidden border-r border-white/5 shadow-[20px_0_100px_rgba(0,0,0,0.4)]">
-            <div className="px-10 mb-20">
-                <div className="flex items-center gap-6 group cursor-default">
-                    <div className="w-14 h-14 bg-surface-variant/20 rounded-2xl flex items-center justify-center shadow-inner glass-edge border border-white/5 group-hover:rotate-[-10deg] transition-all duration-700 custom-ease">
-                        <span className="material-symbols-outlined text-tertiary text-3xl shadow-[0_0_15px_rgba(103,156,255,0.4)]" style={{ fontVariationSettings: "'FILL' 1" }}>rocket_launch</span>
+        <aside className="fixed left-0 h-screen w-64 z-40 bg-slate-950/40 backdrop-blur-2xl flex flex-col h-full py-8 pt-24 shadow-[20px_0_40px_rgba(0,0,0,0.1)] font-body text-sm antialiased text-slate-200 border-r border-white/5">
+            <div className="px-6 mb-8">
+                <div className="flex items-center gap-3 mb-2">
+                    <div className="w-6 h-6 bg-tertiary rounded-sm flex items-center justify-center">
+                        <span className="material-symbols-outlined text-xs text-on-tertiary" style={{ fontVariationSettings: "'FILL' 1" }}>architecture</span>
                     </div>
-                    <div>
-                        <h3 className="text-2xl font-black text-white leading-none font-headline tracking-tighter uppercase italic antialiased group-hover:text-tertiary transition-colors">launchOS</h3>
-                        <p className="text-[9px] text-tertiary font-black uppercase tracking-[0.4em] mt-1 font-label italic">Neural_Protocol_0.8</p>
-                    </div>
+                    <span className="text-lg font-black text-slate-100 font-headline">Project Alpha</span>
                 </div>
+                <p className="text-[10px] uppercase tracking-widest text-on-surface-variant font-medium antialiased">AI Analysis Active</p>
             </div>
 
-            <nav className="flex-1 px-6 space-y-3">
-                <p className="px-6 text-[10px] font-black uppercase tracking-[0.5em] text-on-surface-variant/20 mb-8 font-label italic antialiased">Primary_Intelligence</p>
+            <nav className="flex-grow space-y-1">
                 {navItems.map((item) => {
                     const isActive = pathname === item.href
                     return (
@@ -40,42 +37,36 @@ export function Sidebar() {
                             key={item.href}
                             href={item.href}
                             className={cn(
-                                "px-6 py-5 flex items-center gap-6 font-body text-[13px] antialiased transition-all duration-700 custom-ease group rounded-2xl relative",
+                                "px-4 py-3 mx-2 flex items-center gap-3 transition-colors duration-200 rounded-sm",
                                 isActive
-                                    ? "bg-surface-container-high/60 text-white shadow-[0_20px_40px_rgba(0,0,0,0.3)] glass-edge"
-                                    : "text-on-surface-variant/40 hover:text-white hover:bg-white/5"
+                                    ? "bg-slate-800/50 text-slate-100 border-l-2 border-slate-300"
+                                    : "text-slate-500 hover:text-slate-300"
                             )}
                         >
-                            {isActive && (
-                                <div className="absolute left-0 w-1 h-6 bg-tertiary rounded-full shadow-[0_0_15px_#679cff] animate-pulse" />
-                            )}
-                            <span className={cn(
-                                "material-symbols-outlined text-[24px] transition-all duration-700 custom-ease",
-                                isActive ? "text-tertiary" : "group-hover:text-tertiary group-hover:scale-110"
-                            )}>
+                            <span className="material-symbols-outlined text-[20px]">
                                 {item.icon}
                             </span>
-                            <span className={cn("font-black tracking-tighter uppercase italic font-headline text-lg transition-transform", isActive ? "translate-x-1" : "group-hover:translate-x-1")}>{item.name}</span>
+                            <span className="font-medium tracking-tight">{item.name}</span>
                         </Link>
                     )
                 })}
             </nav>
 
-            <div className="px-8 py-12">
-                <button className="w-full button-metallic text-on-primary py-6 rounded-[1.5rem] font-black text-[11px] tracking-[0.4em] shadow-[0_30px_60px_rgba(0,0,0,0.4)] hover:brightness-125 transition-all duration-700 custom-ease active:scale-95 group uppercase italic font-headline relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-[2000ms]" />
-                    <span className="flex items-center justify-center gap-4 relative z-10">
-                        DEPLOYMENT
-                        <span className="material-symbols-outlined text-sm group-hover:rotate-12 transition-transform">bolt</span>
-                    </span>
+            <div className="px-4 mt-auto space-y-4">
+                <button className="w-full bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold py-3 rounded-md shadow-lg flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+                    <span>Build</span>
+                    <span className="material-symbols-outlined text-sm">bolt</span>
                 </button>
-            </div>
-
-            <div className="px-8 space-y-2 mb-12">
-                <Link href="/docs" className="text-on-surface-variant/20 hover:text-tertiary px-6 py-4 flex items-center gap-6 font-label text-[10px] uppercase tracking-[0.4em] transition-all duration-500 custom-ease italic">
-                    <span className="material-symbols-outlined text-[20px]">description</span>
-                    <span>Documentation</span>
-                </Link>
+                <div className="flex flex-col gap-1 mb-4">
+                    <Link href="/docs" className="text-slate-500 hover:text-slate-300 px-4 py-2 flex items-center gap-3 text-xs transition-colors duration-200">
+                        <span className="material-symbols-outlined text-[18px]">description</span>
+                        <span>Docs</span>
+                    </Link>
+                    <Link href="/support" className="text-slate-500 hover:text-slate-300 px-4 py-2 flex items-center gap-3 text-xs transition-colors duration-200">
+                        <span className="material-symbols-outlined text-[18px]">help</span>
+                        <span>Support</span>
+                    </Link>
+                </div>
             </div>
         </aside>
     )
