@@ -14,17 +14,19 @@ export default function DashboardPage() {
     return (
         <div className="space-y-12">
             {/* Hero Section */}
-            <div className="text-center space-y-6 py-8">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-accent text-[11px] font-mono font-bold uppercase tracking-widest">
-                    <Sparkles className="w-3 h-3" />
-                    Ready to launch?
+            <div className="text-center space-y-8 py-12 relative overflow-hidden">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-tertiary/20 to-transparent" />
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-variant/40 border border-outline-variant/10 text-tertiary text-[10px] font-black uppercase tracking-[0.3em] font-label shadow-inner">
+                    <span className="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse" />
+                    Ready for Deployment
                 </div>
-                <div className="space-y-2">
-                    <h1 className="text-4xl font-bold tracking-tight">
-                        {getGreeting()}, <span className="text-accent underline decoration-accent/20 underline-offset-8">Founder</span> 👋
+                <div className="space-y-4">
+                    <h1 className="text-5xl md:text-6xl font-black font-headline tracking-tighter text-white uppercase italic leading-none">
+                        {getGreeting()}, <span className="text-tertiary decoration-tertiary/20 underline-offset-[12px] decoration-4">Founder</span>
                     </h1>
-                    <p className="text-text-secondary max-w-lg mx-auto leading-relaxed">
-                        What's the startup idea keeping you up at night? Let's see if it has wings.
+                    <p className="text-on-surface-variant max-w-xl mx-auto text-lg font-body leading-relaxed italic opacity-80">
+                        What's the startup idea keeping you up at night? <br />
+                        Let's see if it has <span className="text-white font-black">exponential wings</span>.
                     </p>
                 </div>
 

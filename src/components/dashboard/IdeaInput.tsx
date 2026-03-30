@@ -4,7 +4,6 @@ import React, { useState } from 'react'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
-import { ArrowRight, Sparkles } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 export function IdeaInput() {
@@ -17,13 +16,10 @@ export function IdeaInput() {
         setIsLoading(true)
 
         try {
-            // Logic to call /api/analyze will be triggered here
-            // For now, we simulate the delay and redirect to a mock analysis page
-            // In a real scenario, we'd get the ID from the API
             const res = await fetch('/api/analyze', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ idea, userId: 'dummy-user' }) // Auth will handle this later
+                body: JSON.stringify({ idea, userId: 'dummy-user' })
             })
 
             const data = await res.json()
@@ -38,35 +34,39 @@ export function IdeaInput() {
     }
 
     return (
-        <div className="w-full max-w-2xl mx-auto space-y-4">
+        <div className="w-full max-w-3xl mx-auto space-y-6">
             <div className="relative group">
-                <div className="absolute -inset-1 bg-accent/20 rounded-xl blur opacity-0 group-focus-within:opacity-100 transition duration-500" />
-                <div className="relative flex gap-2 p-1 bg-tertiary rounded-xl border border-white/10 group-focus-within:border-accent/40 transition-all">
-                    <Input
-                        value={idea}
-                        onChange={(e) => setIdea(e.target.value)}
-                        onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()}
-                        placeholder="Describe your startup idea in one sentence..."
-                        className="flex-1 bg-transparent border-none focus-visible:ring-0 h-14 text-lg"
-                        disabled={isLoading}
-                    />
+                <div className="absolute -inset-2 bg-gradient-to-r from-tertiary/20 to-primary/20 rounded-2xl blur-2xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-1000" />
+                <div className="relative flex flex-col md:flex-row gap-2 p-2 bg-surface-container-low rounded-2xl border border-outline-variant/15 shadow-[0px_20px_40px_rgba(0,0,0,0.5)] group-focus-within:border-tertiary/30 transition-all">
+                    <div className="flex-1 flex items-center px-4">
+                        <span className="material-symbols-outlined text-tertiary mr-3 shadow-[0_0_10px_rgba(103,156,255,0.3)]">lightbulb</span>
+                        <Input
+                            value={idea}
+                            onChange={(e) => setIdea(e.target.value)}
+                            onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()}
+                            placeholder="Enter your startup idea here..."
+                            className="flex-1 bg-transparent border-none focus-visible:ring-0 h-14 text-lg italic"
+                            disabled={isLoading}
+                        />
+                    </div>
                     <Button
                         onClick={handleAnalyze}
                         disabled={isLoading || !idea.trim()}
-                        className="h-12 px-6"
+                        className="shadow-2xl"
+                        variant="primary"
                     >
                         {isLoading ? (
                             <LoadingSpinner className="mr-2" />
                         ) : (
-                            <Sparkles className="w-4 h-4 mr-2" />
+                            <span className="material-symbols-outlined mr-2 text-sm font-black">bolt</span>
                         )}
-                        Run Analysis
-                        <ArrowRight className="w-4 h-4 ml-2" />
+                        Analyze Idea
+                        <span className="material-symbols-outlined ml-2 text-sm font-black text-on-primary/60">arrow_forward</span>
                     </Button>
                 </div>
             </div>
-            <p className="text-[10px] font-mono text-text-muted text-center uppercase tracking-[2px]">
-                Powered by 10 AI Startup Engines
+            <p className="text-[9px] font-black font-label text-on-surface-variant/40 text-center uppercase tracking-[0.4em] italic">
+                Proprietary AI Logic · 10 Engine Multi-Spike
             </p>
         </div>
     )

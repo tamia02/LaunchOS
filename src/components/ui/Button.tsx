@@ -10,15 +10,15 @@ export interface ButtonProps
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ({ className, variant = 'primary', size = 'md', ...props }, ref) => {
         const variants = {
-            primary: "bg-gradient-to-br from-primary to-primary-container text-on-primary font-headline font-bold shadow-xl shadow-black/20 hover:brightness-110 active:scale-[0.98]",
-            secondary: "bg-surface-container-high text-on-surface font-headline font-bold border border-outline-variant/15 hover:bg-surface-bright transition-all duration-300 hover:-translate-y-0.5 shadow-lg",
-            ghost: "bg-transparent text-on-surface-variant font-headline hover:text-on-surface hover:bg-white/5",
+            primary: "button-metallic text-on-primary font-headline font-black shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:brightness-110 active:scale-[0.98] border border-white/10",
+            secondary: "bg-surface-container-high text-on-surface font-headline font-black border border-outline-variant/15 hover:bg-surface-bright transition-all duration-300 hover:-translate-y-0.5 shadow-xl",
+            ghost: "bg-transparent text-on-surface-variant font-headline font-bold hover:text-on-surface hover:bg-white/5",
         }
 
         const sizes = {
-            sm: "px-4 py-2 text-[11px] uppercase tracking-widest rounded-lg",
-            md: "px-6 py-3.5 text-[13px] uppercase tracking-widest rounded-md",
-            lg: "px-8 py-4 text-[14px] uppercase tracking-[0.2em] rounded-md",
+            sm: "px-4 py-2 text-[10px] uppercase tracking-[0.2em] rounded-lg",
+            md: "px-7 py-4 text-[12px] uppercase tracking-[0.2em] rounded-xl",
+            lg: "px-10 py-5 text-[14px] uppercase tracking-[0.3em] rounded-2xl",
         }
 
         return (

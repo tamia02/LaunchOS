@@ -38,10 +38,66 @@
 }
 
 @theme inline {
-  /* ... (keeping previous theme settings) */
+  --color-on-secondary: #122133;
+  --color-on-tertiary-container: #000000;
+  --color-on-tertiary: #001f4a;
+  --color-on-surface: #dfe4ff;
+  --color-secondary-fixed: #d5e3fd;
+  --color-surface-tint: #c4c7c9;
+  --color-primary-dim: #b6b9bb;
+  --color-on-primary-fixed: #3c4042;
+  --color-primary: #c4c7c9;
+  --color-primary-fixed-dim: #d2d5d7;
+  --color-error: #ee7d77;
+  --color-on-error-container: #ff9993;
+  --color-on-primary: #3d4142;
+  --color-surface-container-lowest: #000000;
+  --color-secondary-container: #2e3c50;
+  --color-on-surface-variant: #96a9e6;
+  --color-surface-variant: #0a2257;
+  --color-tertiary-fixed-dim: #006ee6;
+  --color-tertiary: #679cff;
+  --color-secondary-fixed-dim: #c7d5ee;
+  --color-error-dim: #bb5551;
+  --color-tertiary-fixed: #007aff;
+  --color-inverse-primary: #5c5f61;
+  --color-secondary-dim: #909fb6;
+  --color-inverse-surface: #faf8ff;
+  --color-on-error: #490106;
+  --color-on-primary-fixed-variant: #595c5e;
+  --color-tertiary-container: #007aff;
+  --color-surface-container-high: #0b1d48;
+  --color-primary-fixed: #e0e3e5;
+  --color-inverse-on-surface: #4f5469;
+  --color-on-secondary-fixed: #324054;
+  --color-on-background: #dfe4ff;
+  --color-surface-dim: #070d1f;
+  --color-surface-bright: #082768;
+  --color-secondary: #909fb6;
+  --color-surface: #070d1f;
+  --color-on-secondary-container: #b2c0d9;
+  --color-on-primary-container: #ced1d2;
+  --color-outline: #6073ad;
+  --color-background: #070d1f;
+  --color-surface-container: #0a1839;
+  --color-tertiary-dim: #0070eb;
+  --color-surface-container-highest: #0a2257;
+  --color-on-secondary-fixed-variant: #4e5c71;
+  --color-surface-container-low: #09122b;
+  --color-primary-container: #444749;
+  --color-error-container: #7f2927;
+  --color-on-tertiary-fixed: #ffffff;
+  --color-outline-variant: #32457c;
+  --color-on-tertiary-fixed-variant: #f8f8ff;
+
   --font-headline: var(--font-manrope), sans-serif;
   --font-body: var(--font-inter), sans-serif;
   --font-label: var(--font-inter), sans-serif;
+
+  --radius-DEFAULT: 0.125rem;
+  --radius-lg: 0.25rem;
+  --radius-xl: 0.5rem;
+  --radius-full: 0.75rem;
 }
 
 body {
