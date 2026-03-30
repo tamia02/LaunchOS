@@ -42,7 +42,7 @@ export default function LandingPage() {
                     </div>
 
                     {/* Headline */}
-                    <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-on-surface max-w-5xl leading-[0.95] mb-8">
+                    <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-on-surface max-w-4xl leading-tight mb-8">
                         From raw idea to validation in seconds.
                     </h1>
 
