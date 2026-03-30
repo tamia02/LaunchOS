@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Revenue Architecture | launchOS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-fixed": "#ffffff",
+                        "outline": "#6073ad",
+                        "primary-fixed": "#e0e3e5",
+                        "primary-container": "#444749",
+                        "surface-variant": "#0a2257",
+                        "on-surface": "#dfe4ff",
+                        "surface-container": "#0a1839",
+                        "surface-container-low": "#09122b",
+                        "on-primary-fixed-variant": "#595c5e",
+                        "background": "#070d1f",
+                        "tertiary-fixed": "#007aff",
+                        "secondary-fixed": "#d5e3fd",
+                        "tertiary-fixed-dim": "#006ee6",
+                        "inverse-on-surface": "#4f5469",
+                        "on-secondary": "#122133",
+                        "inverse-surface": "#faf8ff",
+                        "tertiary": "#679cff",
+                        "surface-container-high": "#0b1d48",
+                        "on-background": "#dfe4ff",
+                        "surface-dim": "#070d1f",
+                        "tertiary-container": "#007aff",
+                        "on-surface-variant": "#96a9e6",
+                        "primary-dim": "#b6b9bb",
+                        "surface-container-highest": "#0a2257",
+                        "secondary": "#909fb6",
+                        "on-primary-container": "#ced1d2",
+                        "on-secondary-fixed-variant": "#4e5c71",
+                        "error": "#ee7d77",
+                        "outline-variant": "#32457c",
+                        "primary-fixed-dim": "#d2d5d7",
+                        "on-tertiary-fixed-variant": "#f8f8ff",
+                        "on-secondary-fixed": "#324054",
+                        "on-error-container": "#ff9993",
+                        "on-secondary-container": "#b2c0d9",
+                        "on-primary-fixed": "#3c4042",
+                        "surface-tint": "#c4c7c9",
+                        "surface-container-lowest": "#000000",
+                        "secondary-container": "#2e3c50",
+                        "on-error": "#490106",
+                        "error-container": "#7f2927",
+                        "secondary-dim": "#909fb6",
+                        "primary": "#c4c7c9",
+                        "on-primary": "#3d4142",
+                        "error-dim": "#bb5551",
+                        "on-tertiary-container": "#000000",
+                        "on-tertiary": "#001f4a",
+                        "surface-bright": "#082768",
+                        "tertiary-dim": "#0070eb",
+                        "inverse-primary": "#5c5f61",
+                        "secondary-fixed-dim": "#c7d5ee",
+                        "surface": "#070d1f"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-panel {
+            background: rgba(10, 34, 87, 0.6);
+            backdrop-filter: blur(30px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .custom-cubic {
+            transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        body {
+            background-color: #070d1f;
+            color: #dfe4ff;
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background min-h-screen">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 z-40 bg-[#09122b] border-r border-[#32457c]/15 flex flex-col py-8 px-4 space-y-2">
+<div class="flex items-center px-2 mb-10">
+<div class="w-8 h-8 rounded bg-gradient-to-br from-primary to-primary-container mr-3 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-sm" data-icon="rocket_launch">rocket_launch</span>
+</div>
+<div>
+<h2 class="text-[#c4c7c9] font-headline font-bold tracking-tight text-lg leading-none">launchOS</h2>
+<p class="text-[#96a9e6] font-label text-[10px] uppercase tracking-widest mt-1">Founder OS</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center px-3 py-2 text-[#96a9e6] hover:bg-[#0a2257]/40 rounded-md transition-all duration-300 custom-cubic group" href="#">
+<span class="material-symbols-outlined mr-3 text-lg" data-icon="target">target</span>
+<span class="font-medium text-sm">Niche</span>
+</a>
+<a class="flex items-center px-3 py-2 text-[#96a9e6] hover:bg-[#0a2257]/40 rounded-md transition-all duration-300 custom-cubic group" href="#">
+<span class="material-symbols-outlined mr-3 text-lg" data-icon="verified">verified</span>
+<span class="font-medium text-sm">Validation</span>
+</a>
+<a class="flex items-center px-3 py-2 text-[#96a9e6] hover:bg-[#0a2257]/40 rounded-md transition-all duration-300 custom-cubic group" href="#">
+<span class="material-symbols-outlined mr-3 text-lg" data-icon="architecture">architecture</span>
+<span class="font-medium text-sm">MVP Plan</span>
+</a>
+<!-- Active Navigation: Pricing -->
+<a class="flex items-center px-3 py-2 bg-[#0a1839] text-[#679cff] font-semibold border-r-2 border-[#679cff] rounded-sm transition-all duration-300 custom-cubic" href="#">
+<span class="material-symbols-outlined mr-3 text-lg" data-icon="payments">payments</span>
+<span class="font-medium text-sm">Pricing</span>
+</a>
+<a class="flex items-center px-3 py-2 text-[#96a9e6] hover:bg-[#0a2257]/40 rounded-md transition-all duration-300 custom-cubic group" href="#">
+<span class="material-symbols-outlined mr-3 text-lg" data-icon="campaign">campaign</span>
+<span class="font-medium text-sm">Outreach</span>
+</a>
+<a class="flex items-center px-3 py-2 text-[#96a9e6] hover:bg-[#0a2257]/40 rounded-md transition-all duration-300 custom-cubic group" href="#">
+<span class="material-symbols-outlined mr-3 text-lg" data-icon="analytics">analytics</span>
+<span class="font-medium text-sm">Progress</span>
+</a>
+</nav>
+<div class="pt-6 border-t border-[#32457c]/15 space-y-1">
+<button class="w-full flex items-center px-3 py-2 mb-4 bg-gradient-to-r from-primary to-primary-container text-on-primary font-headline font-bold rounded-md hover:scale-[1.02] active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined mr-2" data-icon="add_circle">add_circle</span>
+<span>Build</span>
+</button>
+<a class="flex items-center px-3 py-2 text-[#96a9e6] hover:bg-[#0a2257]/40 rounded-md transition-all duration-300 custom-cubic" href="#">
+<span class="material-symbols-outlined mr-3 text-lg" data-icon="settings">settings</span>
+<span class="font-medium text-sm">Settings</span>
+</a>
+<a class="flex items-center px-3 py-2 text-[#96a9e6] hover:bg-[#0a2257]/40 rounded-md transition-all duration-300 custom-cubic" href="#">
+<span class="material-symbols-outlined mr-3 text-lg" data-icon="help">help</span>
+<span class="font-medium text-sm">Support</span>
+</a>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 left-64 z-50 bg-[#070d1f]/60 backdrop-blur-xl h-14 flex justify-between items-center px-8 shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
+<div class="flex items-center">
+<span class="text-[#c4c7c9] font-headline font-bold tracking-tight">Revenue Architecture</span>
+</div>
+<div class="flex items-center space-x-6">
+<div class="relative flex items-center bg-surface-container-lowest/40 rounded-full px-4 py-1.5 border border-outline-variant/15">
+<span class="material-symbols-outlined text-[#96a9e6] text-sm mr-2" data-icon="search">search</span>
+<input class="bg-transparent border-none text-sm text-on-surface focus:ring-0 w-48 placeholder:text-[#96a9e6]/50" placeholder="Search strategy..." type="text"/>
+</div>
+<button class="text-[#c4c7c9] hover:text-white transition-colors cursor-pointer active:scale-95">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant/30">
+<img class="w-full h-full object-cover" data-alt="close-up portrait of a startup founder in a clean studio setting with neutral tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBq7WLnvtT-1xqkrFlQ9lKlLjH7GsXJXTSQl-S8rYo9f5TSzHoog4LZbCjYDIdezrZpaIChoH1RloN0hdJbR0RLb9ddhNePdP-TTwDpR_cvyi1EyzGl6SPU-IW1zp4WG304l1wQ6Kpwn-cbdKDbwgZTtmxZNb7P7m5mXPqso6dzNvAIPDvvANpPNWzYK1Kf-HrQJDn-5PpPM_t7eBwEcYxwigubAA1I9_G3bzkmpJEL456xr7LYF9Ih-3ptr4UDLlzx_Z036M1kpmnu"/>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-64 pt-24 pb-20 px-10">
+<!-- Header Section -->
+<div class="flex justify-between items-end mb-16">
+<div class="max-w-2xl">
+<h1 class="font-headline text-5xl font-extrabold tracking-tighter text-primary mb-4 leading-tight">
+                    SaaS Pricing &amp; <br/>Monetization Model
+                </h1>
+<p class="text-on-surface-variant text-lg leading-relaxed max-w-xl">
+                    Define the financial backbone of your startup. We focus on value-based capture rather than cost-plus recovery.
+                </p>
+</div>
+<div class="bg-surface-container border border-outline-variant/20 p-6 rounded-xl min-w-[300px]">
+<div class="flex justify-between items-center mb-4">
+<span class="font-label text-xs uppercase tracking-widest text-on-surface-variant">Penetration Goal</span>
+<span class="text-tertiary font-headline font-bold text-xl">18%</span>
+</div>
+<div class="h-2 w-full bg-surface-container-lowest rounded-full overflow-hidden mb-3">
+<div class="h-full bg-gradient-to-r from-tertiary to-tertiary-dim" style="width: 18%"></div>
+</div>
+<p class="text-[10px] text-on-surface-variant leading-tight">
+                    Targeting early adopters in the high-frequency trading niche within Q3.
+                </p>
+</div>
+</div>
+<!-- Bento Grid: Strategic Rationale & Tiers -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Strategic Rationale (Asymmetric Large Card) -->
+<div class="col-span-12 lg:col-span-4 bg-surface-container-low p-8 rounded-xl border border-outline-variant/10 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-32 h-32 bg-tertiary/5 blur-3xl rounded-full"></div>
+<span class="material-symbols-outlined text-tertiary mb-6 text-3xl" data-icon="lightbulb">lightbulb</span>
+<h3 class="font-headline text-2xl font-bold text-primary mb-6">Strategic Rationale</h3>
+<div class="space-y-6">
+<div>
+<h4 class="text-sm font-bold text-on-surface mb-2 flex items-center">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary mr-2"></span>
+                            Value-Based Capture
+                        </h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                            Pricing is anchored to the ROI generated for the user. Pro tier is positioned to capture 0.5% of total efficiency gains.
+                        </p>
+</div>
+<div>
+<h4 class="text-sm font-bold text-on-surface mb-2 flex items-center">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary mr-2"></span>
+                            Frictionless Expansion
+                        </h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                            Starter tier creates a low-barrier entry point, while Pro provides the necessary enterprise-grade security for scaling.
+                        </p>
+</div>
+<div>
+<h4 class="text-sm font-bold text-on-surface mb-2 flex items-center">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary mr-2"></span>
+                            Unit Economics
+                        </h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                            LTV/CAC target of 4.2x achieved through high retention mechanisms embedded in the Pro workflow features.
+                        </p>
+</div>
+</div>
+</div>
+<!-- Pricing Tiers (The Actionable Cards) -->
+<div class="col-span-12 lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Starter -->
+<div class="bg-surface-container p-8 rounded-xl border border-outline-variant/10 hover:border-outline-variant/40 transition-all duration-300 flex flex-col">
+<div class="mb-8">
+<span class="text-xs font-bold uppercase tracking-widest text-[#96a9e6]">Starter</span>
+<div class="mt-4 flex items-baseline">
+<span class="text-4xl font-headline font-extrabold text-primary">$99</span>
+<span class="text-on-surface-variant ml-2 text-sm">/mo</span>
+</div>
+</div>
+<ul class="space-y-4 mb-10 flex-1">
+<li class="flex items-start text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-tertiary text-lg mr-2" data-icon="check">check</span>
+                            Up to 3 active projects
+                        </li>
+<li class="flex items-start text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-tertiary text-lg mr-2" data-icon="check">check</span>
+                            Basic market validation
+                        </li>
+<li class="flex items-start text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-tertiary text-lg mr-2" data-icon="check">check</span>
+                            Community support
+                        </li>
+</ul>
+<button class="w-full py-3 bg-surface-container-high hover:bg-surface-bright text-on-surface text-sm font-bold rounded-md transition-all duration-300">
+                        Get Started
+                    </button>
+</div>
+<!-- Pro (Recommended) -->
+<div class="bg-surface-container relative p-8 rounded-xl border border-tertiary/40 shadow-[0_20px_40px_rgba(0,0,0,0.4)] transform lg:-translate-y-4 flex flex-col">
+<div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-tertiary px-3 py-1 rounded-full">
+<span class="text-[10px] font-bold uppercase tracking-tighter text-on-tertiary-container">Recommended</span>
+</div>
+<div class="mb-8">
+<span class="text-xs font-bold uppercase tracking-widest text-primary">Pro</span>
+<div class="mt-4 flex items-baseline">
+<span class="text-4xl font-headline font-extrabold text-primary">$299</span>
+<span class="text-on-surface-variant ml-2 text-sm">/mo</span>
+</div>
+</div>
+<ul class="space-y-4 mb-10 flex-1">
+<li class="flex items-start text-sm text-on-surface">
+<span class="material-symbols-outlined text-tertiary text-lg mr-2" data-icon="check">check</span>
+                            Unlimited projects
+                        </li>
+<li class="flex items-start text-sm text-on-surface">
+<span class="material-symbols-outlined text-tertiary text-lg mr-2" data-icon="check">check</span>
+                            Advanced outreach tools
+                        </li>
+<li class="flex items-start text-sm text-on-surface">
+<span class="material-symbols-outlined text-tertiary text-lg mr-2" data-icon="check">check</span>
+                            Custom landing pages
+                        </li>
+<li class="flex items-start text-sm text-on-surface">
+<span class="material-symbols-outlined text-tertiary text-lg mr-2" data-icon="check">check</span>
+                            Priority 1-on-1 help
+                        </li>
+</ul>
+<button class="w-full py-3 bg-gradient-to-r from-primary to-primary-container text-on-primary text-sm font-bold rounded-md hover:scale-[1.02] active:scale-95 transition-transform duration-200">
+                        Choose Pro
+                    </button>
+</div>
+<!-- Enterprise -->
+<div class="bg-surface-container p-8 rounded-xl border border-outline-variant/10 hover:border-outline-variant/40 transition-all duration-300 flex flex-col">
+<div class="mb-8">
+<span class="text-xs font-bold uppercase tracking-widest text-[#96a9e6]">Enterprise</span>
+<div class="mt-4 flex items-baseline">
+<span class="text-4xl font-headline font-extrabold text-primary">Custom</span>
+</div>
+</div>
+<ul class="space-y-4 mb-10 flex-1">
+<li class="flex items-start text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-tertiary text-lg mr-2" data-icon="check">check</span>
+                            White-labeled solution
+                        </li>
+<li class="flex items-start text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-tertiary text-lg mr-2" data-icon="check">check</span>
+                            SLA &amp; Dedicated success
+                        </li>
+<li class="flex items-start text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-tertiary text-lg mr-2" data-icon="check">check</span>
+                            SSO &amp; Advanced Security
+                        </li>
+</ul>
+<button class="w-full py-3 bg-surface-container-high hover:bg-surface-bright text-on-surface text-sm font-bold rounded-md transition-all duration-300">
+                        Contact Sales
+                    </button>
+</div>
+</div>
+<!-- Visualization: Pricing Elasticity -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-low p-8 rounded-xl border border-outline-variant/10">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h3 class="font-headline text-xl font-bold text-primary">Revenue Distribution</h3>
+<p class="text-xs text-on-surface-variant mt-1">Projected mix per user segment</p>
+</div>
+<div class="flex space-x-4">
+<div class="flex items-center space-x-2">
+<span class="w-3 h-3 rounded-full bg-primary/20"></span>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Starter</span>
+</div>
+<div class="flex items-center space-x-2">
+<span class="w-3 h-3 rounded-full bg-tertiary"></span>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Pro</span>
+</div>
+</div>
+</div>
+<!-- Visual Chart Simulation -->
+<div class="h-48 flex items-end space-x-4">
+<div class="flex-1 bg-surface-container rounded-t-lg relative group">
+<div class="absolute bottom-0 w-full bg-primary/20 rounded-t-lg transition-all h-[40%] group-hover:h-[45%]"></div>
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-[10px] font-bold">JAN</div>
+</div>
+<div class="flex-1 bg-surface-container rounded-t-lg relative group">
+<div class="absolute bottom-0 w-full bg-tertiary/60 rounded-t-lg transition-all h-[60%] group-hover:h-[65%]"></div>
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-[10px] font-bold">FEB</div>
+</div>
+<div class="flex-1 bg-surface-container rounded-t-lg relative group">
+<div class="absolute bottom-0 w-full bg-tertiary rounded-t-lg transition-all h-[75%] group-hover:h-[80%]"></div>
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-[10px] font-bold">MAR</div>
+</div>
+<div class="flex-1 bg-surface-container rounded-t-lg relative group">
+<div class="absolute bottom-0 w-full bg-tertiary-dim rounded-t-lg transition-all h-[65%] group-hover:h-[70%]"></div>
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-[10px] font-bold">APR</div>
+</div>
+<div class="flex-1 bg-surface-container rounded-t-lg relative group">
+<div class="absolute bottom-0 w-full bg-tertiary rounded-t-lg transition-all h-[85%] group-hover:h-[90%]"></div>
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-[10px] font-bold">MAY</div>
+</div>
+<div class="flex-1 bg-surface-container rounded-t-lg relative group">
+<div class="absolute bottom-0 w-full bg-primary/20 rounded-t-lg transition-all h-[30%] group-hover:h-[35%]"></div>
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-[10px] font-bold">JUN</div>
+</div>
+</div>
+</div>
+<!-- Image/Decorative Insight Card -->
+<div class="col-span-12 lg:col-span-4 rounded-xl overflow-hidden relative min-h-[300px] border border-outline-variant/10">
+<img class="absolute inset-0 w-full h-full object-cover" data-alt="abstract artistic visualization of financial data flow with elegant cyan and dark blue glowing light streaks on black background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAV4-yjGDIDDVDcgLmqro2AVe-jwvTjCtwldNFc3DEH3xF1QqrgSzwwUvOBOi61W9ixfrRwkIlXwLJrcuub2c1AADtiWCepqJRXPWc7LwEumz4fg8hISMNgRU3MQZUi5E_rMpyRFZTq0ToOz_XQoUbDHMxAMqow7LfKIMMOSyfT22d8kRi3IyClsGZ5a6RLKQfO57X-HOIWCtMZNZ6GX_tMMJaUi56efHfvIaNOP_nzZSIacjoE35C3U9jYN52AN2rznx3ECroUIhPa"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent p-8 flex flex-col justify-end">
+<span class="font-label text-[10px] uppercase tracking-[0.2em] text-tertiary mb-2">Market Insight</span>
+<h4 class="font-headline text-xl font-bold text-white mb-4 leading-snug">Monetization isn't about features; it's about matching intent to outcome.</h4>
+<p class="text-sm text-on-surface-variant">Every pricing adjustment is a hypothesis. launchOS provides the data to validate your model in real-time.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Contextual FAB (Hidden on this detail-rich screen as per instruction but structure included for logic) -->
+<!-- Suppressed on detail-heavy screens to maintain focus -->
+</body></html>

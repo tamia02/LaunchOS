@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary-fixed": "#007aff",
+                        "on-primary-fixed": "#3c4042",
+                        "error-dim": "#bb5551",
+                        "surface-container-lowest": "#000000",
+                        "on-tertiary-fixed-variant": "#f8f8ff",
+                        "outline-variant": "#32457c",
+                        "primary-container": "#444749",
+                        "tertiary": "#679cff",
+                        "on-surface-variant": "#96a9e6",
+                        "tertiary-fixed-dim": "#006ee6",
+                        "tertiary-dim": "#0070eb",
+                        "on-tertiary": "#001f4a",
+                        "primary-fixed": "#e0e3e5",
+                        "error-container": "#7f2927",
+                        "surface-container-high": "#0b1d48",
+                        "surface": "#070d1f",
+                        "on-surface": "#dfe4ff",
+                        "background": "#070d1f",
+                        "on-background": "#dfe4ff",
+                        "surface-container": "#0a1839",
+                        "outline": "#6073ad",
+                        "on-tertiary-fixed": "#ffffff",
+                        "on-secondary-fixed-variant": "#4e5c71",
+                        "surface-bright": "#082768",
+                        "inverse-primary": "#5c5f61",
+                        "error": "#ee7d77",
+                        "on-error-container": "#ff9993",
+                        "primary-dim": "#b6b9bb",
+                        "primary": "#c4c7c9",
+                        "surface-tint": "#c4c7c9",
+                        "on-primary": "#3d4142",
+                        "surface-dim": "#070d1f",
+                        "surface-container-highest": "#0a2257",
+                        "primary-fixed-dim": "#d2d5d7",
+                        "inverse-on-surface": "#4f5469",
+                        "surface-container-low": "#09122b",
+                        "secondary-fixed-dim": "#c7d5ee",
+                        "on-secondary-container": "#b2c0d9",
+                        "inverse-surface": "#faf8ff",
+                        "tertiary-container": "#007aff",
+                        "on-secondary-fixed": "#324054",
+                        "on-secondary": "#122133",
+                        "secondary": "#909fb6",
+                        "on-primary-container": "#ced1d2",
+                        "secondary-container": "#2e3c50",
+                        "on-error": "#490106",
+                        "surface-variant": "#0a2257",
+                        "secondary-fixed": "#d5e3fd",
+                        "on-tertiary-container": "#000000",
+                        "on-primary-fixed-variant": "#595c5e",
+                        "secondary-dim": "#909fb6"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-effect {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #c4c7c9 0%, #444749 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body selection:bg-tertiary selection:text-on-tertiary">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-slate-950/60 backdrop-blur-xl shadow-[0_1px_0_0_rgba(255,255,255,0.05)] h-16 px-6 w-full flex justify-between items-center">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-tighter text-slate-100 font-headline">launchOS</span>
+<div class="hidden md:flex gap-6 items-center">
+<a class="font-manrope font-semibold tracking-tight text-slate-400 hover:text-slate-200 transition-colors" href="#">Dashboard</a>
+<a class="font-manrope font-semibold tracking-tight text-slate-100 border-b-2 border-slate-100 pb-1" href="#">Projects</a>
+<a class="font-manrope font-semibold tracking-tight text-slate-400 hover:text-slate-200 transition-colors" href="#">Insights</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-slate-800/50 rounded-md transition-all text-slate-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 hover:bg-slate-800/50 rounded-md transition-all text-slate-200">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<img alt="User Profile" class="w-8 h-8 rounded-full border border-outline-variant/30 object-cover" data-alt="Close-up portrait of a professional male designer in a dark studio with moody blue rim lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC39_bupn6i6BEZuivwg0bTRBGce7mIsObKoc1pEEc4JQoq6Z2JhiQcxvupF2ifCL5es88dCFDXZhgljfiBBPcNfxWMxTv51G35STo4HyqD-_wLStzeLezl3est2Oj9nTOQDCbTAf-66lWIZ-MELpOnwMiU2P0UdqQv85Gcugx3NFT9bD39LZ6dU_qVugh7onlQFzoti9odMXfEx67Nsus__iYqRZtXnNmiWE6xGPZLhv-ZeDIqY_Sh1sZCc0y15lR0xERCvzIjyZ14"/>
+</div>
+</nav>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 z-40 bg-slate-950/40 backdrop-blur-2xl border-r border-slate-800/30 flex flex-col p-4 gap-2 shadow-2xl shadow-black/50">
+<div class="mb-6 px-2 flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="rocket_launch">rocket_launch</span>
+</div>
+<div>
+<div class="text-lg font-black text-slate-100 font-headline leading-none">launchOS</div>
+<div class="text-[10px] text-slate-500 uppercase tracking-widest font-bold mt-1">Premium Builder</div>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md font-manrope text-sm font-medium text-slate-500 hover:text-slate-300 hover:bg-slate-900/80 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="target">target</span>
+<span>Niche</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md font-manrope text-sm font-medium text-slate-500 hover:text-slate-300 hover:bg-slate-900/80 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="fact_check">fact_check</span>
+<span>Validation</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md font-manrope text-sm font-medium text-slate-500 hover:text-slate-300 hover:bg-slate-900/80 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="architecture">architecture</span>
+<span>MVP Plan</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md font-manrope text-sm font-medium text-slate-500 hover:text-slate-300 hover:bg-slate-900/80 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span>Pricing</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md font-manrope text-sm font-medium bg-slate-800/50 text-slate-100 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)]" href="#">
+<span class="material-symbols-outlined" data-icon="campaign">campaign</span>
+<span>Outreach</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-md font-manrope text-sm font-medium text-slate-500 hover:text-slate-300 hover:bg-slate-900/80 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span>Progress</span>
+</a>
+</nav>
+<button class="mt-4 mx-2 bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold py-2.5 rounded-md text-sm shadow-lg shadow-primary/10 scale-[0.98] active:scale-95 transition-transform">
+            New Project
+        </button>
+<div class="mt-auto flex flex-col gap-1 pt-4 border-t border-slate-800/30">
+<a class="flex items-center gap-3 px-3 py-2 rounded-md font-manrope text-sm font-medium text-slate-500 hover:text-slate-300 hover:bg-slate-900/80 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span>Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-md font-manrope text-sm font-medium text-slate-500 hover:text-slate-300 hover:bg-slate-900/80 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span>Docs</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="pl-64 pt-16 min-h-screen">
+<div class="max-w-7xl mx-auto px-8 py-16">
+<!-- Header Section -->
+<header class="mb-16">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="space-y-4 max-w-2xl">
+<span class="text-tertiary font-label text-xs font-bold tracking-[0.2em] uppercase">Phase 05: Outreach</span>
+<h1 class="text-5xl md:text-6xl font-headline font-extrabold tracking-tighter text-on-surface">Distribution &amp; Outreach</h1>
+<p class="text-on-surface-variant text-lg leading-relaxed">Architecting the initial growth loops and direct sales channels to achieve PMF faster.</p>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-3 bg-surface-container-high text-on-surface font-semibold rounded-md border border-outline-variant/10 hover:-translate-y-0.5 transition-all shadow-xl">
+                            Export Strategy
+                        </button>
+</div>
+</div>
+</header>
+<!-- Strategy Grid -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+<!-- LinkedIn Strategy -->
+<div class="group p-8 rounded-xl bg-surface-container-low border border-outline-variant/10 hover:bg-surface-container transition-all">
+<div class="w-12 h-12 rounded-lg bg-[#0077b5]/10 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-[#0077b5]" data-icon="share">share</span>
+</div>
+<h3 class="text-xl font-headline font-bold mb-3 text-on-surface">LinkedIn Direct</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">Automated relationship building through high-value content sharing and secondary connections.</p>
+<div class="flex items-center gap-2 text-xs font-bold text-tertiary uppercase tracking-widest">
+<span>Active Campaign</span>
+<span class="w-1 h-1 rounded-full bg-tertiary"></span>
+<span>42% Open Rate</span>
+</div>
+</div>
+<!-- Direct Email -->
+<div class="group p-8 rounded-xl bg-surface-container-low border border-outline-variant/10 hover:bg-surface-container transition-all">
+<div class="w-12 h-12 rounded-lg bg-tertiary/10 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-tertiary" data-icon="alternate_email">alternate_email</span>
+</div>
+<h3 class="text-xl font-headline font-bold mb-3 text-on-surface">Direct Email</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">Cold outreach focused on decision makers using personalized pain-point identification.</p>
+<div class="flex items-center gap-2 text-xs font-bold text-on-surface-variant uppercase tracking-widest">
+<span>Setup Phase</span>
+<span class="w-1 h-1 rounded-full bg-outline"></span>
+<span>Warm-up required</span>
+</div>
+</div>
+<!-- Product Hunt -->
+<div class="group p-8 rounded-xl bg-surface-container-low border border-outline-variant/10 hover:bg-surface-container transition-all relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4">
+<span class="px-2 py-1 bg-primary text-on-primary text-[10px] font-black rounded uppercase">Next Week</span>
+</div>
+<div class="w-12 h-12 rounded-lg bg-[#da552f]/10 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-[#da552f]" data-icon="rocket">rocket</span>
+</div>
+<h3 class="text-xl font-headline font-bold mb-3 text-on-surface">Product Hunt</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">Mass market launch aimed at community feedback and viral coefficient growth.</p>
+<div class="flex items-center gap-2 text-xs font-bold text-[#da552f] uppercase tracking-widest">
+<span>Launch Ready</span>
+<span class="w-1 h-1 rounded-full bg-[#da552f]"></span>
+<span>Hunter assigned</span>
+</div>
+</div>
+</section>
+<!-- Two Column Interactive Section -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-16">
+<!-- Message Template Card -->
+<div class="lg:col-span-5 bg-surface-container-high rounded-xl p-8 border border-white/5 shadow-2xl relative">
+<div class="absolute -top-4 -left-4 p-3 bg-tertiary rounded-lg shadow-lg">
+<span class="material-symbols-outlined text-white" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div class="mb-8">
+<h3 class="text-2xl font-headline font-bold text-on-surface mb-2">Message Template</h3>
+<p class="text-on-surface-variant text-sm">Winning "Pain-First" Outreach Copy</p>
+</div>
+<div class="bg-surface-container-lowest/50 rounded-lg p-6 border border-white/5 font-mono text-sm text-primary-dim leading-relaxed space-y-4">
+<p>Subject: Your workflow at {{Company_Name}}</p>
+<p>Hi {{First_Name}},</p>
+<p>Notice you're scaling your outreach team. I recently helped {{Competitor}} reduce churn by 18% using the exact same stack you're on.</p>
+<p>Any interest in a quick walkthrough of the framework? No pitch, just value.</p>
+<p>Best,<br/>Alex</p>
+</div>
+<div class="mt-8 flex items-center justify-between">
+<div class="flex -space-x-2">
+<img class="w-8 h-8 rounded-full border-2 border-surface-container-high object-cover" data-alt="Close-up of a smiling male professional headshot in high-key lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsinshCCvRJ3UfAx52Pm9CLVQGeGZwYo-cvzCEFvcwc625fLKk7hBUWeqt67A7GI4lhUoqGkkkNpA40rDRfQRcFlj5JCVey30yYQisI8xTs1uZTQ-dKzMq1C8u9bq0utZ-87DlMvjDiajoOzGEuuXtTK1mgDwklB7IYtwpW1kKCkydssCl2vnOmklLJNLNR9UitW1ijkarStBtIUcSocC4u4Zm_4ZSY7CJYyXrgRDgJAHP7INRdmnmRQembwaBNfsEVePplVgbJ0g-"/>
+<img class="w-8 h-8 rounded-full border-2 border-surface-container-high object-cover" data-alt="Portrait of a young business woman with a neutral background in professional soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDM9bqhxugG5FG1ZPrT5hROhcqYvXtQE5H5KclTNt_4wkPWePgdUB6cowq5OlgJoV5ToVAaJzqhSThygn0cDvaxa2t2PIi1eJSdDFWgQYFrTavNe9jrWDcpQhp1pEoIV3UeHoLlLQrJxWWPyVD3pLP3ESKZYNh9_bM6bshiBCQTy9QNuCXVYPxhuCqha0dxyacVfaYJejl8ASgM68J-gypuwFo4OvI_hTG8yzmU30N7kBnvelQbwL-77SeH38fLRORtsHgU5yWOEYDL"/>
+<img class="w-8 h-8 rounded-full border-2 border-surface-container-high object-cover" data-alt="Professional profile photo of a man in his 40s with sharp studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDm7TiYHGeVIuVIZ8wf_BEVIxWliLrTqG4egzfYXAPJ_5dsfgsTnzr2yJIUQSV7bLOLEpMZpq4lr2a_zz7CBqS4gOhM1Ftyao_y5rZUQbsAxoMZDH1K_5kooqPBKbkh1QFZJmRNDlmh5YEL8ceAx5rcfGz8Kyfi140IHItVubE69Q0VK5RoyzqoCsRAS05NL_nqc2Mpco6C5kmDd0M9BISzVJPUSJRtk8heGy4jR8XWUA-1o65mcO3WQS0kGiHwX5vPqLOTlH84bGMA"/>
+<div class="w-8 h-8 rounded-full bg-outline-variant flex items-center justify-center text-[10px] font-bold border-2 border-surface-container-high text-white">+12</div>
+</div>
+<button class="text-tertiary text-sm font-bold flex items-center gap-2 hover:gap-3 transition-all">
+                            Copy Template <span class="material-symbols-outlined text-sm" data-icon="content_copy">content_copy</span>
+</button>
+</div>
+</div>
+<!-- Target List Tracker -->
+<div class="lg:col-span-7 bg-surface-container rounded-xl overflow-hidden shadow-2xl">
+<div class="p-8 border-b border-outline-variant/10 flex justify-between items-center">
+<h3 class="text-2xl font-headline font-bold text-on-surface">Target List</h3>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-bright rounded-full text-xs font-bold text-white flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-green-400"></span> 12 Active
+                            </span>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="text-on-surface-variant text-[10px] uppercase tracking-widest font-bold">
+<th class="px-8 py-4 border-b border-outline-variant/5">Lead</th>
+<th class="px-8 py-4 border-b border-outline-variant/5">Company</th>
+<th class="px-8 py-4 border-b border-outline-variant/5 text-center">Status</th>
+<th class="px-8 py-4 border-b border-outline-variant/5 text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/5">
+<tr class="group hover:bg-surface-bright/20 transition-colors">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-[10px] font-bold">JD</div>
+<div class="font-semibold text-on-surface">Jane Doe</div>
+</div>
+</td>
+<td class="px-8 py-5 text-on-surface-variant text-sm">Acme Corp</td>
+<td class="px-8 py-5">
+<div class="flex justify-center">
+<span class="px-3 py-1 rounded-full bg-tertiary/20 text-tertiary text-[10px] font-bold uppercase">Sent</span>
+</div>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="p-2 rounded-md hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="group hover:bg-surface-bright/20 transition-colors">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-[10px] font-bold">MS</div>
+<div class="font-semibold text-on-surface">Marcus Smith</div>
+</div>
+</td>
+<td class="px-8 py-5 text-on-surface-variant text-sm">Nebula SaaS</td>
+<td class="px-8 py-5">
+<div class="flex justify-center">
+<span class="px-3 py-1 rounded-full bg-green-500/20 text-green-400 text-[10px] font-bold uppercase">Replied</span>
+</div>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="p-2 rounded-md hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="group hover:bg-surface-bright/20 transition-colors">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-[10px] font-bold">LB</div>
+<div class="font-semibold text-on-surface">Laura Bennett</div>
+</div>
+</td>
+<td class="px-8 py-5 text-on-surface-variant text-sm">Vortex AI</td>
+<td class="px-8 py-5">
+<div class="flex justify-center">
+<span class="px-3 py-1 rounded-full bg-primary/20 text-primary text-[10px] font-bold uppercase">Demo</span>
+</div>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="p-2 rounded-md hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- Bottom CTA / Insight -->
+<section class="rounded-2xl overflow-hidden relative p-12 bg-surface-container-low border border-outline-variant/10">
+<div class="absolute inset-0 opacity-10 pointer-events-none" data-alt="Abstract deep space network with glowing connections and data nodes in dark blue and cyan tones" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBl0AecrMjphc6kYXAwuCj94mYv13q5byqyM0wTjNkqSyIV0LVvTE6rTjBxuiFpoj72pVde6yR5Sj2BwSpgfrZkglrwDNnTPPXDFaYVCX5-JhQOhdfkqQtCPeEaoXOQizVUfxC1-CYqUkuWjYp2zYHAg_Fwk_1CUkbU43HDps6MWG14IKCXkA8mCqx-F8ogsRwbWalNfdWjOJRo18iYAMlELR47La0ArcH7K0sKItUZsG8WI_jGy_4TRfjmyO7iM-IVW_J_W1jsXJ4l');">
+</div>
+<div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+<div class="max-w-xl text-center md:text-left">
+<h4 class="text-3xl font-headline font-bold text-on-surface mb-4">Ready to accelerate?</h4>
+<p class="text-on-surface-variant leading-relaxed">Unlock the automated LinkedIn sequencing and verified lead database tools included in your Premium Builder plan.</p>
+</div>
+<button class="whitespace-nowrap px-8 py-4 bg-tertiary text-on-tertiary font-bold rounded-md hover:shadow-2xl hover:shadow-tertiary/20 hover:-translate-y-1 transition-all">
+                        Unlock Automations
+                    </button>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-8 mt-auto bg-slate-950 border-t border-slate-900">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center px-8 max-w-7xl mx-auto">
+<div class="text-slate-500 font-inter text-xs tracking-wide">
+                © 2024 launchOS. Editorial Precision.
+            </div>
+<div class="flex gap-6 mt-4 md:mt-0">
+<a class="text-slate-600 hover:text-slate-300 transition-colors font-inter text-xs tracking-wide" href="#">Privacy</a>
+<a class="text-slate-600 hover:text-slate-300 transition-colors font-inter text-xs tracking-wide" href="#">Terms</a>
+<a class="text-slate-600 hover:text-slate-300 transition-colors font-inter text-xs tracking-wide" href="#">Changelog</a>
+<a class="text-slate-600 hover:text-slate-300 transition-colors font-inter text-xs tracking-wide" href="#">Status</a>
+</div>
+</div>
+</footer>
+</body></html>

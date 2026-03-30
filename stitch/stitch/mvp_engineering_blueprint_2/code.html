@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>launchOS | MVP Engineering Blueprint</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-tertiary-fixed-variant": "#f8f8ff",
+            "on-primary-fixed": "#3c4042",
+            "secondary-fixed": "#d5e3fd",
+            "surface-container-highest": "#0a2257",
+            "surface-container": "#0a1839",
+            "tertiary-dim": "#0070eb",
+            "primary-container": "#444749",
+            "on-primary": "#3d4142",
+            "on-error": "#490106",
+            "secondary": "#909fb6",
+            "surface-dim": "#070d1f",
+            "primary-fixed": "#e0e3e5",
+            "background": "#070d1f",
+            "surface-bright": "#082768",
+            "on-primary-container": "#ced1d2",
+            "tertiary-container": "#007aff",
+            "secondary-dim": "#909fb6",
+            "on-error-container": "#ff9993",
+            "inverse-surface": "#faf8ff",
+            "tertiary-fixed-dim": "#006ee6",
+            "surface-variant": "#0a2257",
+            "surface": "#070d1f",
+            "surface-container-high": "#0b1d48",
+            "surface-container-low": "#09122b",
+            "on-tertiary": "#001f4a",
+            "on-secondary": "#122133",
+            "on-primary-fixed-variant": "#595c5e",
+            "primary-fixed-dim": "#d2d5d7",
+            "surface-tint": "#c4c7c9",
+            "on-secondary-fixed": "#324054",
+            "tertiary": "#679cff",
+            "on-surface": "#dfe4ff",
+            "on-secondary-container": "#b2c0d9",
+            "primary": "#c4c7c9",
+            "on-tertiary-fixed": "#ffffff",
+            "error-dim": "#bb5551",
+            "tertiary-fixed": "#007aff",
+            "surface-container-lowest": "#000000",
+            "secondary-fixed-dim": "#c7d5ee",
+            "inverse-on-surface": "#4f5469",
+            "secondary-container": "#2e3c50",
+            "outline-variant": "#32457c",
+            "on-tertiary-container": "#000000",
+            "primary-dim": "#b6b9bb",
+            "on-background": "#dfe4ff",
+            "on-secondary-fixed-variant": "#4e5c71",
+            "on-surface-variant": "#96a9e6",
+            "error-container": "#7f2927",
+            "inverse-primary": "#5c5f61",
+            "error": "#ee7d77",
+            "outline": "#6073ad"
+          },
+          fontFamily: {
+            "headline": ["Manrope"],
+            "body": ["Inter"],
+            "label": ["Inter"]
+          },
+          borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .glass-effect {
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .custom-bezier {
+      transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-tertiary selection:text-on-tertiary">
+<!-- TopNavBar Implementation -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-8 py-4 w-full bg-slate-950/60 backdrop-blur-xl shadow-[0_4px_12px_rgba(0,0,0,0.2)] bg-gradient-to-b from-slate-800/20 to-transparent">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-tighter text-slate-100 font-['Manrope']">launchOS</span>
+<div class="hidden md:flex gap-6 items-center">
+<a class="text-slate-100 font-semibold border-b border-slate-400 font-['Manrope'] tracking-tight transition-all duration-300" href="#">MVP Blueprint</a>
+<a class="text-slate-400 hover:text-slate-200 font-['Manrope'] tracking-tight transition-all duration-300" href="#">Infrastructure</a>
+<a class="text-slate-400 hover:text-slate-200 font-['Manrope'] tracking-tight transition-all duration-300" href="#">Analytics</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-200 hover:bg-slate-800/40 transition-all duration-300 rounded-lg">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-200 hover:bg-slate-800/40 transition-all duration-300 rounded-lg">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<img alt="User profile avatar" class="w-8 h-8 rounded-full border border-outline-variant/30" data-alt="portrait of a professional software architect with a minimalist grey studio background, sharp focus, clean lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-e6pheY9xa9bkAHrBRXbmLD0vHa99zOKkl2CPOY7vTGtPqcWLDfYmBDcdNRVJgDN37K_TT9kzg6YybwDjRH8VydSiedOTr6AQPDKvOyy01AmLwapFtW3giwHvUFjCoB0KeWSk-0XNb7F34PbVDOcKD90pYEhyS1n-kvitCOo_5qtR4P6B1JC9PuUg4J5ppU-1Lq9Sg_xksaCyTUnwRBp60eqRzqdQiAgavCrDP24__SkvkzbCgoEceKjNq6PXVnU7bVYO5K3Va5SL"/>
+</div>
+</nav>
+<!-- SideNavBar Implementation -->
+<aside class="fixed left-0 h-screen w-64 z-40 flex flex-col h-full py-8 bg-slate-950/40 backdrop-blur-2xl shadow-[20px_0_40px_rgba(0,0,0,0.1)] bg-slate-900/10 hidden md:flex">
+<div class="px-6 mb-10">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-8 h-8 bg-primary rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-surface text-sm">architecture</span>
+</div>
+<span class="text-lg font-black text-slate-100 font-['Inter'] antialiased">Project Alpha</span>
+</div>
+<span class="text-xs text-on-surface-variant font-medium tracking-widest uppercase">AI Analysis Active</span>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="text-slate-500 hover:text-slate-300 px-4 py-3 mx-2 flex items-center gap-3 transition-colors duration-200 font-['Inter'] text-sm antialiased" href="#">
+<span class="material-symbols-outlined">category</span> Niche
+      </a>
+<a class="text-slate-500 hover:text-slate-300 px-4 py-3 mx-2 flex items-center gap-3 transition-colors duration-200 font-['Inter'] text-sm antialiased" href="#">
+<span class="material-symbols-outlined">verified</span> Validation
+      </a>
+<a class="bg-slate-800/50 text-slate-100 border-l-2 border-slate-300 px-4 py-3 mx-2 rounded-sm flex items-center gap-3 transition-colors duration-200 font-['Inter'] text-sm antialiased" href="#">
+<span class="material-symbols-outlined">architecture</span> MVP Plan
+      </a>
+<a class="text-slate-500 hover:text-slate-300 px-4 py-3 mx-2 flex items-center gap-3 transition-colors duration-200 font-['Inter'] text-sm antialiased" href="#">
+<span class="material-symbols-outlined">payments</span> Pricing
+      </a>
+<a class="text-slate-500 hover:text-slate-300 px-4 py-3 mx-2 flex items-center gap-3 transition-colors duration-200 font-['Inter'] text-sm antialiased" href="#">
+<span class="material-symbols-outlined">campaign</span> Outreach
+      </a>
+<a class="text-slate-500 hover:text-slate-300 px-4 py-3 mx-2 flex items-center gap-3 transition-colors duration-200 font-['Inter'] text-sm antialiased" href="#">
+<span class="material-symbols-outlined">analytics</span> Progress
+      </a>
+</nav>
+<div class="px-4 mt-auto space-y-4">
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold py-3 rounded-md custom-bezier hover:scale-[1.02] active:scale-98 transition-transform">
+        Build
+      </button>
+<div class="pt-6 border-t border-outline-variant/10">
+<a class="text-slate-500 hover:text-slate-300 px-4 py-2 flex items-center gap-3 font-['Inter'] text-sm antialiased" href="#">
+<span class="material-symbols-outlined">description</span> Docs
+        </a>
+<a class="text-slate-500 hover:text-slate-300 px-4 py-2 flex items-center gap-3 font-['Inter'] text-sm antialiased" href="#">
+<span class="material-symbols-outlined">help</span> Support
+        </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 pt-24 pb-20 px-8 min-h-screen">
+<div class="max-w-6xl mx-auto">
+<!-- Header Section -->
+<header class="mb-16 flex flex-col md:flex-row justify-between items-end gap-8">
+<div class="max-w-2xl">
+<h1 class="text-5xl font-extrabold font-headline tracking-tight text-on-surface mb-4">Engineering Blueprint</h1>
+<p class="text-lg text-on-surface-variant font-body leading-relaxed">
+            Architected for scale, optimized for speed. This 4-week execution roadmap transforms Project Alpha from vision to a high-performance MVP.
+          </p>
+</div>
+<div class="flex gap-4">
+<div class="bg-surface-container-low p-6 rounded-lg border-l-4 border-tertiary">
+<span class="text-xs font-bold text-tertiary uppercase tracking-widest block mb-1">Target Velocity</span>
+<span class="text-3xl font-black font-headline text-on-surface">94%</span>
+</div>
+<div class="bg-surface-container-low p-6 rounded-lg border-l-4 border-primary">
+<span class="text-xs font-bold text-primary uppercase tracking-widest block mb-1">System Integrity</span>
+<span class="text-3xl font-black font-headline text-on-surface">9.2<span class="text-sm font-normal text-on-surface-variant">/10</span></span>
+</div>
+</div>
+</header>
+<!-- Roadmap Timeline Container -->
+<div class="relative">
+<!-- Center vertical line (for desktop layout) -->
+<div class="hidden lg:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-primary/30 via-outline-variant/20 to-transparent"></div>
+<!-- Week 1: Core Auth & Security -->
+<div class="relative grid grid-cols-1 lg:grid-cols-2 gap-12 mb-24 group">
+<div class="flex flex-col justify-center lg:text-right">
+<div class="mb-4">
+<span class="inline-block px-3 py-1 bg-surface-bright text-tertiary text-xs font-bold rounded-full mb-2">WEEK 01</span>
+<h2 class="text-3xl font-bold font-headline text-on-surface">Core Auth &amp; Security</h2>
+</div>
+<p class="text-on-surface-variant leading-relaxed mb-6">Foundational infrastructure setup focusing on secure user identity and protected resource access.</p>
+<div class="flex flex-wrap lg:justify-end gap-2">
+<span class="px-2 py-1 bg-surface-container-high text-xs text-primary-dim rounded border border-outline-variant/20">Next.js 14</span>
+<span class="px-2 py-1 bg-surface-container-high text-xs text-primary-dim rounded border border-outline-variant/20">Clerk Auth</span>
+<span class="px-2 py-1 bg-surface-container-high text-xs text-primary-dim rounded border border-outline-variant/20">PostgreSQL</span>
+</div>
+</div>
+<div class="lg:pl-12 relative">
+<div class="absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-surface border-4 border-tertiary hidden lg:block z-10"></div>
+<div class="bg-surface-container-low p-8 rounded-xl shadow-lg border-t border-outline-variant/10 group-hover:bg-surface-container custom-bezier transition-all duration-300">
+<ul class="space-y-4">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary text-lg">check_circle</span>
+<span class="text-on-surface font-medium">OAuth 2.0 &amp; Email Provider Integration</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary text-lg">check_circle</span>
+<span class="text-on-surface font-medium">RBAC Database Schema Migration</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant text-lg">radio_button_unchecked</span>
+<span class="text-on-surface">Security Middleware &amp; API Rate Limiting</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Week 2: AI Engine Integration -->
+<div class="relative grid grid-cols-1 lg:grid-cols-2 gap-12 mb-24 group">
+<div class="lg:order-2 flex flex-col justify-center">
+<div class="mb-4">
+<span class="inline-block px-3 py-1 bg-surface-bright text-tertiary text-xs font-bold rounded-full mb-2">WEEK 02</span>
+<h2 class="text-3xl font-bold font-headline text-on-surface">AI Engine Integration</h2>
+</div>
+<p class="text-on-surface-variant leading-relaxed mb-6">Deploying the intelligence layer. Integrating LLMs to power core product logic and automated insights.</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-surface-container-high text-xs text-primary-dim rounded border border-outline-variant/20">OpenAI API</span>
+<span class="px-2 py-1 bg-surface-container-high text-xs text-primary-dim rounded border border-outline-variant/20">LangChain</span>
+<span class="px-2 py-1 bg-surface-container-high text-xs text-primary-dim rounded border border-outline-variant/20">Vector DB</span>
+</div>
+</div>
+<div class="lg:pr-12 relative lg:order-1">
+<div class="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-surface border-4 border-primary hidden lg:block z-10"></div>
+<div class="bg-surface-container-low p-8 rounded-xl shadow-lg border-t border-outline-variant/10 group-hover:bg-surface-container custom-bezier transition-all duration-300">
+<ul class="space-y-4">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+<span class="text-on-surface font-medium">GPT-4 Turbo Integration Pipeline</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant text-lg">radio_button_unchecked</span>
+<span class="text-on-surface">Contextual Embedding &amp; Search Logic</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant text-lg">radio_button_unchecked</span>
+<span class="text-on-surface">Prompt Engineering &amp; Guardrail Setup</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Week 3: Data Visualization -->
+<div class="relative grid grid-cols-1 lg:grid-cols-2 gap-12 mb-24 group">
+<div class="flex flex-col justify-center lg:text-right">
+<div class="mb-4">
+<span class="inline-block px-3 py-1 bg-surface-bright text-tertiary text-xs font-bold rounded-full mb-2">WEEK 03</span>
+<h2 class="text-3xl font-bold font-headline text-on-surface">Data Visualization Dashboard</h2>
+</div>
+<p class="text-on-surface-variant leading-relaxed mb-6">Transforming raw data into actionable intelligence through a high-fidelity visual interface.</p>
+<div class="flex flex-wrap lg:justify-end gap-2">
+<span class="px-2 py-1 bg-surface-container-high text-xs text-primary-dim rounded border border-outline-variant/20">Tailwind CSS</span>
+<span class="px-2 py-1 bg-surface-container-high text-xs text-primary-dim rounded border border-outline-variant/20">Tremor</span>
+<span class="px-2 py-1 bg-surface-container-high text-xs text-primary-dim rounded border border-outline-variant/20">Framer Motion</span>
+</div>
+</div>
+<div class="lg:pl-12 relative">
+<div class="absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-surface border-4 border-tertiary hidden lg:block z-10"></div>
+<div class="bg-surface-container-low p-8 rounded-xl shadow-lg border-t border-outline-variant/10 group-hover:bg-surface-container custom-bezier transition-all duration-300">
+<ul class="space-y-4">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant text-lg">radio_button_unchecked</span>
+<span class="text-on-surface">Real-time Analytics Webhook Integration</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant text-lg">radio_button_unchecked</span>
+<span class="text-on-surface">Custom Bento Grid Layout Engine</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant text-lg">radio_button_unchecked</span>
+<span class="text-on-surface">Interactive Charting &amp; SVG Exports</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Week 4: Beta User Onboarding -->
+<div class="relative grid grid-cols-1 lg:grid-cols-2 gap-12 group">
+<div class="lg:order-2 flex flex-col justify-center">
+<div class="mb-4">
+<span class="inline-block px-3 py-1 bg-surface-bright text-tertiary text-xs font-bold rounded-full mb-2">WEEK 04</span>
+<h2 class="text-3xl font-bold font-headline text-on-surface">Beta User Onboarding</h2>
+</div>
+<p class="text-on-surface-variant leading-relaxed mb-6">Polishing the user journey and preparing for first-user traffic and conversion monitoring.</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-surface-container-high text-xs text-primary-dim rounded border border-outline-variant/20">Vercel Edge</span>
+<span class="px-2 py-1 bg-surface-container-high text-xs text-primary-dim rounded border border-outline-variant/20">PostHog</span>
+<span class="px-2 py-1 bg-surface-container-high text-xs text-primary-dim rounded border border-outline-variant/20">Sentry</span>
+</div>
+</div>
+<div class="lg:pr-12 relative lg:order-1">
+<div class="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-surface border-4 border-primary hidden lg:block z-10"></div>
+<div class="bg-surface-container-low p-8 rounded-xl shadow-lg border-t border-outline-variant/10 group-hover:bg-surface-container custom-bezier transition-all duration-300">
+<ul class="space-y-4">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant text-lg">radio_button_unchecked</span>
+<span class="text-on-surface">Step-by-step Onboarding Flow</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant text-lg">radio_button_unchecked</span>
+<span class="text-on-surface">Feature Flag &amp; Experimentation Setup</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant text-lg">radio_button_unchecked</span>
+<span class="text-on-surface">Production Infrastructure Scaling</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<!-- Tech Stack Highlights (Bento Section) -->
+<section class="mt-32">
+<h3 class="text-2xl font-bold font-headline mb-8 flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary">bolt</span>
+          Architecture Highlights
+        </h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-surface-container p-8 rounded-xl border-t border-outline-variant/10">
+<div class="w-10 h-10 rounded bg-primary-container flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-on-primary-container">speed</span>
+</div>
+<h4 class="text-lg font-bold mb-2">Performance First</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Server-side rendering and edge functions ensure sub-100ms response times worldwide.</p>
+</div>
+<div class="bg-surface-container p-8 rounded-xl border-t border-outline-variant/10">
+<div class="w-10 h-10 rounded bg-tertiary-container flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-on-tertiary-container">security</span>
+</div>
+<h4 class="text-lg font-bold mb-2">Enterprise Security</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">End-to-end encryption and automated vulnerability scanning at the CI/CD layer.</p>
+</div>
+<div class="bg-surface-container p-8 rounded-xl border-t border-outline-variant/10">
+<div class="w-10 h-10 rounded bg-primary flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-surface">hub</span>
+</div>
+<h4 class="text-lg font-bold mb-2">Modular Scalability</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Micro-service ready architecture allowing individual modules to scale independently.</p>
+</div>
+</div>
+</section>
+<!-- Architecture Check Metrics -->
+<section class="mt-20 bg-surface-container-high/40 p-10 rounded-2xl glass-effect border border-outline-variant/20">
+<div class="flex flex-col md:flex-row items-center justify-between gap-12">
+<div class="md:w-1/2">
+<h3 class="text-3xl font-black font-headline mb-4 tracking-tight">System Integrity Report</h3>
+<p class="text-on-surface-variant mb-8">Our automated blueprint auditor confirms your technical stack is optimized for the launch window.</p>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between text-sm mb-2">
+<span class="font-bold">Database Normalization</span>
+<span class="text-tertiary">98%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[98%] rounded-full"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-sm mb-2">
+<span class="font-bold">API Latency Projection</span>
+<span class="text-primary">85ms</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[88%] rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="md:w-1/3 aspect-square relative flex items-center justify-center">
+<div class="absolute inset-0 rounded-full border-[12px] border-surface-container"></div>
+<div class="absolute inset-0 rounded-full border-[12px] border-tertiary border-r-transparent border-b-transparent -rotate-45"></div>
+<div class="text-center">
+<span class="text-5xl font-black font-headline block">A+</span>
+<span class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Efficiency Grade</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Mobile Navigation (visible only on small screens) -->
+<nav class="md:hidden fixed bottom-0 w-full bg-slate-950/60 backdrop-blur-xl px-6 py-4 flex justify-between items-center z-50">
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined">category</span>
+<span class="text-[10px]">Niche</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined">verified</span>
+<span class="text-[10px]">Verify</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-100">
+<span class="material-symbols-outlined text-tertiary">architecture</span>
+<span class="text-[10px]">Blueprint</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-[10px]">Progress</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px]">Settings</span>
+</button>
+</nav>
+</body></html>

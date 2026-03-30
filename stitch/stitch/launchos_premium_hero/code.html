@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>launchOS | The Founder Operating System</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "on-secondary": "#122133",
+                "on-tertiary-container": "#000000",
+                "on-tertiary": "#001f4a",
+                "on-surface": "#dfe4ff",
+                "secondary-fixed": "#d5e3fd",
+                "surface-tint": "#c4c7c9",
+                "primary-dim": "#b6b9bb",
+                "on-primary-fixed": "#3c4042",
+                "primary": "#c4c7c9",
+                "primary-fixed-dim": "#d2d5d7",
+                "error": "#ee7d77",
+                "on-error-container": "#ff9993",
+                "on-primary": "#3d4142",
+                "surface-container-lowest": "#000000",
+                "secondary-container": "#2e3c50",
+                "on-surface-variant": "#96a9e6",
+                "surface-variant": "#0a2257",
+                "tertiary-fixed-dim": "#006ee6",
+                "tertiary": "#679cff",
+                "secondary-fixed-dim": "#c7d5ee",
+                "error-dim": "#bb5551",
+                "tertiary-fixed": "#007aff",
+                "inverse-primary": "#5c5f61",
+                "secondary-dim": "#909fb6",
+                "inverse-surface": "#faf8ff",
+                "on-error": "#490106",
+                "on-primary-fixed-variant": "#595c5e",
+                "tertiary-container": "#007aff",
+                "surface-container-high": "#0b1d48",
+                "primary-fixed": "#e0e3e5",
+                "inverse-on-surface": "#4f5469",
+                "on-secondary-fixed": "#324054",
+                "on-background": "#dfe4ff",
+                "surface-dim": "#070d1f",
+                "surface-bright": "#082768",
+                "secondary": "#909fb6",
+                "surface": "#070d1f",
+                "on-secondary-container": "#b2c0d9",
+                "on-primary-container": "#ced1d2",
+                "outline": "#6073ad",
+                "background": "#070d1f",
+                "surface-container": "#0a1839",
+                "tertiary-dim": "#0070eb",
+                "surface-container-highest": "#0a2257",
+                "on-secondary-fixed-variant": "#4e5c71",
+                "surface-container-low": "#09122b",
+                "primary-container": "#444749",
+                "error-container": "#7f2927",
+                "on-tertiary-fixed": "#ffffff",
+                "outline-variant": "#32457c",
+                "on-tertiary-fixed-variant": "#f8f8ff"
+              },
+              fontFamily: {
+                "headline": ["Manrope"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+            },
+          },
+        }
+      </script>
+<style>
+        body {
+            background-color: #070d1f;
+            color: #dfe4ff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+        .hero-gradient {
+            background: radial-gradient(circle at 50% -20%, #0a2257 0%, #070d1f 60%);
+        }
+        .button-metallic {
+            background: linear-gradient(135deg, #c4c7c9 0%, #444749 100%);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+      </style>
+</head>
+<body class="bg-surface selection:bg-tertiary/30 selection:text-tertiary-fixed">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-slate-900/60 backdrop-blur-xl flex justify-between items-center h-16 px-8 max-w-full shadow-[0px_4px_12px_rgba(0,0,0,0.2)]">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold tracking-tighter text-slate-100 font-headline">launchOS</span>
+<div class="hidden md:flex gap-6 items-center">
+<a class="text-slate-400 font-medium hover:text-slate-200 transition-colors duration-200 font-body text-sm" href="#">Dashboard</a>
+<a class="text-slate-400 font-medium hover:text-slate-200 transition-colors duration-200 font-body text-sm" href="#">Projects</a>
+<a class="text-slate-400 font-medium hover:text-slate-200 transition-colors duration-200 font-body text-sm" href="#">Insights</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-surface-container-high text-slate-200 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-surface-bright transition-all duration-300 scale-95 active:scale-90">
+                Upgrade to Pro
+            </button>
+<div class="w-8 h-8 rounded-full bg-surface-container overflow-hidden border border-outline-variant/20">
+<img alt="Founder Profile" class="w-full h-full object-cover" data-alt="Professional studio portrait of a technology founder with clean lighting and neutral grey background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7eF7035V9Ps5oLjD3xDo1FvYEW4YzEijIuyCwn-ASxUM_9MEfiXkiyfOglCBLldt0JhyM4TNKy32_8mA1e0rJRZXUfTB6GDPN-LSlQFo4Smz3cm7pn2uB27O559S3wGflBelQZXyq-D7hFB5H9LyZZFuKJWTwTaZfRo5j17B9HgrJpu0O6gyZVtEMSaeHCfYrLoKpbrPHLuRSK76HcgWCJZNrVgWZjjDlFC_w_yCtkviN8FVLW_28R0-xGMQrKFjTCpunZ_7z8N8f"/>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="relative min-h-screen flex flex-col hero-gradient pt-16">
+<!-- Hero Section -->
+<section class="flex-1 flex flex-col items-center justify-center px-6 text-center py-20 lg:py-32">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-variant/40 border border-outline-variant/10 mb-8">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span class="text-xs font-label uppercase tracking-widest text-on-surface-variant">Intelligence v2.4 Live</span>
+</div>
+<h1 class="font-headline text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-on-surface max-w-5xl leading-[0.95] mb-8">
+                From raw idea to validation in seconds.
+            </h1>
+<p class="font-body text-lg md:text-xl text-on-surface-variant max-w-2xl leading-relaxed mb-12">
+                The AI-powered operating system for ambitious founders. Go from a raw concept to a fully validated MVP plan, pricing strategy, and outreach roadmap.
+            </p>
+<!-- Centered Input Command Bar -->
+<div class="w-full max-w-3xl relative group">
+<div class="absolute -inset-1 bg-gradient-to-r from-tertiary/20 to-primary/20 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+<div class="relative flex flex-col md:flex-row p-2 bg-surface-container-low rounded-xl border border-outline-variant/15 shadow-[0px_20px_40px_rgba(0,0,0,0.4)]">
+<div class="flex-1 flex items-center px-4">
+<span class="material-symbols-outlined text-outline mr-3">lightbulb</span>
+<input class="w-full bg-transparent border-none focus:ring-0 text-on-surface placeholder:text-on-surface-variant/50 font-body py-4" placeholder="Enter your startup idea here..." type="text"/>
+</div>
+<button class="button-metallic text-on-primary px-8 py-4 rounded-lg font-headline font-bold text-sm tracking-tight hover:brightness-110 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2">
+                        Analyze Idea
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Trust Badges -->
+<div class="mt-24 flex flex-wrap justify-center gap-8 md:gap-16 opacity-40 grayscale hover:grayscale-0 transition-all duration-700">
+<span class="font-headline font-bold text-xl">TECHSTARS</span>
+<span class="font-headline font-bold text-xl">YCOMBINATOR</span>
+<span class="font-headline font-bold text-xl">SEQUOIA</span>
+<span class="font-headline font-bold text-xl">ANDREESSEN</span>
+</div>
+</section>
+<!-- Feature Bento Grid Section -->
+<section class="px-8 md:px-12 py-32 bg-surface-container-low/30">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-4">
+<!-- Main Visual Bento -->
+<div class="md:col-span-8 h-[500px] bg-surface-container rounded-xl overflow-hidden relative group border border-outline-variant/10">
+<img alt="OS Interface Preview" class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-[2000ms] ease-out" data-alt="Abstract 3D visualization of digital architecture and data flows in deep blue and silver tones, clean lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4yV-Rr56-9JYvmldC8C8yiTlp05-1uhU-b-EicYqH76M16pwqi81iQJK0Mkju6gYYpxykktv7l4ao5Jrb1-S6wB6LHlYvMzj4Xcdi60Xpriu_Ml_hc0I4nAiGuxO1U4saGrlb5U0ejZGDIc4rUxgsE8qC5o_avb7XnV4Gq4-uxf1y9Y_ohdcNbnU67lURtlK6tyI_0bBcZKwze8O0gkZOTbICLay_f3LqQd2Fbh_MoM4FYSlzrtgyMVVYRK3kjEcq4s-Cr5v3Dwh-"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-transparent"></div>
+<div class="absolute bottom-8 left-8">
+<h3 class="font-headline text-3xl font-bold mb-2">Automated MVP Scoping</h3>
+<p class="font-body text-on-surface-variant max-w-md">Our AI deconstructs your vision into actionable technical tasks and product milestones instantly.</p>
+</div>
+</div>
+<!-- Secondary Bento (Vertical) -->
+<div class="md:col-span-4 grid grid-rows-2 gap-4">
+<div class="bg-surface-container-high rounded-xl p-8 flex flex-col justify-between border border-outline-variant/10">
+<span class="material-symbols-outlined text-tertiary text-4xl">verified</span>
+<div>
+<h4 class="font-headline text-xl font-bold mb-1">Market Validation</h4>
+<p class="font-body text-sm text-on-surface-variant">Instant competitor analysis and market gap identification.</p>
+</div>
+</div>
+<div class="bg-surface-bright rounded-xl p-8 flex flex-col justify-between border border-outline-variant/20 shadow-inner">
+<span class="material-symbols-outlined text-primary text-4xl">payments</span>
+<div>
+<h4 class="font-headline text-xl font-bold mb-1">Pricing Strategy</h4>
+<p class="font-body text-sm text-on-primary-container">Dynamic modeling based on current SaaS benchmarks.</p>
+</div>
+</div>
+</div>
+<!-- Bottom Row Bento -->
+<div class="md:col-span-4 bg-surface-container rounded-xl p-8 border border-outline-variant/10">
+<span class="material-symbols-outlined text-on-surface-variant mb-6" data-weight="fill">campaign</span>
+<h4 class="font-headline text-xl font-bold mb-2">Outreach Roadmap</h4>
+<p class="font-body text-sm text-on-surface-variant leading-relaxed">Personalized LinkedIn and Email templates designed for your specific niche conversion.</p>
+</div>
+<div class="md:col-span-8 bg-surface-container-highest rounded-xl p-8 border border-outline-variant/10 flex items-center gap-12">
+<div class="hidden lg:block w-32 h-32 flex-shrink-0 bg-surface rounded-full border border-outline-variant/20 overflow-hidden">
+<img alt="Technology focus" class="w-full h-full object-cover opacity-50" data-alt="Close up of a futuristic sleek laptop keyboard with bioluminescent blue keys in a dark environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGM1gPsdKRGe23D9ycgZaCurk4t1lzEtWrGNMU9KICjiZxGohw9mmYInOc_PvBWSPuiqA0puLWLRsWZG4ooQYEeUw4BhrN4nKXeEAicMFH7cGtv6rikv9Dao_gnd-3gAMoo2TIXt0xzNY_pSZ-YWpBC1bV6OtIs6eMzrVQNL4wAursUj50VLK-YGnncIed-fzSEloxOZsce_ncBteyFEdQLATTNuRBd_TezZVz0bpaHjdANGvd8tDxjyamC6o58mFUAkK33_tKyB80"/>
+</div>
+<div>
+<h4 class="font-headline text-2xl font-bold mb-2">Progress Tracking</h4>
+<p class="font-body text-on-surface-variant">Real-time dashboards that sync with your development workflow to ensure the vision stays on track.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-32 px-6 text-center">
+<div class="max-w-4xl mx-auto glass-panel bg-surface-container/40 p-16 rounded-3xl border border-outline-variant/10 relative overflow-hidden">
+<div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-tertiary/10 rounded-full blur-3xl"></div>
+<h2 class="font-headline text-4xl font-extrabold mb-6">Stop building in the dark.</h2>
+<p class="font-body text-on-surface-variant mb-10 max-w-xl mx-auto">Join 4,000+ founders who used launchOS to turn their ideas into profitable companies this year.</p>
+<button class="button-metallic text-on-primary px-10 py-5 rounded-lg font-headline font-bold tracking-tight hover:scale-105 active:scale-95 transition-all duration-300 shadow-xl">
+                    Get Started for Free
+                </button>
+</div>
+</section>
+<!-- Footer -->
+<footer class="w-full py-8 mt-auto flex flex-col md:flex-row justify-between items-center px-12 border-t border-slate-800/30 bg-slate-950">
+<p class="font-body text-[10px] uppercase tracking-widest text-slate-500 font-label">© 2024 launchOS. Editorial Precision.</p>
+<div class="flex gap-8 mt-4 md:mt-0">
+<a class="font-body text-[10px] uppercase tracking-widest text-slate-600 hover:text-slate-400 transition-colors" href="#">Terms</a>
+<a class="font-body text-[10px] uppercase tracking-widest text-slate-600 hover:text-slate-400 transition-colors" href="#">Privacy</a>
+<a class="font-body text-[10px] uppercase tracking-widest text-slate-600 hover:text-slate-400 transition-colors" href="#">Support</a>
+</div>
+</footer>
+</main>
+</body></html>
