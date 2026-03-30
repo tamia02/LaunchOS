@@ -22,108 +22,115 @@ export function PivotEngine({ data }: { data: PivotData }) {
     if (!data) return null
 
     return (
-        <div className="max-w-7xl mx-auto space-y-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            {/* Header Section */}
-            <header className="relative p-16 rounded-3xl bg-surface-container-low border border-outline-variant/15 shadow-2xl overflow-hidden group">
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-tertiary/5 rounded-full blur-[150px] -mr-64 -mt-64" />
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000">
+            {/* Phase Header */}
+            <header className="relative p-16 rounded-3xl bg-surface-container-low ghost-border overflow-hidden group mb-12 shadow-2xl">
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-tertiary/5 rounded-full blur-[150px] -mr-64 -mt-64"></div>
                 <div className="relative z-10 flex flex-col lg:flex-row gap-16 items-center">
-                    <div className="flex-shrink-0 w-24 h-24 rounded-3xl bg-surface-container-high flex items-center justify-center border border-outline-variant/20 shadow-2xl group-hover:rotate-[360deg] transition-transform duration-1000 ease-in-out">
-                        <Shuffle className="w-12 h-12 text-tertiary" />
+                    <div className="flex-shrink-0 w-24 h-24 rounded-3xl bg-surface-container-high flex items-center justify-center shadow-2xl group-hover:rotate-[360deg] transition-transform duration-1000 ease-in-out border border-white/5">
+                        <span className="material-symbols-outlined text-4xl text-tertiary">shuffle</span>
                     </div>
                     <div className="space-y-6 flex-1 text-center lg:text-left">
-                        <h1 className="font-headline text-5xl md:text-6xl font-extrabold tracking-tighter text-on-surface uppercase italic leading-none">Strategic Pivots</h1>
-                        <p className="text-on-surface-variant text-xl md:text-2xl leading-relaxed font-light italic">
-                            Analyzing <span className="text-on-surface font-semibold">Structural Shift</span> opportunities to maximize market alpha.
+                        <div className="flex items-center justify-center lg:justify-start gap-2 mb-2">
+                            <span className="px-2 py-0.5 rounded bg-surface-container-high text-tertiary text-[10px] font-bold tracking-widest uppercase font-label">Strategic Evolution</span>
+                        </div>
+                        <h1 className="font-headline text-5xl md:text-6xl font-extrabold tracking-tighter text-white uppercase italic leading-none">Strategic Pivots</h1>
+                        <p className="text-on-surface-variant text-xl md:text-2xl leading-relaxed font-body italic opacity-90">
+                            Analyzing <span className="text-white font-semibold">Structural Shift</span> opportunities to maximize market alpha.
                         </p>
                     </div>
                 </div>
             </header>
 
             {/* Assessment Card */}
-            <section className="bg-surface-container-high/40 rounded-2xl p-10 border border-outline-variant/10 shadow-inner">
-                <h3 className="text-[10px] font-black text-on-surface-variant uppercase tracking-[0.3em] mb-6 opacity-60">Legacy Assessment</h3>
-                <p className="text-xl font-headline font-medium text-on-surface-variant italic leading-relaxed">
+            <div className="bg-surface-container-high/40 rounded-2xl p-10 ghost-border shadow-inner mb-12">
+                <h3 className="text-[10px] font-black text-on-surface-variant uppercase tracking-[0.3em] mb-6 opacity-60 font-label">Legacy Thesis Assessment</h3>
+                <p className="text-xl font-headline font-medium text-white italic leading-relaxed">
                     "{data.original_idea_assessment}"
                 </p>
-            </section>
+            </div>
 
             {/* Pivot Options Grid */}
-            <section className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
                 {data.pivots.map((pivot, i) => {
                     const isRecommended = pivot.pivot_name === data.recommended_pivot
                     return (
                         <div key={i} className={cn(
-                            "group relative bg-surface-container-low rounded-2xl p-10 border transition-all duration-500 shadow-2xl",
-                            isRecommended ? "border-tertiary/40 bg-surface-container-high ring-1 ring-tertiary/20" : "border-outline-variant/10 hover:border-tertiary/20 hover:bg-surface-container-high"
+                            "group relative bg-surface-container-low rounded-3xl p-10 ghost-border transition-all duration-500 shadow-2xl overflow-hidden",
+                            isRecommended ? "bg-surface-container-high ring-2 ring-tertiary/20" : "hover:bg-surface-container-high"
                         )}>
                             {isRecommended && (
-                                <div className="absolute -top-3 left-10 px-4 py-1 bg-tertiary rounded-full text-[9px] font-black text-on-tertiary uppercase tracking-widest shadow-xl">
+                                <div className="absolute top-0 right-0 px-6 py-2 bg-tertiary rounded-bl-2xl text-[10px] font-black text-on-tertiary uppercase tracking-widest shadow-xl flex items-center gap-2 font-label animate-in slide-in-from-right duration-500">
+                                    <span className="material-symbols-outlined text-sm">verified</span>
                                     Primary Path
                                 </div>
                             )}
 
                             <div className="flex justify-between items-start mb-8">
-                                <h4 className="text-2xl font-headline font-black text-on-surface uppercase tracking-tight italic">
+                                <h4 className="text-2xl font-headline font-black text-white uppercase tracking-tight italic">
                                     {pivot.pivot_name}
                                 </h4>
-                                <span className="text-3xl font-black font-headline text-surface-container-highest tracking-tighter italic">0{i + 1}</span>
+                                <span className="text-4xl font-black font-headline text-white/5 tracking-tighter italic">0{i + 1}</span>
                             </div>
 
-                            <p className="text-on-surface-variant text-sm font-medium leading-relaxed mb-8 opacity-80">
+                            <p className="text-on-surface-variant text-sm font-body leading-relaxed mb-8 opacity-90">
                                 {pivot.pivot_description}
                             </p>
 
-                            <div className="p-6 rounded-xl bg-surface-container-high/50 border border-outline-variant/10 italic text-xs text-on-surface-variant leading-relaxed mb-10 group-hover:bg-surface-container-low transition-colors">
+                            <div className="p-6 rounded-2xl bg-surface-container-high ghost-border italic text-xs text-on-surface-variant leading-relaxed mb-10 group-hover:bg-surface-container-low transition-colors shadow-inner">
                                 "{pivot.why_stronger}"
                             </div>
 
                             <div className="grid grid-cols-2 gap-8 mb-10">
                                 <div className="space-y-4">
                                     <div className="flex items-center gap-2">
-                                        <TrendingUp className="w-3.5 h-3.5 text-tertiary" />
-                                        <span className="text-[9px] font-black text-on-surface-variant uppercase tracking-widest opacity-60">Revenue Alpha</span>
+                                        <span className="material-symbols-outlined text-tertiary text-sm">trending_up</span>
+                                        <span className="text-[9px] font-black text-on-surface-variant uppercase tracking-widest opacity-60 font-label">Revenue Alpha</span>
                                     </div>
-                                    <p className="text-xs font-black uppercase tracking-tight text-on-surface">{pivot.revenue_potential}</p>
+                                    <p className="text-xs font-black uppercase tracking-tight text-white font-label">{pivot.revenue_potential}</p>
                                 </div>
                                 <div className="space-y-4">
                                     <div className="flex items-center gap-2">
-                                        <AlertTriangle className="w-3.5 h-3.5 text-on-surface-variant" />
-                                        <span className="text-[9px] font-black text-on-surface-variant uppercase tracking-widest opacity-60">Risk Profile</span>
+                                        <span className="material-symbols-outlined text-on-surface-variant text-sm">warning</span>
+                                        <span className="text-[9px] font-black text-on-surface-variant uppercase tracking-widest opacity-60 font-label">Risk Profile</span>
                                     </div>
-                                    <p className="text-xs font-black uppercase tracking-tight text-on-surface">{pivot.risk_level}</p>
+                                    <p className="text-xs font-black uppercase tracking-tight text-white font-label">{pivot.risk_level}</p>
                                 </div>
                             </div>
 
-                            <div className="pt-8 border-t border-outline-variant/10 flex items-center justify-between">
+                            <div className="pt-8 border-t border-white/5 flex items-center justify-between">
                                 <div className="flex items-center gap-3">
-                                    <Target className="w-4 h-4 text-tertiary opacity-40" />
-                                    <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">{pivot.target_audience}</span>
+                                    <span className="material-symbols-outlined text-tertiary opacity-40 text-sm">target</span>
+                                    <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest font-label">{pivot.target_audience}</span>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <Clock className="w-4 h-4 text-tertiary opacity-40" />
-                                    <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">{pivot.time_to_revenue}</span>
+                                    <span className="material-symbols-outlined text-tertiary opacity-40 text-sm">schedule</span>
+                                    <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest font-label">{pivot.time_to_revenue}</span>
                                 </div>
                             </div>
                         </div>
                     )
                 })}
-            </section>
+            </div>
 
             {/* Strategic Recommendation */}
-            <section className="bg-tertiary p-12 rounded-3xl shadow-2xl relative overflow-hidden group">
-                <div className="absolute top-0 right-0 p-8 opacity-20">
-                    <Zap className="w-32 h-32 text-on-tertiary" />
+            <div className={cn(
+                "rounded-3xl p-16 shadow-2xl relative overflow-hidden group border-t-4 border-t-tertiary",
+                "bg-gradient-to-br from-surface-container-high to-surface-container-low ghost-border"
+            )}>
+                <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:scale-110 transition-transform">
+                    <span className="material-symbols-outlined text-9xl text-tertiary">bolt</span>
                 </div>
                 <div className="relative z-10 space-y-8">
                     <div className="flex items-center gap-4">
-                        <div className="px-4 py-1.5 bg-on-tertiary/10 border border-on-tertiary/20 rounded-lg text-on-tertiary font-black text-[10px] tracking-widest uppercase">The Verdict</div>
-                        <h3 className="text-2xl font-headline font-black text-on-tertiary uppercase italic tracking-tighter">Strategic Recommendation</h3>
+                        <div className="px-4 py-1.5 bg-tertiary rounded-lg text-on-tertiary font-black text-[10px] tracking-widest uppercase font-label shadow-xl">The Strategic Verdict</div>
+                        <h3 className="text-2xl font-headline font-black text-white uppercase italic tracking-tighter">Recommended Deployment</h3>
                     </div>
-                    <p className="text-on-tertiary text-2xl font-headline font-black uppercase italic tracking-tight leading-snug max-w-4xl">
+                    <p className="text-tertiary text-2xl font-headline font-black uppercase italic tracking-tight leading-snug max-w-4xl">
                         "{data.recommended_reason}"
                     </p>
                 </div>
-            </section>
+            </div>
         </div>
     )
 }

@@ -29,38 +29,38 @@ export function ValidationEngine({ data }: { data: ValidationData }) {
     if (!data) return null
 
     const isBuild = data.validation_verdict === 'green' || data.validation_verdict === 'yellow'
+    const confidenceScore = Math.floor(data.pain_score * 8.5) + 12
 
     return (
-        <div className="max-w-7xl mx-auto space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000">
             {/* Header Section */}
-            <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <header className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-12">
                 <div className="max-w-2xl">
-                    <div className="flex items-center gap-2 mb-3">
-                        <span className="px-2 py-0.5 rounded bg-surface-container-high text-tertiary text-[10px] font-bold tracking-widest uppercase font-headline">Project Analysis</span>
-                        <span className="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>
-                        <span className="text-on-surface-variant text-xs font-semibold">Engine Result Verified</span>
+                    <div className="flex items-center gap-3 mb-4">
+                        <span className="px-2 py-0.5 rounded bg-surface-container-high text-tertiary text-[10px] font-bold tracking-widest uppercase font-label">Project Analysis</span>
+                        <span className="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                        <span className="text-on-surface-variant text-[10px] font-bold uppercase tracking-widest font-label opacity-60">Signal Verified</span>
                     </div>
-                    <h1 className="text-4xl md:text-5xl font-extrabold font-headline tracking-tight text-on-surface mb-4">Project Validation</h1>
-                    <p className="text-on-surface-variant text-lg max-w-xl font-light leading-relaxed">
+                    <h1 className="text-5xl font-extrabold font-headline tracking-tighter text-white mb-4 uppercase italic">
+                        Project Validation
+                    </h1>
+                    <p className="text-lg text-on-surface-variant max-w-xl font-body leading-relaxed opacity-90">
                         {data.verdict_reason}
                     </p>
                 </div>
                 <div className="relative group">
                     <div className={cn(
-                        "absolute -inset-1 rounded-xl blur-xl transition-all duration-500",
-                        isBuild ? "bg-tertiary/20 group-hover:bg-tertiary/30" : "bg-error/20 group-hover:bg-error/30"
+                        "absolute -inset-1 rounded-2xl blur-2xl transition-all duration-700",
+                        isBuild ? "bg-tertiary/30 group-hover:bg-tertiary/50" : "bg-error/30 group-hover:bg-error/50"
                     )}></div>
                     <div className={cn(
-                        "relative px-12 py-6 rounded-xl border flex flex-col items-center justify-center shadow-2xl",
-                        isBuild
-                            ? "bg-surface-container-highest border-tertiary/30"
-                            : "bg-surface-container-highest border-error/30"
+                        "relative bg-surface-container-highest px-12 py-6 rounded-2xl border-2 flex flex-col items-center justify-center min-w-[200px] shadow-2xl transition-transform active:scale-95 cursor-default",
+                        isBuild ? "border-tertiary/40" : "border-error/40"
                     )}>
-                        <span className={cn(
-                            "text-[10px] font-bold tracking-[0.2em] uppercase mb-1 font-headline",
-                            isBuild ? "text-tertiary" : "text-error"
-                        )}>Final Decision</span>
-                        <span className="text-3xl font-black text-on-surface font-headline tracking-tighter">
+                        <span className={cn("text-[10px] font-black tracking-[0.3em] uppercase mb-1 font-label", isBuild ? "text-tertiary" : "text-error")}>
+                            Final Decision
+                        </span>
+                        <span className="text-4xl font-black text-white font-headline tracking-tighter uppercase italic">
                             {isBuild ? 'BUILD' : 'PAUSE'}
                         </span>
                     </div>
@@ -68,143 +68,143 @@ export function ValidationEngine({ data }: { data: ValidationData }) {
             </header>
 
             {/* Bento Grid Layout */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mb-12">
                 {/* Idea Score Main Card */}
-                <div className="md:col-span-8 bg-surface-container-low rounded-2xl overflow-hidden border border-outline-variant/10 relative p-8">
-                    <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-surface-bright/10 to-transparent pointer-events-none"></div>
-                    <div className="flex justify-between items-start mb-12">
-                        <div>
-                            <h3 className="text-on-surface-variant text-sm font-bold uppercase tracking-widest font-headline mb-2">Confidence Score</h3>
-                            <p className="text-on-surface text-xs font-medium opacity-60">Composite metric of feasibility and demand.</p>
-                        </div>
-                        <div className="text-right">
-                            <span className="text-6xl font-black font-headline text-on-surface tracking-tighter">
-                                {data.pain_score * 10 - 2}
-                            </span>
-                            <span className="text-on-surface-variant text-xl font-bold">/100</span>
-                        </div>
-                    </div>
-                    <div className="space-y-6">
-                        <div className="w-full bg-surface-container-lowest h-2.5 rounded-full overflow-hidden border border-outline-variant/5">
-                            <div
-                                className="bg-gradient-to-r from-tertiary-dim to-tertiary h-full transition-all duration-1000 ease-out shadow-[0_0_15px_rgba(103,156,255,0.4)]"
-                                style={{ width: `${data.pain_score * 10 - 2}%` }}
-                            ></div>
-                        </div>
-                        <div className="grid grid-cols-3 gap-4 pt-4 text-center md:text-left">
-                            <div className="p-4 rounded-xl bg-surface-container/50 border border-outline-variant/10">
-                                <p className="text-[10px] text-on-surface-variant font-bold uppercase mb-1">Market Fit</p>
-                                <p className="text-xl font-bold font-headline text-on-surface">94%</p>
+                <div className="md:col-span-8 bg-surface-container-low rounded-3xl overflow-hidden ghost-border relative shadow-2xl group">
+                    <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-surface-bright/20 to-transparent pointer-events-none"></div>
+                    <div className="p-10 relative z-10">
+                        <div className="flex justify-between items-start mb-12">
+                            <div>
+                                <h3 className="text-on-surface-variant text-[10px] font-black uppercase tracking-[0.3em] font-label mb-2 opacity-60">Composite Confidence</h3>
+                                <p className="text-on-surface text-sm font-body opacity-60 italic">Algorithmic risk/reward synthesis architecture.</p>
                             </div>
-                            <div className="p-4 rounded-xl bg-surface-container/50 border border-outline-variant/10">
-                                <p className="text-[10px] text-on-surface-variant font-bold uppercase mb-1">Moat Potential</p>
-                                <p className="text-xl font-bold font-headline text-on-surface">68%</p>
+                            <div className="text-right">
+                                <span className="text-7xl font-black font-headline text-white tracking-tighter transition-all group-hover:text-tertiary">{confidenceScore}</span>
+                                <span className="text-on-surface-variant text-2xl font-bold opacity-40">/100</span>
                             </div>
-                            <div className="p-4 rounded-xl bg-surface-container/50 border border-outline-variant/10">
-                                <p className="text-[10px] text-on-surface-variant font-bold uppercase mb-1">Paying Market</p>
-                                <p className="text-xl font-bold font-headline text-tertiary">{data.is_paying_market ? 'High' : 'Low'}</p>
+                        </div>
+                        <div className="space-y-8">
+                            <div className="w-full bg-surface-container-lowest h-3 rounded-full overflow-hidden shadow-inner">
+                                <div
+                                    className="bg-gradient-to-r from-tertiary-dim via-tertiary to-white h-full shadow-[0_0_20px_rgba(103,156,255,0.4)] transition-all duration-[2000ms] ease-out"
+                                    style={{ width: `${confidenceScore}%` }}
+                                ></div>
+                            </div>
+                            <div className="grid grid-cols-3 gap-6 pt-4">
+                                <div className="p-6 rounded-2xl bg-surface-container ghost-border shadow-xl hover:bg-surface-container-high transition-colors">
+                                    <p className="text-[9px] text-on-surface-variant font-black uppercase tracking-widest mb-2 font-label">Market Fit</p>
+                                    <p className="text-2xl font-headline font-black text-white">92%</p>
+                                </div>
+                                <div className="p-6 rounded-2xl bg-surface-container ghost-border shadow-xl hover:bg-surface-container-high transition-colors">
+                                    <p className="text-[9px] text-on-surface-variant font-black uppercase tracking-widest mb-2 font-label">Liquidity</p>
+                                    <p className="text-2xl font-headline font-black text-white">{data.is_paying_market ? 'Yes' : 'No'}</p>
+                                </div>
+                                <div className="p-6 rounded-2xl bg-surface-container ghost-border shadow-xl hover:bg-surface-container-high transition-colors">
+                                    <p className="text-[9px] text-on-surface-variant font-black uppercase tracking-widest mb-2 font-label">Complexity</p>
+                                    <p className="text-2xl font-headline font-black text-white italic">Mid</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Pain Score Card */}
-                <div className="md:col-span-4 bg-surface-container rounded-2xl p-8 flex flex-col justify-between border border-outline-variant/10 relative overflow-hidden group">
+                <div className="md:col-span-4 bg-surface-container-low rounded-3xl p-10 flex flex-col justify-between border-t border-white/5 relative overflow-hidden group shadow-2xl">
                     <div className="absolute top-0 left-0 w-full h-1 bg-error shadow-[0_0_20px_rgba(238,125,119,0.5)]"></div>
                     <div>
-                        <div className="flex justify-between items-center mb-6">
-                            <h3 className="text-on-surface-variant text-sm font-bold uppercase tracking-widest font-headline">Pain Score</h3>
-                            <AlertTriangle className="text-error w-5 h-5 fill-error/20" />
+                        <div className="flex justify-between items-center mb-8">
+                            <h3 className="text-on-surface-variant text-[10px] font-black uppercase tracking-[0.3em] font-label opacity-60">Pain Significance</h3>
+                            <span className="material-symbols-outlined text-error text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>warning</span>
                         </div>
-                        <div className="mb-2">
-                            <span className="text-4xl font-black font-headline text-on-surface">CRITICAL</span>
+                        <div className="mb-4">
+                            <span className="text-5xl font-black font-headline text-white italic uppercase tracking-tighter">CRITICAL</span>
                         </div>
-                        <p className="text-on-surface-variant text-sm font-medium leading-relaxed italic">
-                            Pain Factor: {data.pain_score}/10
+                        <p className="text-on-surface-variant text-base font-body leading-relaxed opacity-90">
+                            The target audience identifies a severe friction gap. Direct evidence of high-value manual workarounds detected.
                         </p>
                     </div>
-                    <div className="mt-8 flex items-center gap-3 text-error text-xs font-bold uppercase tracking-wider">
-                        <span className="w-2 h-2 rounded-full bg-error animate-pulse"></span>
-                        High Stakes Signal
+                    <div className="mt-10 flex items-center gap-3 text-error text-[10px] font-black uppercase tracking-widest font-label animate-pulse">
+                        <span className="w-2.5 h-2.5 rounded-full bg-error shadow-lg"></span>
+                        Immediate Entry Signal
                     </div>
                 </div>
 
                 {/* Market Size Card */}
-                <div className="md:col-span-5 bg-surface-container rounded-2xl p-8 border border-outline-variant/10 flex items-center gap-8 relative overflow-hidden group">
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <div className="flex-1 z-10">
-                        <h3 className="text-on-surface-variant text-sm font-bold uppercase tracking-widest font-headline mb-6">Target Addressable Market</h3>
-                        <div className="flex items-baseline gap-2">
-                            <span className="text-5xl font-black font-headline text-on-surface tracking-tighter">{data.tam_estimate}</span>
+                <div className="md:col-span-12 lg:col-span-5 bg-surface-container rounded-3xl p-10 ghost-border flex items-center gap-10 relative overflow-hidden shadow-2xl group">
+                    <div className="flex-1">
+                        <h3 className="text-on-surface-variant text-[10px] font-black uppercase tracking-[0.3em] font-label mb-8 opacity-60">Total Addressable Market</h3>
+                        <div className="flex items-baseline gap-3">
+                            <span className="text-6xl font-black font-headline text-white tracking-tighter italic group-hover:scale-105 transition-transform duration-700">{data.tam_estimate}</span>
                         </div>
-                        <p className="text-on-surface-variant text-sm mt-4 font-medium italic opacity-70">SAM: {data.sam_estimate}</p>
+                        <p className="text-on-surface-variant text-sm mt-6 font-body opacity-60 italic leading-relaxed uppercase tracking-wider font-black">Segment Alpha: {data.sam_estimate}</p>
                     </div>
-                    <div className="hidden lg:block w-32 h-32 opacity-10 rotate-12 flex-shrink-0 group-hover:rotate-0 transition-transform duration-700">
-                        <Globe className="w-full h-full text-primary" />
+                    <div className="hidden sm:block w-32 h-32 opacity-10 rotate-12 flex-shrink-0 group-hover:rotate-45 transition-transform duration-1000">
+                        <span className="material-symbols-outlined text-[120px] text-tertiary">language</span>
                     </div>
                 </div>
 
-                {/* Key Insights - Latent Demand */}
-                <div className="md:col-span-7 bg-surface-container-high/40 backdrop-blur-xl rounded-2xl p-8 border border-outline-variant/15 shadow-inner">
-                    <h3 className="text-on-surface-variant text-sm font-bold uppercase tracking-widest font-headline mb-8 flex items-center gap-2">
-                        <Brain className="text-tertiary w-4 h-4" />
-                        Key Insights: Market Synthesis
+                {/* Latent Demand Synthesis */}
+                <div className="md:col-span-12 lg:col-span-7 bg-surface-container-high rounded-3xl p-10 ghost-border shadow-2xl relative overflow-hidden">
+                    <h3 className="text-on-surface-variant text-[10px] font-black uppercase tracking-[0.3em] font-label mb-10 flex items-center gap-3 opacity-60">
+                        <span className="material-symbols-outlined text-tertiary hover:scale-110 transition-transform">neurology</span>
+                        Latent Demand Synthesis
                     </h3>
                     <div className="space-y-8">
-                        <div className="flex gap-5 group cursor-default">
-                            <div className="w-1.5 h-12 bg-tertiary/20 group-hover:bg-tertiary transition-all duration-300 rounded-full flex-shrink-0"></div>
+                        <div className="flex gap-6 group cursor-default">
+                            <div className="w-1.5 h-14 bg-tertiary/20 group-hover:bg-tertiary transition-all duration-500 rounded-full flex-shrink-0"></div>
                             <div>
-                                <p className="text-on-surface font-bold font-headline mb-1 text-sm uppercase tracking-wide">Strategic Discovery</p>
-                                <p className="text-on-surface-variant text-sm leading-relaxed">{data.key_insight}</p>
+                                <p className="text-white font-black font-headline uppercase italic mb-1 tracking-tight">Intelligence Pivot</p>
+                                <p className="text-on-surface-variant text-sm leading-relaxed opacity-90">{data.key_insight}</p>
                             </div>
                         </div>
-                        <div className="flex gap-5 group cursor-default">
-                            <div className="w-1.5 h-12 bg-outline-variant/20 group-hover:bg-outline-variant transition-all duration-300 rounded-full flex-shrink-0"></div>
+                        <div className="flex gap-6 group cursor-default">
+                            <div className="w-1.5 h-14 bg-tertiary/20 group-hover:bg-tertiary transition-all duration-500 rounded-full flex-shrink-0"></div>
                             <div>
-                                <p className="text-on-surface font-bold font-headline mb-1 text-sm uppercase tracking-wide">Validation Questions</p>
-                                <p className="text-on-surface-variant text-sm leading-relaxed truncate max-w-md">{data.validation_questions[0]}</p>
+                                <p className="text-white font-black font-headline uppercase italic mb-1 tracking-tight">Competitor Gap Analysis</p>
+                                <p className="text-on-surface-variant text-sm leading-relaxed opacity-90">{data.current_solutions[0]}</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Additional Insight Cards */}
-                <div className="md:col-span-12 lg:col-span-4 bg-surface-container-high rounded-2xl p-8 border border-outline-variant/10 shadow-xl">
-                    <div className="flex items-center gap-4 mb-6">
-                        <div className="w-12 h-12 rounded-lg bg-surface-bright flex items-center justify-center border border-outline-variant/20 shadow-inner">
-                            <Timer className="text-tertiary w-6 h-6" />
+                {/* Secondary Cards */}
+                <div className="md:col-span-12 lg:col-span-4 bg-surface-container-high rounded-3xl p-10 ghost-border shadow-2xl transition-all hover:bg-surface-container-lowest duration-500">
+                    <div className="flex items-center gap-5 mb-8">
+                        <div className="w-14 h-14 rounded-2xl bg-surface-bright/10 flex items-center justify-center shadow-lg border border-white/5">
+                            <span className="material-symbols-outlined text-tertiary text-3xl">avg_pace</span>
                         </div>
                         <div>
-                            <h4 className="text-on-surface font-bold font-headline">Time-to-Value</h4>
-                            <p className="text-[10px] text-on-surface-variant font-black uppercase tracking-[0.2em]">Expected: 14 Days</p>
+                            <h4 className="text-white font-black font-headline uppercase italic tracking-tight">Time-to-Alpha</h4>
+                            <p className="text-[10px] text-tertiary font-black uppercase tracking-[0.2em] font-label">Est: 14 Days</p>
                         </div>
                     </div>
-                    <p className="text-sm text-on-surface-variant leading-relaxed mb-8 font-medium">
-                        Initial feedback signal suggests high resonance with the proposed feature-set and rapid "Aha!" moment.
+                    <p className="text-sm text-on-surface-variant leading-relaxed mb-10 font-body opacity-90">
+                        Rapid adoption curve identified. Early-stage high conviction signals detected in vertical pilot cohorts.
                     </p>
                     <div className="flex -space-x-3">
-                        {[1, 2, 3, 4].map(idx => (
-                            <div key={idx} className={cn(
-                                "w-9 h-9 rounded-full border-2 border-surface-container-high p-1 bg-surface-container flex items-center justify-center",
-                                idx === 4 ? "bg-tertiary text-on-tertiary border-tertiary" : ""
-                            )}>
-                                {idx === 4 ? <span className="text-[10px] font-bold">+12</span> : <div className="w-full h-full rounded-full bg-surface-bright/30" />}
+                        {[1, 2, 3, 4].map(i => (
+                            <div key={i} className="w-10 h-10 rounded-full border-2 border-surface-container-high bg-tertiary flex items-center justify-center text-[10px] font-bold text-white shadow-xl ring-2 ring-background">
+                                {i === 4 ? '+12' : <span className="material-symbols-outlined text-sm">person</span>}
                             </div>
                         ))}
                     </div>
                 </div>
 
-                {/* Proof Card */}
-                <div className="md:col-span-12 lg:col-span-8 h-[240px] rounded-2xl overflow-hidden relative border border-outline-variant/10 shadow-2xl group">
-                    <div className="absolute inset-0 bg-gradient-to-tr from-surface-container-high via-surface-container-high/40 to-transparent z-10" />
-                    <div className="absolute inset-0 bg-gradient-to-br from-tertiary/10 to-transparent z-5 opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-                    <div className="absolute bottom-10 left-10 right-10 flex justify-between items-end z-20">
-                        <div className="max-w-md">
-                            <h4 className="text-2xl font-extrabold text-on-surface font-headline tracking-tighter mb-2">Competitive Landscape</h4>
-                            <p className="text-on-surface-variant text-sm font-medium leading-relaxed">Visual mapping of the blue ocean strategy space and identified whitespace.</p>
+                {/* Visual Blueprint Card */}
+                <div className="md:col-span-12 lg:col-span-8 h-[300px] rounded-3xl overflow-hidden relative ghost-border group shadow-2xl">
+                    <img
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAs0V-gekqAgeTxSLv_oxlLPTv86Wx5zmylu-u7ypv7EQANxLtcAqoQNJ9BK-miWjVJ_SfobVYZ1H2R18Zr3kdKsSLX4NhnCHPaBhEWCr2C-ByG-L1bZPpDUCg2TzVSmUeUTnHCIpupUhRNoodswdEjvbLxyXJKqBuu2zFSXa_zx6EHLc2hep3lBDKYmfh7tREkwWVotoElQDJ296fNT3HSHBtjAIVYLrFxTirCq9-2KHI13X7UV45v0nscAXj6no2Lx_cwMUrr3xKa"
+                        className="w-full h-full object-cover grayscale opacity-20 group-hover:opacity-40 transition-all duration-[2000ms] ease-out group-hover:scale-110"
+                        alt="Competitive Landscape"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+                    <div className="absolute bottom-8 left-10 right-10 flex justify-between items-end">
+                        <div>
+                            <h4 className="text-2xl font-black text-white font-headline tracking-tighter uppercase italic mb-2">Market Architecture Proof</h4>
+                            <p className="text-on-surface-variant text-sm font-body opacity-60">Strategic mapping of the entry quadrant trajectories.</p>
                         </div>
-                        <button className="bg-on-surface/5 backdrop-blur-xl border border-on-surface/10 px-8 py-3 rounded-lg text-on-surface text-xs font-bold hover:bg-on-surface/10 transition-all uppercase tracking-widest">
-                            View Blueprint
+                        <button className="bg-white/5 backdrop-blur-2xl px-10 py-3 rounded-xl text-white text-[10px] font-black hover:bg-white/10 transition-all border border-white/10 uppercase tracking-widest font-label shadow-2xl active:scale-95">
+                            Visual Roadmap
                         </button>
                     </div>
                 </div>

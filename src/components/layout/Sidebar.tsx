@@ -29,79 +29,52 @@ export function Sidebar() {
     const pathname = usePathname()
 
     return (
-        <aside className="w-64 border-r border-outline-variant/10 bg-surface-container-low flex flex-col h-screen fixed inset-y-0 z-50">
-            {/* Branding */}
-            <div className="p-10 mb-4">
-                <Link href="/" className="flex items-center gap-3 group">
-                    <div className="w-10 h-10 bg-surface-container-high rounded-xl flex items-center justify-center border border-outline-variant/20 shadow-inner group-hover:scale-110 transition-transform duration-500">
-                        <span className="text-tertiary font-headline font-black text-2xl italic leading-none">L</span>
+        <aside className="fixed left-0 h-screen w-64 z-40 bg-slate-950/40 backdrop-blur-2xl shadow-[20px_0_40px_rgba(0,0,0,0.1)] flex flex-col h-full py-8 mt-16 font-body text-sm antialiased text-slate-200">
+            <div className="px-6 mb-8">
+                <div className="flex items-center gap-3 mb-2">
+                    <div className="w-8 h-8 bg-tertiary rounded-sm flex items-center justify-center">
+                        <Sparkles className="w-4 h-4 text-on-tertiary" />
                     </div>
-                    <span className="text-xl font-headline font-black tracking-tighter uppercase italic text-on-surface">launchOS</span>
-                </Link>
+                    <span className="text-lg font-black text-slate-100 font-headline uppercase italic">launchOS</span>
+                </div>
+                <p className="text-[10px] uppercase tracking-widest text-on-surface-variant font-medium">AI Analysis Active</p>
             </div>
 
-            {/* Navigation */}
-            <nav className="flex-1 px-6 space-y-2">
-                <p className="px-4 text-[9px] font-black text-on-surface-variant uppercase tracking-[0.3em] mb-4 opacity-40">System Core</p>
+            <nav className="flex-grow space-y-1">
                 {navItems.map((item) => {
                     const isActive = pathname === item.href
-
                     return (
                         <Link
-                            key={item.name}
+                            key={item.href}
                             href={item.href}
                             className={cn(
-                                "group flex items-center gap-4 px-4 py-3.5 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all duration-300 relative",
+                                "flex items-center gap-3 px-4 py-3 mx-2 rounded-sm transition-colors duration-200",
                                 isActive
-                                    ? "bg-surface-container-high text-tertiary shadow-lg shadow-black/20"
-                                    : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/50"
+                                    ? "bg-slate-800/50 text-slate-100 border-l-2 border-slate-300 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)]"
+                                    : "text-slate-500 hover:text-slate-300"
                             )}
                         >
-                            {isActive && (
-                                <div className="absolute left-0 top-3 bottom-3 w-1 bg-tertiary rounded-r-full shadow-[0_0_8px_#679cff]" />
-                            )}
-                            <item.icon className={cn("w-4 h-4 transition-colors", isActive ? "text-tertiary" : "text-on-surface-variant opacity-40 group-hover:opacity-100")} />
-                            {item.name}
+                            <item.icon className="w-[20px] h-[20px]" />
+                            <span>{item.name}</span>
                         </Link>
                     )
                 })}
             </nav>
 
-            {/* Account & Pro */}
-            <div className="p-6 mt-auto space-y-6">
-                <div className="p-6 rounded-2xl bg-surface-container-high border border-outline-variant/15 shadow-2xl relative overflow-hidden group">
-                    <div className="absolute inset-0 bg-tertiary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <div className="flex items-center justify-between mb-6 relative">
-                        <span className="text-[10px] font-black text-tertiary uppercase tracking-[0.2em]">Alpha Plan</span>
-                        <div className="px-2 py-0.5 bg-tertiary/10 border border-tertiary/20 rounded text-[8px] font-black text-tertiary uppercase tracking-widest">LIVE</div>
-                    </div>
-
-                    <div className="space-y-4 relative">
-                        <div className="flex justify-between text-[10px] font-black text-on-surface-variant uppercase tracking-widest opacity-60">
-                            <span>Credits Used</span>
-                            <span>2/3</span>
-                        </div>
-                        <div className="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden shadow-inner">
-                            <div className="h-full bg-tertiary rounded-full shadow-[0_0_8px_#679cff]" style={{ width: '66%' }} />
-                        </div>
-                        <button className="w-full py-3 bg-tertiary rounded-xl text-[10px] font-black text-on-tertiary uppercase tracking-[0.2em] hover:bg-[#7eabff] transition-all shadow-xl flex items-center justify-center gap-2 mt-4">
-                            <Sparkles className="w-3.5 h-3.5" />
-                            Go Pro
-                        </button>
-                    </div>
-                </div>
-
-                <div className="flex items-center gap-4 px-4 py-6 border-t border-outline-variant/10">
-                    <div className="w-10 h-10 rounded-xl bg-surface-container-high border border-outline-variant/20 flex items-center justify-center text-[12px] font-headline font-black text-tertiary italic shadow-inner">
-                        TF
-                    </div>
-                    <div className="flex-1 overflow-hidden">
-                        <p className="text-[11px] font-black text-on-surface uppercase tracking-tight truncate">The Founder</p>
-                        <p className="text-[10px] font-medium text-on-surface-variant italic truncate opacity-60">founder@launchos.ai</p>
-                    </div>
-                    <button className="p-2 text-on-surface-variant hover:text-error hover:bg-error/10 rounded-lg transition-all">
-                        <LogOut className="w-4 h-4" />
-                    </button>
+            <div className="px-4 mt-auto space-y-4">
+                <button className="w-full bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold py-3 rounded-md shadow-lg flex items-center justify-center gap-2 hover:opacity-90 transition-opacity active:scale-95 duration-200">
+                    <span>BUILD</span>
+                    <Sparkles className="w-4 h-4" />
+                </button>
+                <div className="flex flex-col gap-1">
+                    <Link href="/docs" className="text-slate-500 hover:text-slate-300 px-4 py-2 flex items-center gap-3 text-xs transition-colors duration-200">
+                        <BookOpen className="w-[18px] h-[18px]" />
+                        <span>Docs</span>
+                    </Link>
+                    <Link href="/support" className="text-slate-500 hover:text-slate-300 px-4 py-2 flex items-center gap-3 text-xs transition-colors duration-200">
+                        <Settings className="w-[18px] h-[18px]" />
+                        <span>Support</span>
+                    </Link>
                 </div>
             </div>
         </aside>

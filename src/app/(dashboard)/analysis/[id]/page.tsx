@@ -12,7 +12,7 @@ import { CompetitorEngine } from '@/components/engines/CompetitorEngine'
 import { InvestorEngine } from '@/components/engines/InvestorEngine'
 import { YCEngine } from '@/components/engines/YCEngine'
 import { PivotEngine } from '@/components/engines/PivotEngine'
-import { RevenueEngine } from '@/components/engines/RevenueEngine'
+import { ProgressEngine } from '@/components/engines/ProgressEngine'
 import { Button } from '@/components/ui/Button'
 import { Share2, FileDown, ArrowLeft, RefreshCw } from 'lucide-react'
 import Link from 'next/link'
@@ -66,7 +66,7 @@ export default function AnalysisPage() {
             case 'investor': return <InvestorEngine data={analysis.investor} />
             case 'yc': return <YCEngine data={analysis.yc} />
             case 'pivot': return <PivotEngine data={analysis.pivot} />
-            case 'progress': return <RevenueEngine data={analysis.revenue} />
+            case 'progress': return <ProgressEngine data={analysis.revenue} />
             default: return null
         }
     }
