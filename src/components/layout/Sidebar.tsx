@@ -14,14 +14,20 @@ const engineNavItems = [
     { id: 'progress', name: 'Progress', icon: 'analytics' },
 ]
 
+// Fallback demo analysis ID — uses the mock data baked into the analysis page
+const DEMO_ID = '1'
+
 export function Sidebar() {
     const pathname = usePathname()
     const searchParams = useSearchParams()
 
-    // Detect if we're on an analysis page and extract the ID
-    const analysisMatch = pathname.match(/\/dashboard\/analysis\/([^/]+)/)
-    const analysisId = analysisMatch ? analysisMatch[1] : null
+    // Extract real analysis ID if on an analysis page, otherwise use DEMO_ID
+    const analysisMatch = pathname?.match(/\/dashboard\/analysis\/([^/?]+)/)
+    const analysisId = analysisMatch ? analysisMatch[1] : DEMO_ID
     const currentEngine = searchParams.get('engine') || 'niche'
+
+    // Determine which item is active
+    const isOnAnalysis = !!analysisMatch
 
     return (
         <aside className="fixed left-0 h-screen w-64 z-40 bg-slate-950/40 backdrop-blur-2xl flex flex-col py-8 pt-24 shadow-[20px_0_40px_rgba(0,0,0,0.1)] font-body text-sm antialiased text-slate-200 border-r border-white/5">
@@ -38,18 +44,11 @@ export function Sidebar() {
                 </div>
             </div>
 
-            {/* Engine Nav — works both on dashboard and analysis pages */}
+            {/* Engine Nav — always navigates to analysis with the correct engine */}
             <nav className="flex-grow flex flex-col gap-0.5">
                 {engineNavItems.map((item) => {
-                    // When on analysis page: link uses ?engine= param
-                    // When on dashboard: link goes to dashboard
-                    const href = analysisId
-                        ? `/dashboard/analysis/${analysisId}?engine=${item.id}`
-                        : `/dashboard`
-
-                    const isActive = analysisId
-                        ? currentEngine === item.id
-                        : pathname === '/dashboard' && item.id === 'niche'
+                    const href = `/dashboard/analysis/${analysisId}?engine=${item.id}`
+                    const isActive = isOnAnalysis && currentEngine === item.id
 
                     return (
                         <Link
@@ -59,7 +58,7 @@ export function Sidebar() {
                             className={cn(
                                 "flex items-center gap-3 px-3 py-2.5 mx-2 rounded-md transition-all duration-200",
                                 isActive
-                                    ? "bg-slate-800/50 text-slate-100 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)]"
+                                    ? "bg-slate-800/50 text-slate-100 border-l-2 border-slate-300 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)]"
                                     : "text-slate-500 hover:text-slate-300 hover:bg-slate-900/80"
                             )}
                         >
