@@ -27,109 +27,132 @@ export function PricingEngine({ data }: { data: PricingData }) {
     if (!data) return null
 
     return (
-        <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000">
-            {/* Revenue Header */}
-            <header className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-10">
-                <div className="max-w-2xl">
-                    <div className="flex items-center gap-2 mb-3">
-                        <span className="px-2 py-0.5 rounded bg-surface-container-high text-tertiary text-[10px] font-bold tracking-widest uppercase font-label">Financial Engineering</span>
-                        <span className="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>
-                        <span className="text-on-surface-variant text-xs font-medium font-label">Unit Economics Verified</span>
+        <div className="animate-in fade-in slide-in-from-bottom-8 duration-[2000ms] custom-ease">
+            {/* Revenue Header - Editorial Layout */}
+            <header className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-12">
+                <div className="max-w-3xl">
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="px-3 py-1.5 rounded-lg bg-surface-variant/20 shadow-inner">
+                            <span className="text-tertiary text-[10px] font-black tracking-[0.4em] uppercase font-label">Financial Core 06</span>
+                        </div>
+                        <span className="w-1.5 h-1.5 rounded-full bg-tertiary shadow-[0_0_10px_#679cff]"></span>
                     </div>
-                    <h1 className="text-4xl md:text-5xl font-extrabold font-headline tracking-tighter text-white mb-4 uppercase italic leading-tight">Revenue Architecture</h1>
-                    <p className="text-on-surface-variant text-lg leading-relaxed max-w-xl font-body">
-                        {data.recommended_model}: {data.why_this_model}
-                    </p>
+                    <h1 className="text-6xl md:text-8xl font-black font-headline tracking-tighter text-white mb-8 leading-[0.9] uppercase italic">Revenue <br /> <span className="text-tertiary">Architectures.</span></h1>
+                    <div className="flex flex-col md:flex-row gap-10 items-start md:items-center px-2">
+                        <p className="text-xl text-on-surface-variant font-body leading-relaxed max-w-xl italic opacity-80 antialiased">
+                            {data.recommended_model}: <span className="text-white font-black underline decoration-tertiary/40">{data.why_this_model}</span>
+                        </p>
+                    </div>
                 </div>
-                <div className="bg-surface-container-high ghost-border p-8 rounded-xl min-w-[320px] shadow-2xl relative overflow-hidden group">
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-tertiary/5 blur-2xl rounded-full -mr-12 -mt-12 group-hover:bg-tertiary/10 transition-colors"></div>
-                    <div className="flex justify-between items-center mb-4">
-                        <span className="font-label text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant">Penetration Goal</span>
-                        <span className="material-symbols-outlined text-tertiary text-sm">target</span>
+                <div className="bg-surface-container-low p-10 rounded-[2.5rem] min-w-[360px] shadow-[0_40px_80px_rgba(0,0,0,0.4)] border border-white/5 group relative overflow-hidden transition-all duration-700 hover:scale-[1.03]">
+                    <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:scale-110 transition-transform">
+                        <span className="material-symbols-outlined text-7xl text-tertiary">monetization_on</span>
                     </div>
-                    <div className="flex items-baseline gap-2 mb-4">
-                        <span className="text-3xl font-black text-white font-headline">{data.month1_revenue_target}</span>
-                        <span className="text-xs text-on-surface-variant font-bold font-label">Mo. 1 Target</span>
+                    <div className="flex justify-between items-center mb-6 relative z-10">
+                        <span className="font-label text-[10px] font-black uppercase tracking-[0.3em] text-on-surface-variant/40 italic">Penetration Velocity</span>
+                        <span className="material-symbols-outlined text-tertiary text-xl animate-pulse">target</span>
                     </div>
-                    <div className="h-2 w-full bg-surface-container-lowest rounded-full overflow-hidden mb-3">
-                        <div className="h-full bg-gradient-to-r from-tertiary to-tertiary-dim animate-pulse" style={{ width: '40%' }}></div>
+                    <div className="flex items-baseline gap-3 mb-6 relative z-10">
+                        <span className="text-5xl font-black text-white font-headline italic tracking-tighter">{data.month1_revenue_target}</span>
+                        <span className="text-[10px] text-on-surface-variant/40 font-black font-label uppercase tracking-[0.2em]">Mo. 1 Target</span>
                     </div>
-                    <p className="text-[10px] text-on-surface-variant font-body italic">
-                        Targeting {data.month6_revenue_target} run-rate by Month 6.
+                    <div className="h-1 w-full bg-surface-container-highest rounded-full overflow-hidden mb-4 relative z-10">
+                        <div className="h-full bg-tertiary shadow-[0_0_10px_#679cff] animate-pulse" style={{ width: '40%' }}></div>
+                    </div>
+                    <p className="text-[11px] text-on-surface-variant/60 font-body italic antialiased relative z-10">
+                        Targeting <span className="text-white font-bold">{data.month6_revenue_target}</span> run-rate by Month 6.
                     </p>
                 </div>
             </header>
 
-            {/* Pricing Bento Grid */}
-            <div className="grid grid-cols-12 gap-8 mb-12">
-                {/* Strategic Logic */}
-                <div className="col-span-12 lg:col-span-4 bg-surface-container-low p-10 rounded-2xl ghost-border relative overflow-hidden group">
-                    <div className="absolute top-0 right-0 w-48 h-48 bg-tertiary/5 blur-[80px] rounded-full pointer-events-none"></div>
-                    <span className="material-symbols-outlined text-tertiary text-4xl mb-8 group-hover:rotate-12 transition-transform">lightbulb</span>
-                    <h3 className="font-headline text-2xl font-black text-white mb-8 uppercase tracking-tighter italic">Value Capture</h3>
-                    <div className="space-y-8">
-                        <div>
-                            <h4 className="text-[10px] font-black text-white uppercase tracking-widest mb-3 flex items-center gap-3 font-label">
-                                <span className="w-1 h-1 rounded-full bg-tertiary"></span>
-                                Pricing Psychology
-                            </h4>
-                            <p className="text-sm text-on-surface-variant font-body leading-relaxed italic">
-                                "{data.pricing_psychology}"
-                            </p>
+            {/* Pricing Matrix - Cinematic Bento */}
+            <div className="grid grid-cols-12 gap-10 mb-16">
+                {/* Strategic Intelligence */}
+                <div className="col-span-12 lg:col-span-4 bg-surface-container-low p-12 rounded-[3rem] shadow-[0_40px_100px_rgba(0,0,0,0.5)] border border-white/5 relative overflow-hidden group">
+                    <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-tertiary/10 rounded-full blur-[100px] -ml-48 -mt-48 transition-opacity opacity-0 group-hover:opacity-100 duration-1000"></div>
+                    <div className="mb-12 relative z-10">
+                        <div className="w-16 h-16 rounded-2xl bg-surface-container-high flex items-center justify-center mb-8 shadow-xl glass-edge group-hover:rotate-12 transition-transform">
+                            <span className="material-symbols-outlined text-tertiary text-3xl">lightbulb</span>
                         </div>
-                        <div>
-                            <h4 className="text-[10px] font-black text-white uppercase tracking-widest mb-3 flex items-center gap-3 font-label">
-                                <span className="w-1 h-1 rounded-full bg-tertiary"></span>
-                                Expansion Trigger
-                            </h4>
-                            <p className="text-sm text-on-surface-variant font-body leading-relaxed">
+                        <h3 className="font-headline text-4xl font-black text-white mb-2 uppercase tracking-tighter italic leading-none">Value Capture</h3>
+                        <p className="text-tertiary text-[10px] font-black uppercase tracking-[0.4em] font-label">Unit Economics Optimization</p>
+                    </div>
+                    <div className="space-y-12 relative z-10">
+                        <div className="space-y-4">
+                            <h4 className="text-[10px] font-black text-on-surface-variant/30 uppercase tracking-[0.4em] font-label px-2">Pricing Psychology</h4>
+                            <div className="bg-surface-container/40 p-8 rounded-2xl glass-edge border border-white/5 group-hover:bg-surface-container-high/60 transition-colors">
+                                <p className="text-base text-white/90 font-body italic leading-relaxed antialiased">
+                                    "{data.pricing_psychology}"
+                                </p>
+                            </div>
+                        </div>
+                        <div className="space-y-4">
+                            <h4 className="text-[10px] font-black text-on-surface-variant/30 uppercase tracking-[0.4em] font-label px-2">Expansion Protocol</h4>
+                            <p className="text-sm text-on-surface-variant/70 font-body leading-relaxed italic antialiased pl-6 border-l-2 border-tertiary/20">
                                 {data.upgrade_trigger}
                             </p>
                         </div>
-                        <div className="p-4 rounded-lg bg-error/5 border border-error/20 mt-4">
-                            <h4 className="text-[9px] font-black text-error uppercase tracking-widest mb-1 font-label">Risk Mitigation</h4>
-                            <p className="text-[10px] text-on-surface-variant font-body opacity-80">Avoid: {data.avoid}</p>
+                        <div className="bg-error/5 p-6 rounded-2xl border border-error/10 hover:bg-error/10 transition-colors duration-500">
+                            <div className="flex items-center gap-3 mb-3">
+                                <span className="material-symbols-outlined text-error text-sm">warning_amber</span>
+                                <h4 className="text-[10px] font-black text-error uppercase tracking-[0.3em] font-label">Risk Threshold</h4>
+                            </div>
+                            <p className="text-[11px] text-error/60 font-body italic leading-relaxed antialiased px-2">Avoid: {data.avoid}</p>
                         </div>
                     </div>
                 </div>
 
-                {/* Tiers */}
-                <div className="col-span-12 lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* Tactical Tiers */}
+                <div className="col-span-12 lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-8">
                     {data.tiers.map((tier, i) => (
                         <div key={i} className={cn(
-                            "p-8 rounded-2xl ghost-border transition-all duration-500 flex flex-col group",
-                            tier.is_recommended ? "bg-surface-container-high scale-105 z-10 border-tertiary/40 shadow-2xl" : "bg-surface-container"
+                            "p-10 rounded-[3rem] shadow-[0_40px_100px_rgba(0,0,0,0.5)] border border-white/5 transition-all duration-700 flex flex-col group relative overflow-hidden",
+                            tier.is_recommended ? "bg-surface-container-high brightness-110 z-10" : "bg-surface-container"
                         )}>
                             {tier.is_recommended && (
-                                <div className="bg-tertiary text-on-tertiary font-black text-[9px] uppercase tracking-[0.2em] px-4 py-1.5 rounded-full mb-8 self-start shadow-lg font-label">
-                                    Alpha Choice
+                                <div className="absolute top-0 right-0 p-12 opacity-5 group-hover:scale-110 transition-transform">
+                                    <span className="material-symbols-outlined text-9xl text-tertiary">star</span>
                                 </div>
                             )}
-                            <div className="mb-10">
-                                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-on-surface-variant mb-2 block font-label">{tier.name}</span>
-                                <div className="flex items-baseline gap-2">
-                                    <span className="text-5xl font-black font-headline text-white tracking-tighter">${tier.price}</span>
-                                    <span className="text-on-surface-variant text-xs font-bold uppercase tracking-widest font-label">/{tier.billing}</span>
+
+                            <div className="mb-12 relative z-10">
+                                <div className="flex justify-between items-start mb-6">
+                                    <span className="text-[10px] font-black uppercase tracking-[0.4em] text-on-surface-variant/40 font-label">{tier.name}</span>
+                                    {tier.is_recommended && (
+                                        <div className="px-3 py-1.5 rounded-lg bg-tertiary/20 shadow-inner">
+                                            <span className="text-tertiary text-[9px] font-black tracking-[0.2em] uppercase font-label">Choice</span>
+                                        </div>
+                                    )}
                                 </div>
-                                <p className="mt-4 text-[11px] font-body italic text-on-surface-variant leading-relaxed">
+                                <div className="flex items-baseline gap-3 mb-6">
+                                    <span className="text-6xl font-black font-headline text-white tracking-tighter italic decoration-tertiary underline decoration-4 underline-offset-8">${tier.price}</span>
+                                    <span className="text-on-surface-variant/40 text-[10px] font-black uppercase tracking-[0.2em] font-label">/{tier.billing}</span>
+                                </div>
+                                <p className="text-[13px] font-body italic text-on-surface-variant/60 leading-relaxed antialiased">
                                     {tier.tagline}
                                 </p>
                             </div>
-                            <ul className="space-y-4 mb-12 flex-1 relative">
+
+                            <div className="space-y-6 mb-12 flex-1 relative z-10">
                                 {tier.features.map((feature, j) => (
-                                    <li key={j} className="flex items-start text-xs font-semibold text-white/70 group/feat font-body">
-                                        <span className="material-symbols-outlined text-tertiary text-sm mr-3 group-hover/feat:scale-125 transition-transform">check</span>
-                                        {feature}
-                                    </li>
+                                    <div key={j} className="flex items-start gap-4 group/feat">
+                                        <div className="w-5 h-5 rounded-md bg-tertiary/10 flex items-center justify-center group-hover/feat:bg-tertiary transition-colors">
+                                            <span className="material-symbols-outlined text-tertiary text-xs group-hover/feat:text-white transition-colors">check</span>
+                                        </div>
+                                        <span className="text-xs font-body text-on-surface-variant/80 group-hover/feat:text-white transition-colors antialiased leading-tight italic">
+                                            {feature}
+                                        </span>
+                                    </div>
                                 ))}
-                            </ul>
-                            <div className="pt-6 border-t border-white/5">
-                                <p className="text-[9px] font-black uppercase tracking-[0.2em] text-on-surface-variant mb-4 font-label">Focus: {tier.best_for}</p>
+                            </div>
+
+                            <div className="pt-10 border-t border-white/5 relative z-10 mt-auto">
+                                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-on-surface-variant/30 mb-8 font-label text-center italic">Focus: {tier.best_for}</p>
                                 <button className={cn(
-                                    "w-full py-4 rounded-xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 font-label shadow-lg",
-                                    tier.is_recommended ? "bg-gradient-to-br from-primary to-primary-container text-on-primary" : "bg-surface-container-highest hover:bg-surface-bright text-white"
+                                    "button-metallic w-full py-5 rounded-2xl font-black text-[11px] uppercase tracking-[0.3em] italic transition-all duration-500",
+                                    tier.is_recommended ? "shadow-[0_20px_50px_rgba(103,156,255,0.4)]" : "brightness-75 grayscale hover:grayscale-0 hover:brightness-100"
                                 )}>
-                                    Select Model
+                                    Select Configuration
                                 </button>
                             </div>
                         </div>
@@ -137,31 +160,38 @@ export function PricingEngine({ data }: { data: PricingData }) {
                 </div>
             </div>
 
-            {/* Unit Economics Highlight */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="bg-surface-container p-6 rounded-2xl ghost-border">
-                    <div className="flex items-center gap-3 mb-4">
-                        <span className="material-symbols-outlined text-tertiary text-sm">trending_up</span>
-                        <span className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant font-label">LTV Multiplier</span>
+            {/* Economic Telemetry */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                <div className="bg-surface-container-low p-10 rounded-[2.5rem] shadow-xl border border-white/5 group hover:bg-surface-container transition-all duration-500 overflow-hidden relative">
+                    <div className="absolute bottom-0 right-0 p-8 opacity-5 group-hover:scale-110 transition-transform">
+                        <span className="material-symbols-outlined text-8xl text-tertiary">trending_up</span>
                     </div>
-                    <p className="text-2xl font-black font-headline text-white tracking-tighter">4.2x</p>
+                    <div className="flex items-center gap-4 mb-6 relative z-10">
+                        <span className="material-symbols-outlined text-tertiary text-xl">insights</span>
+                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-on-surface-variant/40 font-label">LTV Multiplier</span>
+                    </div>
+                    <p className="text-5xl font-black font-headline text-white italic tracking-tighter relative z-10">4.2x</p>
                 </div>
-                <div className="bg-surface-container p-6 rounded-2xl ghost-border">
-                    <div className="flex items-center gap-3 mb-4">
-                        <span className="material-symbols-outlined text-tertiary text-sm">payments</span>
-                        <span className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant font-label">Annual Discount</span>
+                <div className="bg-surface-container-low p-10 rounded-[2.5rem] shadow-xl border border-white/5 group hover:bg-surface-container transition-all duration-500 overflow-hidden relative">
+                    <div className="absolute bottom-0 right-0 p-8 opacity-5 group-hover:scale-110 transition-transform">
+                        <span className="material-symbols-outlined text-8xl text-tertiary">payments</span>
                     </div>
-                    <p className="text-2xl font-black font-headline text-white tracking-tighter">{data.annual_discount}</p>
+                    <div className="flex items-center gap-4 mb-6 relative z-10">
+                        <span className="material-symbols-outlined text-tertiary text-xl">loyalty</span>
+                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-on-surface-variant/40 font-label">Annual Yield</span>
+                    </div>
+                    <p className="text-5xl font-black font-headline text-white italic tracking-tighter relative z-10">{data.annual_discount}</p>
                 </div>
-                <div className="bg-surface-container p-6 rounded-2xl ghost-border md:col-span-2">
-                    <div className="flex items-center gap-3 mb-4">
-                        <span className="material-symbols-outlined text-tertiary text-sm">finance</span>
-                        <span className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant font-label">Market Absorption</span>
+                <div className="bg-surface-container-high p-10 rounded-[2.5rem] shadow-xl border-t border-white/10 group hover:brightness-110 transition-all duration-500 md:col-span-2 overflow-hidden relative">
+                    <div className="absolute inset-0 bg-gradient-to-br from-tertiary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
+                    <div className="flex items-center gap-4 mb-10 relative z-10">
+                        <span className="material-symbols-outlined text-tertiary text-xl">analytics</span>
+                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 font-label">Market Absorption Telemetry</span>
                     </div>
-                    <div className="flex items-center gap-4">
-                        <p className="text-lg font-bold font-headline text-white leading-none">CAC Neutrality (4 MO)</p>
-                        <div className="h-1 flex-1 bg-surface-container-highest rounded-full overflow-hidden">
-                            <div className="h-full bg-tertiary w-2/3 shadow-[0_0_8px_#679cff]"></div>
+                    <div className="flex flex-col lg:flex-row items-center gap-10 relative z-10">
+                        <p className="text-3xl font-black font-headline text-white leading-none uppercase italic tracking-tighter">CAC Neutrality <br /> <span className="text-tertiary">(4 MO)</span></p>
+                        <div className="h-2 flex-1 bg-surface-container-highest rounded-full overflow-hidden w-full glass-edge shadow-inner">
+                            <div className="h-full bg-tertiary w-2/3 shadow-[0_0_15px_#679cff] animate-pulse"></div>
                         </div>
                     </div>
                 </div>

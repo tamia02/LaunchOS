@@ -1,5 +1,4 @@
 import { cn } from '@/lib/utils'
-import { Shuffle, TrendingUp, AlertTriangle, Clock, Target, Sparkles, Zap, ShieldCheck } from 'lucide-react'
 
 interface Pivot {
     pivot_name: string
@@ -22,113 +21,137 @@ export function PivotEngine({ data }: { data: PivotData }) {
     if (!data) return null
 
     return (
-        <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000">
-            {/* Phase Header */}
-            <header className="relative p-16 rounded-3xl bg-surface-container-low ghost-border overflow-hidden group mb-12 shadow-2xl">
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-tertiary/5 rounded-full blur-[150px] -mr-64 -mt-64"></div>
-                <div className="relative z-10 flex flex-col lg:flex-row gap-16 items-center">
-                    <div className="flex-shrink-0 w-24 h-24 rounded-3xl bg-surface-container-high flex items-center justify-center shadow-2xl group-hover:rotate-[360deg] transition-transform duration-1000 ease-in-out border border-white/5">
-                        <span className="material-symbols-outlined text-4xl text-tertiary">shuffle</span>
-                    </div>
-                    <div className="space-y-6 flex-1 text-center lg:text-left">
-                        <div className="flex items-center justify-center lg:justify-start gap-2 mb-2">
-                            <span className="px-2 py-0.5 rounded bg-surface-container-high text-tertiary text-[10px] font-bold tracking-widest uppercase font-label">Strategic Evolution</span>
+        <div className="animate-in fade-in slide-in-from-bottom-8 duration-[2000ms] custom-ease">
+            {/* Evolution Header - Editorial Layout */}
+            <header className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-12">
+                <div className="max-w-3xl">
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="px-3 py-1.5 rounded-lg bg-surface-variant/20 shadow-inner">
+                            <span className="text-tertiary text-[10px] font-black tracking-[0.4em] uppercase font-label">Tactical Shift 08</span>
                         </div>
-                        <h1 className="font-headline text-5xl md:text-6xl font-extrabold tracking-tighter text-white uppercase italic leading-none">Strategic Pivots</h1>
-                        <p className="text-on-surface-variant text-xl md:text-2xl leading-relaxed font-body italic opacity-90">
-                            Analyzing <span className="text-white font-semibold">Structural Shift</span> opportunities to maximize market alpha.
+                        <span className="w-1.5 h-1.5 rounded-full bg-tertiary shadow-[0_0_10px_#679cff]"></span>
+                    </div>
+                    <h1 className="text-6xl md:text-8xl font-black font-headline tracking-tighter text-white mb-8 leading-[0.9] uppercase italic">Strategic <br /> <span className="text-tertiary">Pivots.</span></h1>
+                    <div className="bg-surface-container-low p-10 rounded-[2.5rem] shadow-inner border border-white/5 relative overflow-hidden group hover:bg-surface-bright/20 transition-all duration-700">
+                        <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:scale-110 transition-transform">
+                            <span className="material-symbols-outlined text-7xl text-tertiary">history_edu</span>
+                        </div>
+                        <h3 className="text-[10px] font-black text-on-surface-variant/40 uppercase tracking-[0.4em] mb-4 font-label">Legacy Thesis Audit</h3>
+                        <p className="text-xl font-headline font-medium text-white italic leading-relaxed relative z-10 antialiased">
+                            "{data.original_idea_assessment}"
                         </p>
                     </div>
                 </div>
+                <div className="bg-surface-container-low p-10 rounded-[2.5rem] flex items-center md:flex-col lg:flex-row gap-8 shadow-[0_40px_80px_rgba(0,0,0,0.4)] border border-white/5">
+                    <span className="material-symbols-outlined text-4xl text-tertiary animate-spin-slow">shuffle</span>
+                    <div className="w-px h-12 bg-white/5 md:hidden lg:block"></div>
+                    <p className="text-[10px] font-black text-on-surface-variant/60 uppercase tracking-[0.3em] font-label text-center max-w-[120px] leading-relaxed italic">Structural Recalibration Engine</p>
+                </div>
             </header>
 
-            {/* Assessment Card */}
-            <div className="bg-surface-container-high/40 rounded-2xl p-10 ghost-border shadow-inner mb-12">
-                <h3 className="text-[10px] font-black text-on-surface-variant uppercase tracking-[0.3em] mb-6 opacity-60 font-label">Legacy Thesis Assessment</h3>
-                <p className="text-xl font-headline font-medium text-white italic leading-relaxed">
-                    "{data.original_idea_assessment}"
-                </p>
-            </div>
-
-            {/* Pivot Options Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            {/* Pivot Options - Cinematic Bento */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-16">
                 {data.pivots.map((pivot, i) => {
                     const isRecommended = pivot.pivot_name === data.recommended_pivot
                     return (
                         <div key={i} className={cn(
-                            "group relative bg-surface-container-low rounded-3xl p-10 ghost-border transition-all duration-500 shadow-2xl overflow-hidden",
-                            isRecommended ? "bg-surface-container-high ring-2 ring-tertiary/20" : "hover:bg-surface-container-high"
+                            "group relative bg-surface-container-low rounded-[2.5rem] p-12 shadow-[0_40px_100px_rgba(0,0,0,0.5)] border border-white/5 transition-all duration-700 overflow-hidden flex flex-col justify-between min-h-[520px]",
+                            isRecommended ? "bg-surface-container-high brightness-110" : "hover:bg-surface-container"
                         )}>
+                            <div className="absolute top-0 right-0 p-12 opacity-5 group-hover:scale-110 transition-transform">
+                                <span className="material-symbols-outlined text-9xl text-tertiary">alt_route</span>
+                            </div>
+
                             {isRecommended && (
-                                <div className="absolute top-0 right-0 px-6 py-2 bg-tertiary rounded-bl-2xl text-[10px] font-black text-on-tertiary uppercase tracking-widest shadow-xl flex items-center gap-2 font-label animate-in slide-in-from-right duration-500">
+                                <div className="absolute top-0 right-0 px-8 py-3 bg-tertiary rounded-bl-3xl text-[10px] font-black text-on-tertiary uppercase tracking-[0.3em] shadow-2xl flex items-center gap-3 font-label animate-in slide-in-from-right duration-700">
                                     <span className="material-symbols-outlined text-sm">verified</span>
-                                    Primary Path
+                                    Recommended Path
                                 </div>
                             )}
 
-                            <div className="flex justify-between items-start mb-8">
-                                <h4 className="text-2xl font-headline font-black text-white uppercase tracking-tight italic">
-                                    {pivot.pivot_name}
-                                </h4>
-                                <span className="text-4xl font-black font-headline text-white/5 tracking-tighter italic">0{i + 1}</span>
-                            </div>
-
-                            <p className="text-on-surface-variant text-sm font-body leading-relaxed mb-8 opacity-90">
-                                {pivot.pivot_description}
-                            </p>
-
-                            <div className="p-6 rounded-2xl bg-surface-container-high ghost-border italic text-xs text-on-surface-variant leading-relaxed mb-10 group-hover:bg-surface-container-low transition-colors shadow-inner">
-                                "{pivot.why_stronger}"
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-8 mb-10">
-                                <div className="space-y-4">
-                                    <div className="flex items-center gap-2">
-                                        <span className="material-symbols-outlined text-tertiary text-sm">trending_up</span>
-                                        <span className="text-[9px] font-black text-on-surface-variant uppercase tracking-widest opacity-60 font-label">Revenue Alpha</span>
+                            <div className="relative z-10 flex flex-col h-full">
+                                <div className="flex justify-between items-start mb-12">
+                                    <div>
+                                        <h4 className="text-4xl font-headline font-black text-white uppercase tracking-tighter italic leading-none mb-2">
+                                            {pivot.pivot_name}
+                                        </h4>
+                                        <p className="text-[10px] font-black text-tertiary uppercase tracking-[0.4em] font-label">Option Sequence 0{i + 1}</p>
                                     </div>
-                                    <p className="text-xs font-black uppercase tracking-tight text-white font-label">{pivot.revenue_potential}</p>
-                                </div>
-                                <div className="space-y-4">
-                                    <div className="flex items-center gap-2">
-                                        <span className="material-symbols-outlined text-on-surface-variant text-sm">warning</span>
-                                        <span className="text-[9px] font-black text-on-surface-variant uppercase tracking-widest opacity-60 font-label">Risk Profile</span>
+                                    <div className="w-14 h-14 rounded-2xl bg-surface-container-high flex items-center justify-center shadow-xl glass-edge group-hover:rotate-12 transition-transform">
+                                        <span className="material-symbols-outlined text-tertiary text-2xl">route</span>
                                     </div>
-                                    <p className="text-xs font-black uppercase tracking-tight text-white font-label">{pivot.risk_level}</p>
+                                </div>
+
+                                <p className="text-on-surface-variant text-base font-body leading-relaxed mb-10 opacity-70 group-hover:opacity-100 transition-opacity italic antialiased pr-12">
+                                    {pivot.pivot_description}
+                                </p>
+
+                                <div className="bg-surface-container-high/40 p-8 rounded-[2rem] glass-edge border border-white/5 italic text-sm text-on-surface-variant/80 leading-relaxed mb-10 group-hover:bg-surface-container transition-all duration-700 shadow-inner flex items-start gap-4">
+                                    <span className="material-symbols-outlined text-tertiary/40 text-lg">psychology</span>
+                                    "{pivot.why_stronger}"
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-10 mt-auto">
+                                    <div className="space-y-4">
+                                        <div className="flex items-center gap-3">
+                                            <span className="material-symbols-outlined text-tertiary text-lg">insights</span>
+                                            <span className="text-[10px] font-black text-on-surface-variant/30 uppercase tracking-[0.3em] font-label">Revenue Alpha</span>
+                                        </div>
+                                        <p className="text-sm font-black uppercase text-white font-label italic tracking-widest pl-8">{pivot.revenue_potential}</p>
+                                    </div>
+                                    <div className="space-y-4">
+                                        <div className="flex items-center gap-3">
+                                            <span className="material-symbols-outlined text-tertiary text-lg">warning_amber</span>
+                                            <span className="text-[10px] font-black text-on-surface-variant/30 uppercase tracking-[0.3em] font-label">Risk Threshold</span>
+                                        </div>
+                                        <p className="text-sm font-black uppercase text-white font-label italic tracking-widest pl-8">{pivot.risk_level}</p>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div className="pt-8 border-t border-white/5 flex items-center justify-between">
-                                <div className="flex items-center gap-3">
-                                    <span className="material-symbols-outlined text-tertiary opacity-40 text-sm">target</span>
-                                    <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest font-label">{pivot.target_audience}</span>
+                            <div className="pt-10 mt-10 border-t border-white/5 flex items-center justify-between relative z-10">
+                                <div className="flex items-center gap-6">
+                                    <div className="flex items-center gap-3">
+                                        <span className="material-symbols-outlined text-tertiary/20 text-sm">groups</span>
+                                        <span className="text-[10px] font-black text-on-surface-variant/40 uppercase tracking-[0.2em] font-label">{pivot.target_audience}</span>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <span className="material-symbols-outlined text-tertiary/20 text-sm">timer</span>
+                                        <span className="text-[10px] font-black text-on-surface-variant/40 uppercase tracking-[0.2em] font-label">{pivot.time_to_revenue}</span>
+                                    </div>
                                 </div>
-                                <div className="flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-tertiary opacity-40 text-sm">schedule</span>
-                                    <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest font-label">{pivot.time_to_revenue}</span>
-                                </div>
+                                <button className="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant/40 hover:text-tertiary hover:bg-surface-bright/20 transition-all active:scale-90 shadow-2xl glass-edge">
+                                    <span className="material-symbols-outlined text-xl">north_east</span>
+                                </button>
                             </div>
                         </div>
                     )
                 })}
             </div>
 
-            {/* Strategic Recommendation */}
-            <div className={cn(
-                "rounded-3xl p-16 shadow-2xl relative overflow-hidden group border-t-4 border-t-tertiary",
-                "bg-gradient-to-br from-surface-container-high to-surface-container-low ghost-border"
-            )}>
-                <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:scale-110 transition-transform">
-                    <span className="material-symbols-outlined text-9xl text-tertiary">bolt</span>
-                </div>
-                <div className="relative z-10 space-y-8">
-                    <div className="flex items-center gap-4">
-                        <div className="px-4 py-1.5 bg-tertiary rounded-lg text-on-tertiary font-black text-[10px] tracking-widest uppercase font-label shadow-xl">The Strategic Verdict</div>
-                        <h3 className="text-2xl font-headline font-black text-white uppercase italic tracking-tighter">Recommended Deployment</h3>
+            {/* Strategic Summary - Tonal Layout */}
+            <div className="bg-surface-container-high p-16 rounded-[3rem] shadow-[0_60px_120px_rgba(0,0,0,0.6)] border-t border-white/10 group relative overflow-hidden transition-all duration-1000 hover:brightness-110">
+                <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-tertiary/5 rounded-full blur-[150px] -mr-96 -mt-96"></div>
+
+                <div className="relative z-10">
+                    <div className="flex items-center gap-6 mb-12">
+                        <div className="w-16 h-16 rounded-2xl bg-surface-container flex items-center justify-center shadow-xl">
+                            <span className="material-symbols-outlined text-3xl text-tertiary">auto_fix_high</span>
+                        </div>
+                        <div>
+                            <h3 className="text-4xl font-headline font-black text-white uppercase italic tracking-tighter leading-none mb-1">Architecture verdict</h3>
+                            <p className="text-[10px] font-black text-on-surface-variant/30 uppercase tracking-[0.4em] font-label">Final Path Optimization analysis</p>
+                        </div>
                     </div>
-                    <p className="text-tertiary text-2xl font-headline font-black uppercase italic tracking-tight leading-snug max-w-4xl">
-                        "{data.recommended_reason}"
-                    </p>
+
+                    <div className="flex flex-col lg:flex-row items-center justify-between gap-16">
+                        <p className="text-tertiary text-3xl md:text-4xl font-headline font-black uppercase italic tracking-tight leading-snug max-w-4xl antialiased">
+                            "{data.recommended_reason}"
+                        </p>
+                        <button className="button-metallic whitespace-nowrap px-16 py-6 rounded-2xl font-black text-[13px] uppercase tracking-[0.3em] italic shadow-2xl active:scale-95 transition-all">
+                            Initialize Pivot
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

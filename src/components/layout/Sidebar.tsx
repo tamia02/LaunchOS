@@ -18,20 +18,21 @@ export function Sidebar() {
     const pathname = usePathname()
 
     return (
-        <aside className="fixed left-0 h-screen w-64 z-40 bg-slate-950/40 backdrop-blur-2xl shadow-[20px_0_40px_rgba(0,0,0,0.1)] flex flex-col py-8 mt-16 border-r border-white/5">
-            <div className="px-6 mb-8">
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-surface-bright rounded flex items-center justify-center shadow-lg border border-white/5">
-                        <span className="material-symbols-outlined text-tertiary" style={{ fontVariationSettings: "'FILL' 1" }}>rocket_launch</span>
+        <aside className="fixed left-0 h-screen w-80 z-40 glass-panel glass-edge flex flex-col py-16 mt-20 transition-all custom-ease overflow-hidden border-r border-white/5 shadow-[20px_0_100px_rgba(0,0,0,0.4)]">
+            <div className="px-10 mb-20">
+                <div className="flex items-center gap-6 group cursor-default">
+                    <div className="w-14 h-14 bg-surface-variant/20 rounded-2xl flex items-center justify-center shadow-inner glass-edge border border-white/5 group-hover:rotate-[-10deg] transition-all duration-700 custom-ease">
+                        <span className="material-symbols-outlined text-tertiary text-3xl shadow-[0_0_15px_rgba(103,156,255,0.4)]" style={{ fontVariationSettings: "'FILL' 1" }}>rocket_launch</span>
                     </div>
                     <div>
-                        <h3 className="text-lg font-black text-slate-100 leading-tight font-headline tracking-tighter">launchOS</h3>
-                        <p className="text-[10px] text-on-surface-variant font-medium tracking-tight opacity-60">AI Analysis Active</p>
+                        <h3 className="text-2xl font-black text-white leading-none font-headline tracking-tighter uppercase italic antialiased group-hover:text-tertiary transition-colors">launchOS</h3>
+                        <p className="text-[9px] text-tertiary font-black uppercase tracking-[0.4em] mt-1 font-label italic">Neural_Protocol_0.8</p>
                     </div>
                 </div>
             </div>
 
-            <nav className="flex-1 space-y-1">
+            <nav className="flex-1 px-6 space-y-3">
+                <p className="px-6 text-[10px] font-black uppercase tracking-[0.5em] text-on-surface-variant/20 mb-8 font-label italic antialiased">Primary_Intelligence</p>
                 {navItems.map((item) => {
                     const isActive = pathname === item.href
                     return (
@@ -39,41 +40,41 @@ export function Sidebar() {
                             key={item.href}
                             href={item.href}
                             className={cn(
-                                "px-4 py-3 mx-2 flex items-center gap-3 font-body text-sm antialiased transition-all duration-300 group",
+                                "px-6 py-5 flex items-center gap-6 font-body text-[13px] antialiased transition-all duration-700 custom-ease group rounded-2xl relative",
                                 isActive
-                                    ? "bg-slate-800/50 text-slate-100 border-l-2 border-slate-300 rounded-sm shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)]"
-                                    : "text-slate-500 hover:text-slate-300 hover:bg-white/5 rounded-sm"
+                                    ? "bg-surface-container-high/60 text-white shadow-[0_20px_40px_rgba(0,0,0,0.3)] glass-edge"
+                                    : "text-on-surface-variant/40 hover:text-white hover:bg-white/5"
                             )}
                         >
+                            {isActive && (
+                                <div className="absolute left-0 w-1 h-6 bg-tertiary rounded-full shadow-[0_0_15px_#679cff] animate-pulse" />
+                            )}
                             <span className={cn(
-                                "material-symbols-outlined text-[20px] transition-colors",
-                                isActive ? "text-tertiary shadow-[0_0_10px_#679cff]" : "text-slate-500 group-hover:text-slate-300"
+                                "material-symbols-outlined text-[24px] transition-all duration-700 custom-ease",
+                                isActive ? "text-tertiary" : "group-hover:text-tertiary group-hover:scale-110"
                             )}>
                                 {item.icon}
                             </span>
-                            <span className="font-medium">{item.name}</span>
+                            <span className={cn("font-black tracking-tighter uppercase italic font-headline text-lg transition-transform", isActive ? "translate-x-1" : "group-hover:translate-x-1")}>{item.name}</span>
                         </Link>
                     )
                 })}
             </nav>
 
-            <div className="px-4 py-6 border-t border-outline-variant/10">
-                <button className="w-full bg-gradient-to-br from-primary to-primary-container text-on-primary py-2.5 rounded-md font-bold text-sm tracking-wide shadow-lg hover:opacity-90 transition-all active:scale-95 group">
-                    <span className="flex items-center justify-center gap-2">
-                        BUILD
-                        <span className="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">bolt</span>
+            <div className="px-8 py-12">
+                <button className="w-full button-metallic text-on-primary py-6 rounded-[1.5rem] font-black text-[11px] tracking-[0.4em] shadow-[0_30px_60px_rgba(0,0,0,0.4)] hover:brightness-125 transition-all duration-700 custom-ease active:scale-95 group uppercase italic font-headline relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-[2000ms]" />
+                    <span className="flex items-center justify-center gap-4 relative z-10">
+                        DEPLOYMENT
+                        <span className="material-symbols-outlined text-sm group-hover:rotate-12 transition-transform">bolt</span>
                     </span>
                 </button>
             </div>
 
-            <div className="px-2 space-y-1">
-                <Link href="/docs" className="text-slate-500 hover:text-slate-300 px-4 py-3 flex items-center gap-3 font-body text-sm antialiased transition-colors duration-200">
+            <div className="px-8 space-y-2 mb-12">
+                <Link href="/docs" className="text-on-surface-variant/20 hover:text-tertiary px-6 py-4 flex items-center gap-6 font-label text-[10px] uppercase tracking-[0.4em] transition-all duration-500 custom-ease italic">
                     <span className="material-symbols-outlined text-[20px]">description</span>
-                    <span>Docs</span>
-                </Link>
-                <Link href="/support" className="text-slate-500 hover:text-slate-300 px-4 py-3 flex items-center gap-3 font-body text-sm antialiased transition-colors duration-200">
-                    <span className="material-symbols-outlined text-[20px]">help</span>
-                    <span>Support</span>
+                    <span>Documentation</span>
                 </Link>
             </div>
         </aside>
