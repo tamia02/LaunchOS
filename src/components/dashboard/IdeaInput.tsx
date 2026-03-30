@@ -24,7 +24,7 @@ export function IdeaInput() {
 
             const data = await res.json()
             if (data.analysisId) {
-                router.push(`/analysis/${data.analysisId}`)
+                router.push(`/dashboard/analysis/${data.analysisId}`)
             }
         } catch (error) {
             console.error('Analysis failed:', error)

@@ -34,7 +34,7 @@ export function RecentAnalyses() {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {MOCK_ANALYSES.map((analysis) => (
-                <Link key={analysis.id} href={`/analysis/${analysis.id}`} className="block">
+                <Link key={analysis.id} href={`/dashboard/analysis/${analysis.id}`} className="block">
                     <div className="h-full bg-surface-container-low p-10 rounded-[2.5rem] shadow-[0_40px_80px_rgba(0,0,0,0.4)] border border-white/5 hover:bg-surface-container-high transition-all duration-700 custom-ease group relative overflow-hidden hover:scale-[1.02]">
                         {/* Atmospheric Accent */}
                         <div className="absolute top-0 right-0 w-32 h-32 bg-tertiary/5 rounded-full blur-3xl pointer-events-none group-hover:bg-tertiary/10 transition-colors" />
