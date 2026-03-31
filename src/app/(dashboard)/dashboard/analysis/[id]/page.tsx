@@ -29,9 +29,11 @@ const engines = [
 ]
 
 const MOCK_ANALYSIS = {
+    project_name: 'GardenOS',
     idea: 'An AI-powered garden planner that helps beginners grow vegetables.',
     created_at: 'March 30, 2026',
     niche: {
+        project_name: 'GardenOS',
         niche_name: 'Urban Home Gardeners',
         niche_description: 'Beginner gardeners living in apartment buildings or urban areas with limited space. They want to grow their own food but don\'t know where to start.',
         why_this_niche: 'High enthusiasm, limited expertise, and clear physical constraints make this a perfect segment for personalized AI advice.',
@@ -42,6 +44,7 @@ const MOCK_ANALYSIS = {
         secondary_niches: ['Suburban First-timers', 'Indoor Plant Lovers', 'School Program Teachers']
     },
     validation: {
+        project_name: 'GardenOS',
         overall_score: 84,
         verdict: 'Strong Signals',
         market_size: '$2.4B TAM',
@@ -67,6 +70,7 @@ const MOCK_ANALYSIS = {
         ]
     },
     pricing: {
+        project_name: 'GardenOS',
         recommended_tier: 'Freemium + Pro',
         tiers: [
             { name: 'Seed', price: '$0', description: 'Basic planting calendar, 1 garden', features: ['AI calendar', '1 garden bed', 'Community access'], recommended: false },
@@ -77,6 +81,7 @@ const MOCK_ANALYSIS = {
         rationale: 'Freemium drives viral adoption; Pro tier captures willingness to pay from dedicated gardeners.'
     },
     outreach: {
+        project_name: 'GardenOS',
         strategy: 'Community-Led Growth',
         templates: [
             { subject: 'Your garden this season at {{Community}}', body: 'Hi {{First_Name}}, noticed you\'re active in urban gardening. I built an AI that creates personalized planting schedules based on your exact climate zone and space.' }
@@ -88,6 +93,7 @@ const MOCK_ANALYSIS = {
         ]
     },
     competitor: {
+        project_name: 'GardenOS',
         competitors: [
             { name: 'Gardenate', url: 'gardenate.com', what_they_do: 'Basic planting calendar by region', pricing: 'Free', weakness: 'No AI, no personalization', user_complaints: 'Too generic, not local enough' },
             { name: 'Planta', url: 'planta.se', what_they_do: 'Houseplant care AI', pricing: '$7/mo', weakness: 'Only indoor plants', user_complaints: 'Doesn\'t support food growing' },
@@ -137,6 +143,7 @@ const MOCK_ANALYSIS = {
         recommended_reason: 'Fastest path to 100 paying users and proven engagement data within 30 days.'
     },
     revenue: {
+        project_name: 'GardenOS',
         health_score: 92.4,
         time_to_mvp: '14d',
         velocity: [20, 35, 28, 50, 45, 65, 72, 80],
@@ -187,40 +194,40 @@ function AnalysisPageInner() {
     }
 
     return (
-        <div className="space-y-10 animate-in fade-in slide-in-from-bottom-8 duration-700 pb-32">
+        <div className="space-y-6 animate-in fade-in slide-in-from-bottom-8 duration-700 pb-16">
             {/* Page Header */}
-            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 pt-2">
-                <div className="space-y-4 max-w-3xl">
-                    <Link href="/dashboard" className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.4em] text-tertiary hover:tracking-[0.6em] transition-all duration-500 italic">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-1">
+                <div className="space-y-2 max-w-2xl">
+                    <Link href="/dashboard" className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-tertiary hover:tracking-[0.5em] transition-all duration-500">
                         <span className="material-symbols-outlined text-sm">arrow_back</span>
                         Return to Dashboard
                     </Link>
-                    <h1 className="text-3xl md:text-4xl font-headline font-black tracking-tighter text-white uppercase italic leading-tight">
+                    <h1 className="text-3xl md:text-4xl font-headline font-black tracking-tighter text-white uppercase leading-tight">
                         {analysis?.idea}
                     </h1>
                     <div className="flex flex-wrap items-center gap-6">
-                        <span className="text-[10px] text-on-surface-variant font-black uppercase tracking-[0.4em] italic opacity-40">
+                        <span className="text-[10px] text-on-surface-variant font-black uppercase tracking-widest opacity-40">
                             ID: <span className="text-tertiary">{String(id).slice(0, 8)}</span>
                         </span>
-                        <span className="text-[10px] text-on-surface-variant font-black uppercase tracking-[0.4em] italic opacity-40">
+                        <span className="text-[10px] text-on-surface-variant font-black uppercase tracking-widest opacity-40">
                             Status: <span className="text-green-400">OPTIMAL</span>
                         </span>
-                        <span className="text-[10px] text-on-surface-variant font-black uppercase tracking-[0.4em] italic opacity-40">
+                        <span className="text-[10px] text-on-surface-variant font-black uppercase tracking-widest opacity-40">
                             {analysis?.created_at}
                         </span>
                     </div>
                 </div>
-                <div className="flex items-center gap-3">
-                    <button className="flex items-center gap-2 px-6 py-3 rounded-xl bg-surface-container-high/60 text-on-surface-variant hover:text-white hover:bg-surface-container-highest transition-all duration-500 font-headline font-black text-[10px] uppercase tracking-[0.3em] italic border border-white/5">
-                        <span className="material-symbols-outlined text-lg">share</span>
+                <div className="flex items-center gap-2">
+                    <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-container-high/60 text-on-surface-variant hover:text-white hover:bg-surface-container-highest transition-all duration-300 font-headline font-bold text-[9px] uppercase tracking-widest border border-white/5">
+                        <span className="material-symbols-outlined text-base">share</span>
                         Share
                     </button>
-                    <button className="flex items-center gap-2 px-6 py-3 rounded-xl bg-surface-container-high/60 text-on-surface-variant hover:text-white hover:bg-surface-container-highest transition-all duration-500 font-headline font-black text-[10px] uppercase tracking-[0.3em] italic border border-white/5">
-                        <span className="material-symbols-outlined text-lg">description</span>
+                    <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-container-high/60 text-on-surface-variant hover:text-white hover:bg-surface-container-highest transition-all duration-300 font-headline font-bold text-[9px] uppercase tracking-widest border border-white/5">
+                        <span className="material-symbols-outlined text-base">description</span>
                         Export
                     </button>
-                    <button className="button-metallic flex items-center gap-2 px-8 py-3 rounded-xl font-headline font-black text-[10px] uppercase tracking-[0.3em] italic shadow-xl hover:brightness-110 active:scale-95 transition-all duration-300 border border-white/10">
-                        <span className="material-symbols-outlined text-lg">sync</span>
+                    <button className="bg-tertiary text-white flex items-center gap-2 px-5 py-2 rounded-lg font-headline font-bold text-[9px] uppercase tracking-widest shadow-lg hover:brightness-110 active:scale-95 transition-all duration-300 border border-white/10">
+                        <span className="material-symbols-outlined text-base">sync</span>
                         Re-Run
                     </button>
                 </div>
@@ -269,7 +276,7 @@ export default function AnalysisPage() {
                     <div className="w-20 h-20 border-2 border-tertiary/20 border-t-tertiary rounded-full animate-spin shadow-[0_0_40px_rgba(103,156,255,0.15)]" />
                     <span className="material-symbols-outlined absolute inset-0 flex items-center justify-center text-tertiary text-2xl">database</span>
                 </div>
-                <p className="text-white font-headline font-black uppercase tracking-[0.5em] text-xs italic">Loading Analysis...</p>
+                <p className="text-white font-headline font-black uppercase tracking-widest text-xs">Loading Analysis...</p>
             </div>
         }>
             <AnalysisPageInner />

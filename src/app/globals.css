@@ -132,7 +132,9 @@ body {
   }
 
   .button-metallic {
-    background: linear-gradient(135deg, #c4c7c9 0%, #444749 100%);
+    background: linear-gradient(135deg, #f8fafc 0%, #94a3b8 100%);
+    color: #0f172a;
+    box-shadow: 0 4px 14px 0 rgba(255, 255, 255, 0.05);
   }
 
   .ghost-border {

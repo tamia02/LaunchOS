@@ -24,13 +24,13 @@ export default function DashboardPage() {
                     Neural Engine Online
                 </div>
 
-                <div className="space-y-6 relative z-10">
-                    <h1 className="text-7xl md:text-9xl font-black font-headline tracking-tighter text-white uppercase italic leading-[0.85]">
-                        {getGreeting()}, <br /> <span className="text-tertiary underline decoration-tertiary/20 underline-offset-[20px] decoration-8">Founder.</span>
+                <div className="space-y-4 relative z-10">
+                    <h1 className="text-3xl md:text-5xl font-black font-headline tracking-tighter text-white uppercase leading-none">
+                        {getGreeting()}, <span className="text-tertiary">Founder.</span>
                     </h1>
-                    <p className="text-on-surface-variant max-w-2xl mx-auto text-xl font-body leading-relaxed italic opacity-60 antialiased pt-4">
+                    <p className="text-on-surface-variant max-w-xl mx-auto text-lg font-body leading-relaxed opacity-60 antialiased pt-2">
                         What's the startup idea keeping you up at night? <br />
-                        Let's see if it has <span className="text-white font-black underline decoration-tertiary/40">exponential wings</span>.
+                        Let's see if it has <span className="text-white font-bold underline decoration-tertiary/40">exponential wings</span>.
                     </p>
                 </div>
 
@@ -42,15 +42,15 @@ export default function DashboardPage() {
             {/* History Section - No-Line Architecture */}
             <div className="space-y-12 px-4 pb-20">
                 <div className="flex items-center justify-between border-b border-white/5 pb-8">
-                    <div className="flex flex-col gap-2">
-                        <h2 className="text-3xl font-black font-headline tracking-tighter uppercase italic text-white flex items-center gap-4">
-                            <span className="material-symbols-outlined text-tertiary text-3xl">history</span>
+                    <div className="flex flex-col gap-1">
+                        <h2 className="text-2xl font-black font-headline tracking-tighter uppercase text-white flex items-center gap-3">
+                            <span className="material-symbols-outlined text-tertiary text-2xl">history</span>
                             Recent Protocols
                         </h2>
-                        <p className="text-[10px] text-on-surface-variant/40 font-black uppercase tracking-[0.4em] font-label pl-12 italic">Historical intelligence sequences</p>
+                        <p className="text-[9px] text-on-surface-variant/40 font-black uppercase tracking-widest font-label pl-10">Historical intelligence sequences</p>
                     </div>
-                    <div className="bg-surface-container-high/40 px-6 py-3 rounded-2xl glass-edge border border-white/5 shadow-inner">
-                        <span className="text-[10px] text-on-surface-variant font-black uppercase tracking-[0.2em] font-label italic">
+                    <div className="bg-surface-container-high/40 px-5 py-2 rounded-xl glass-edge border border-white/5 shadow-inner">
+                        <span className="text-[9px] text-on-surface-variant font-bold uppercase tracking-widest font-label">
                             Quota Status: <span className="text-white">1 Remaining</span>
                         </span>
                     </div>

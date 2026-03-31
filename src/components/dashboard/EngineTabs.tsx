@@ -32,7 +32,7 @@ export function EngineTabs({ activeTab, onTabChange }: EngineTabsProps) {
                         key={engine.id}
                         onClick={() => onTabChange(engine.id)}
                         className={cn(
-                            "flex flex-col items-start gap-1 px-5 py-3 transition-all min-w-[120px] relative h-full",
+                            "flex flex-col items-start gap-1 px-3 py-2 transition-all min-w-[100px] relative h-full",
                             isActive
                                 ? "bg-black text-foreground"
                                 : "bg-tertiary text-text-muted hover:text-text-secondary"
@@ -44,7 +44,7 @@ export function EngineTabs({ activeTab, onTabChange }: EngineTabsProps) {
                         )}>
                             {engine.number}
                         </span>
-                        <span className="text-sm font-medium whitespace-nowrap">
+                        <span className="text-[13px] font-medium whitespace-nowrap">
                             {engine.name}
                         </span>
                         {isActive && (

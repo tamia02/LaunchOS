@@ -5,15 +5,15 @@ import Link from 'next/link'
 
 export default function LandingPage() {
     return (
-        <div className="bg-surface selection:bg-tertiary/30 selection:text-on-tertiary min-h-screen antialiased scroll-smooth">
-            {/* TopNavBar — exact match to launchos_premium_hero blueprint */}
+        <div className="bg-surface selection:bg-tertiary/30 selection:text-tertiary-fixed min-h-screen antialiased">
+            {/* TopNavBar */}
             <nav className="fixed top-0 w-full z-50 bg-slate-900/60 backdrop-blur-xl flex justify-between items-center h-16 px-8 max-w-full shadow-[0px_4px_12px_rgba(0,0,0,0.2)]">
                 <div className="flex items-center gap-8">
                     <span className="text-xl font-bold tracking-tighter text-slate-100 font-headline">launchOS</span>
                     <div className="hidden md:flex gap-6 items-center">
                         <Link className="text-slate-400 font-medium hover:text-slate-200 transition-colors duration-200 font-body text-sm" href="/dashboard">Dashboard</Link>
-                        <Link className="text-slate-400 font-medium hover:text-slate-200 transition-colors duration-200 font-body text-sm" href="/dashboard/journal">Projects</Link>
-                        <Link className="text-slate-400 font-medium hover:text-slate-200 transition-colors duration-200 font-body text-sm" href="/dashboard/gallery">Insights</Link>
+                        <Link className="text-slate-400 font-medium hover:text-slate-200 transition-colors duration-200 font-body text-sm" href="/dashboard">Projects</Link>
+                        <Link className="text-slate-400 font-medium hover:text-slate-200 transition-colors duration-200 font-body text-sm" href="/dashboard">Insights</Link>
                     </div>
                 </div>
                 <div className="flex items-center gap-4">
@@ -32,21 +32,18 @@ export default function LandingPage() {
 
             {/* Main Content Canvas */}
             <main className="relative min-h-screen flex flex-col hero-gradient pt-16">
-
                 {/* Hero Section */}
                 <section className="flex-1 flex flex-col items-center justify-center px-6 text-center py-20 lg:py-32">
-                    {/* Status Badge */}
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-variant/40 border border-outline-variant/10 mb-8">
                         <span className="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
                         <span className="text-xs font-label uppercase tracking-widest text-on-surface-variant">Intelligence v2.4 Live</span>
                     </div>
 
-                    {/* Headline */}
-                    <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-on-surface max-w-4xl leading-tight mb-8">
-                        From raw idea to validation in seconds.
+                    {/* Architectural Headline - Professional Density */}
+                    <h1 className="font-headline text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-on-surface max-w-5xl leading-[0.95] mb-8">
+                        From raw idea to <br className="hidden md:block" /> <span className="text-tertiary">validation</span> in seconds.
                     </h1>
 
-                    {/* Subline */}
                     <p className="font-body text-lg md:text-xl text-on-surface-variant max-w-2xl leading-relaxed mb-12">
                         The AI-powered operating system for ambitious founders. Go from a raw concept to a fully validated MVP plan, pricing strategy, and outreach roadmap.
                     </p>
@@ -57,28 +54,19 @@ export default function LandingPage() {
                         <div className="relative flex flex-col md:flex-row p-2 bg-surface-container-low rounded-xl border border-outline-variant/15 shadow-[0px_20px_40px_rgba(0,0,0,0.4)]">
                             <div className="flex-1 flex items-center px-4">
                                 <span className="material-symbols-outlined text-outline mr-3">lightbulb</span>
-                                <span className="text-on-surface-variant/50 font-body py-4 text-left">Enter your startup idea here...</span>
+                                <span className="w-full bg-transparent border-none focus:ring-0 text-on-surface-variant/50 font-body py-4 text-left">Enter your startup idea here...</span>
                             </div>
-                            <div className="button-metallic text-on-primary px-8 py-4 rounded-lg font-headline font-bold text-sm tracking-tight hover:brightness-110 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2">
+                            <button className="button-metallic text-on-primary px-8 py-4 rounded-lg font-headline font-bold text-sm tracking-tight hover:brightness-110 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 leading-none">
                                 Analyze Idea
                                 <span className="material-symbols-outlined text-sm">arrow_forward</span>
-                            </div>
+                            </button>
                         </div>
                     </Link>
-
-                    {/* Trust Badges */}
-                    <div className="mt-24 flex flex-wrap justify-center gap-8 md:gap-16 opacity-40 grayscale hover:grayscale-0 transition-all duration-700">
-                        <span className="font-headline font-bold text-xl">TECHSTARS</span>
-                        <span className="font-headline font-bold text-xl">YCOMBINATOR</span>
-                        <span className="font-headline font-bold text-xl">SEQUOIA</span>
-                        <span className="font-headline font-bold text-xl">ANDREESSEN</span>
-                    </div>
                 </section>
 
                 {/* Feature Bento Grid Section */}
                 <section className="px-8 md:px-12 py-32 bg-surface-container-low/30">
                     <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-4">
-
                         {/* Main Visual Bento */}
                         <div className="md:col-span-8 h-[500px] bg-surface-container rounded-xl overflow-hidden relative group border border-outline-variant/10">
                             <img
@@ -96,7 +84,7 @@ export default function LandingPage() {
                         {/* Secondary Bento (Vertical) */}
                         <div className="md:col-span-4 grid grid-rows-2 gap-4">
                             <div className="bg-surface-container-high rounded-xl p-8 flex flex-col justify-between border border-outline-variant/10">
-                                <span className="material-symbols-outlined text-tertiary text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
+                                <span className="material-symbols-outlined text-tertiary text-4xl">verified</span>
                                 <div>
                                     <h4 className="font-headline text-xl font-bold mb-1">Market Validation</h4>
                                     <p className="font-body text-sm text-on-surface-variant">Instant competitor analysis and market gap identification.</p>
@@ -139,7 +127,7 @@ export default function LandingPage() {
                         <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-tertiary/10 rounded-full blur-3xl"></div>
                         <h2 className="font-headline text-4xl font-extrabold mb-6">Stop building in the dark.</h2>
                         <p className="font-body text-on-surface-variant mb-10 max-w-xl mx-auto">Join 4,000+ founders who used launchOS to turn their ideas into profitable companies this year.</p>
-                        <Link href="/dashboard" className="button-metallic text-on-primary px-10 py-5 rounded-lg font-headline font-bold tracking-tight hover:scale-105 active:scale-95 transition-all duration-300 shadow-xl inline-block">
+                        <Link href="/dashboard" className="button-metallic text-on-primary px-10 py-5 rounded-lg font-headline font-bold tracking-tight hover:scale-105 active:scale-90 transition-all duration-300 shadow-xl inline-block">
                             Get Started for Free
                         </Link>
                     </div>

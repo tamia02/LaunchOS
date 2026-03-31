@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { cn } from '@/lib/utils'
 
 interface YCData {
-    company_name: string
+    project_name: string
     one_liner: string
     what_do_you_do: string
     problem: string
@@ -46,63 +46,58 @@ export function YCEngine({ data }: { data: YCData }) {
 
     return (
         <div className="animate-in fade-in slide-in-from-bottom-8 duration-[2000ms] custom-ease">
-            {/* YC Header - Editorial Layout */}
-            <header className="flex flex-col md:flex-row md:items-end justify-between gap-12 mb-16 px-4">
-                <div className="space-y-8 max-w-3xl">
-                    <div className="flex items-center gap-6">
-                        <div className="w-20 h-20 bg-[#F04E23] rounded-[1.5rem] flex items-center justify-center shadow-[0_30px_60px_rgba(240,78,35,0.3)] group hover:scale-110 transition-transform duration-700">
-                            <span className="text-white font-headline font-black text-3xl tracking-tighter italic select-none">YC</span>
+            {/* YC Header */}
+            <header className="flex flex-col md:flex-row md:items-start justify-between gap-8 mb-8 px-2">
+                <div className="space-y-4 max-w-2xl">
+                    <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-[#F04E23] rounded-lg flex items-center justify-center shadow-lg group">
+                            <span className="text-white font-headline font-bold text-xl tracking-tighter select-none">YC</span>
                         </div>
                         <div>
-                            <div className="flex items-center gap-3 mb-2">
-                                <div className="px-3 py-1 rounded bg-[#F04E23]/10 border border-[#F04E23]/20">
-                                    <span className="text-[#F04E23] text-[9px] font-black tracking-[0.4em] uppercase font-label italic">S24 Batch Draft 09</span>
+                            <div className="flex items-center gap-2 mb-1">
+                                <div className="px-2 py-0.5 rounded bg-[#F04E23]/10 border border-[#F04E23]/20">
+                                    <span className="text-[#F04E23] text-[8px] font-bold tracking-widest uppercase font-label">S24 Batch Draft</span>
                                 </div>
-                                <span className="w-1.5 h-1.5 rounded-full bg-[#F04E23] animate-pulse"></span>
                             </div>
-                            <h2 className="text-5xl md:text-7xl font-headline font-black text-white uppercase italic tracking-tighter leading-none antialiased">{data.company_name}</h2>
+                            <h2 className="text-2xl md:text-3xl font-headline font-bold text-white uppercase tracking-tighter leading-none antialiased">{data.project_name}</h2>
                         </div>
                     </div>
-                    <p className="text-2xl text-on-surface-variant font-body leading-relaxed opacity-80 italic max-w-2xl px-2">
-                        Drafting the <span className="text-white font-black underline decoration-[#F04E23]/40 underline-offset-8">Standard-Setting Application</span> for Y Combinator.
+                    <p className="text-[13px] text-on-surface-variant font-body leading-relaxed opacity-80 max-w-xl">
+                        Drafting the <span className="text-white font-bold underline decoration-[#F04E23]/40 underline-offset-4">Standard-Setting Application</span> for Y Combinator.
                     </p>
                 </div>
                 <button
                     onClick={() => copyToClipboard(JSON.stringify(data, null, 2), 'all')}
-                    className="button-metallic bg-gradient-to-br from-[#F04E23] to-[#ff6b4a] !text-white whitespace-nowrap px-14 py-6 rounded-[1.5rem] text-[11px] font-black uppercase tracking-[0.4em] flex items-center gap-4 shadow-[0_20px_50px_rgba(240,78,35,0.4)] hover:shadow-[0_30px_70px_rgba(240,78,35,0.6)] active:scale-95 transition-all duration-500 italic"
+                    className="bg-[#F04E23] hover:bg-[#d03d1a] text-white px-8 py-3 rounded-lg text-[10px] font-bold uppercase tracking-widest flex items-center gap-3 shadow-md transition-all active:scale-95"
                 >
-                    <span className="material-symbols-outlined text-xl">send</span> PUSH_TO_SUBMISSION
+                    <span className="material-symbols-outlined text-lg">send</span> PUSH_TO_SUBMISSION
                 </button>
             </header>
 
-            {/* Application Flow - Cinematic Grid */}
-            <div className="grid grid-cols-1 gap-10 mb-20">
+            {/* Application Flow */}
+            <div className="grid grid-cols-1 gap-6 mb-12">
                 {sections.map((sec, i) => (
-                    <div key={i} className="group relative bg-surface-container-low rounded-[3rem] p-12 shadow-[0_40px_100px_rgba(0,0,0,0.5)] border border-white/5 hover:bg-surface-container transition-all duration-700 overflow-hidden">
-                        <div className="absolute top-0 right-0 p-12 opacity-5 scale-150 group-hover:scale-110 transition-transform duration-1000 pointer-events-none">
-                            <span className="material-symbols-outlined text-[120px] text-[#F04E23]">article</span>
-                        </div>
-
-                        <div className="flex flex-col lg:flex-row gap-16 relative z-10">
-                            <div className="lg:w-1/3 xl:w-1/4 space-y-6">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-1.5 h-12 bg-[#F04E23]/20 group-hover:bg-[#F04E23] transition-all duration-700 rounded-full shadow-[0_0_15px_rgba(240,78,35,0.4)]"></div>
-                                    <h4 className="text-[10px] font-black text-[#F04E23] uppercase tracking-[0.5em] font-label italic border-b border-[#F04E23]/10 pb-2">{sec.label}</h4>
+                    <div key={i} className="group relative bg-surface-container-low rounded-xl p-6 shadow-md border border-white/5 hover:bg-surface-container transition-all overflow-hidden">
+                        <div className="flex flex-col lg:flex-row gap-8 relative z-10">
+                            <div className="lg:w-1/4 space-y-3">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-1 h-8 bg-[#F04E23]/20 group-hover:bg-[#F04E23] transition-all rounded-full"></div>
+                                    <h4 className="text-[9px] font-bold text-[#F04E23] uppercase tracking-widest font-label border-b border-[#F04E23]/10 pb-1">{sec.label}</h4>
                                 </div>
-                                <p className="text-sm text-on-surface-variant/40 font-body italic antialiased leading-relaxed pl-6">{sec.hint}</p>
+                                <p className="text-[12px] text-on-surface-variant/40 font-body leading-relaxed pl-4">{sec.hint}</p>
                             </div>
-                            <div className="lg:w-2/3 xl:w-3/4 relative pt-2">
-                                <p className="text-2xl font-headline font-black text-white leading-[1.6] pr-20 whitespace-pre-wrap italic antialiased group-hover:translate-x-2 transition-transform duration-700">
+                            <div className="lg:w-3/4 relative pt-1">
+                                <p className="text-lg font-headline font-bold text-white leading-relaxed pr-12 whitespace-pre-wrap antialiased group-hover:translate-x-1 transition-transform">
                                     {sec.value}
                                 </p>
                                 <button
                                     onClick={() => copyToClipboard(sec.value, i)}
-                                    className="absolute -top-4 -right-4 p-5 bg-surface-container-high glass-edge rounded-2xl opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 hover:brightness-125 active:scale-90 shadow-2xl group/copy"
+                                    className="absolute top-0 right-0 p-2 bg-surface-container-high rounded-lg shadow-lg"
                                 >
                                     {copiedIdx === i ? (
-                                        <span className="material-symbols-outlined text-tertiary">check_circle</span>
+                                        <span className="material-symbols-outlined text-tertiary text-sm">check_circle</span>
                                     ) : (
-                                        <span className="material-symbols-outlined text-white/20 group-hover/copy:text-white transition-colors">content_copy</span>
+                                        <span className="material-symbols-outlined text-white/20 hover:text-white transition-colors text-sm">content_copy</span>
                                     )}
                                 </button>
                             </div>
@@ -111,16 +106,12 @@ export function YCEngine({ data }: { data: YCData }) {
                 ))}
             </div>
 
-            {/* YC Founders Note - High Fidelity Footer */}
-            <div className="bg-[#F04E23]/5 rounded-[4rem] p-16 shadow-[0_60px_150px_rgba(240,78,35,0.1)] border border-[#F04E23]/10 relative overflow-hidden group mb-12">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#F04E23]/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
-                <div className="absolute top-0 right-0 p-16 opacity-10 group-hover:scale-110 transition-transform duration-[2000ms]">
-                    <span className="material-symbols-outlined text-[160px] text-[#F04E23]">auto_awesome</span>
-                </div>
-                <div className="relative z-10 flex flex-col md:flex-row gap-12 items-start md:items-center">
-                    <div className="px-6 py-3 bg-[#F04E23] rounded-xl text-white font-black text-[11px] tracking-[0.4em] uppercase shadow-[0_20px_40px_rgba(240,78,35,0.4)] font-label italic rotate-[-2deg]">ARCHITECT_PROTOCOL</div>
-                    <p className="text-[#F04E23] text-3xl md:text-4xl font-headline font-black uppercase tracking-tighter leading-tight italic max-w-4xl antialiased">
-                        "YC looks for clarity, conciseness, and direct evidence. This draft follows the high-fidelity alumni patterns established by founders who shipped from day one."
+            {/* YC Founders Note */}
+            <div className="bg-[#F04E23]/5 rounded-2xl p-8 shadow-md border border-[#F04E23]/10 relative overflow-hidden group mb-12">
+                <div className="relative z-10 flex flex-col md:flex-row gap-8 items-start md:items-center">
+                    <div className="px-4 py-2 bg-[#F04E23] rounded-lg text-white font-bold text-[9px] tracking-widest uppercase font-label">ARCHITECT_PROTOCOL</div>
+                    <p className="text-[#F04E23] text-lg md:text-xl font-headline font-bold uppercase tracking-tight leading-tight max-w-4xl antialiased">
+                        "YC looks for clarity, conciseness, and direct evidence. This draft follows high-fidelity alumni patterns."
                     </p>
                 </div>
             </div>
