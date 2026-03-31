@@ -14,6 +14,8 @@ import { PivotEngine } from '@/components/engines/PivotEngine'
 import { ProgressEngine } from '@/components/engines/ProgressEngine'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
+import { getAnalysisById } from '@/lib/actions/analysis-actions'
+import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
 
 const engines = [
     { id: 'niche', name: 'Niche', number: '01' },
@@ -168,8 +170,25 @@ function AnalysisPageInner() {
     const searchParams = useSearchParams()
     const engineParam = searchParams.get('engine') || 'niche'
 
-    const [analysis] = useState<any>(MOCK_ANALYSIS)
-    const loading = false
+    const [analysis, setAnalysis] = useState<any>(null)
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        const fetchAnalysis = async () => {
+            if (!id) return
+            try {
+                const data = await getAnalysisById(id as string)
+                if (data) {
+                    setAnalysis(data)
+                }
+            } catch (err) {
+                console.error('Failed to fetch analysis:', err)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchAnalysis()
+    }, [id])
 
     const activeTab = engines.find(e => e.id === engineParam) ? engineParam : 'niche'
 
@@ -178,6 +197,13 @@ function AnalysisPageInner() {
     }
 
     const renderEngineOutput = () => {
+        if (loading) return (
+            <div className="flex items-center justify-center min-h-[400px]">
+                <LoadingSpinner />
+            </div>
+        )
+        if (!analysis) return <div className="text-center py-20 text-on-surface-variant/40">Protocol not found.</div>
+
         switch (activeTab) {
             case 'niche': return <NicheEngine data={analysis.niche} />
             case 'validation': return <ValidationEngine data={analysis.validation} />

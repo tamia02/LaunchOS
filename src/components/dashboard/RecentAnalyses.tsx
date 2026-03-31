@@ -1,29 +1,12 @@
 import React from 'react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
+import { getRecentAnalyses } from '@/lib/actions/analysis-actions'
 
-// Mock data for initial UI
-const MOCK_ANALYSES = [
-    {
-        id: '1',
-        idea: 'An AI-powered garden planner that helps beginners grow vegetables.',
-        niche: 'Urban Home Gardeners',
-        score: 84,
-        date: '2026-03-30',
-        verdict: 'green'
-    },
-    {
-        id: '2',
-        idea: 'A collaborative whiteboard for remote engineering teams with built-in code execution.',
-        niche: 'Remote Eng Teams',
-        score: 72,
-        date: '2026-03-28',
-        verdict: 'yellow'
-    }
-]
+export async function RecentAnalyses() {
+    const analyses = await getRecentAnalyses()
 
-export function RecentAnalyses() {
-    if (MOCK_ANALYSES.length === 0) {
+    if (analyses.length === 0) {
         return (
             <div className="py-32 text-center bg-surface-container-low/40 rounded-[3rem] border border-dashed border-white/5 shadow-inner">
                 <p className="text-on-surface-variant font-body opacity-40">No protocols initiated. Awaiting deployment instructions.</p>
@@ -33,7 +16,7 @@ export function RecentAnalyses() {
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {MOCK_ANALYSES.map((analysis) => (
+            {analyses.map((analysis) => (
                 <Link key={analysis.id} href={`/dashboard/analysis/${analysis.id}`} className="block">
                     <div className="h-full bg-surface-container-low/80 p-5 rounded-xl shadow-lg border border-white/5 hover:bg-surface-container-high transition-all duration-500 custom-ease group relative overflow-hidden transition-all">
                         {/* Atmospheric Accent */}

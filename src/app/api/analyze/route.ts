@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
-import { getOpenAI } from '@/lib/openai/client'
-import { ENGINE_PROMPTS } from '@/lib/openai/prompts'
+import sql from '@/lib/db'
+import { getGeminiModel } from '@/lib/gemini/client'
+import { ENGINE_PROMPTS } from '@/lib/gemini/prompts'
 
 export async function POST(req: Request) {
     try {
@@ -11,78 +11,92 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: 'Missing idea or userId' }, { status: 400 })
         }
 
-        const supabase = await createClient()
+        // 1. Check user usage (simplified for Neon)
+        const [user] = await sql`
+            SELECT plan_type, usage_count FROM users WHERE id = ${userId}
+        `
 
-        // 1. Check user usage (simplified for now)
-        const { data: user, error: userError } = await supabase
-            .from('users')
-            .select('plan_type, usage_count')
-            .eq('id', userId)
-            .single()
-
-        if (userError || !user) {
-            return NextResponse.json({ error: 'User not found' }, { status: 404 })
-        }
-
-        const userData = user as any
-        if (userData.plan_type === 'free' && userData.usage_count >= 3) {
+        if (!user) {
+            // Auto-create user if not exists for demo purposes
+            await sql`
+                INSERT INTO users (id, email, plan_type, usage_count)
+                VALUES (${userId}, 'demo@founder.os', 'free', 0)
+            `
+        } else if (user.plan_type === 'free' && user.usage_count >= 10) {
             return NextResponse.json({ error: 'Upgrade required', code: 'UPGRADE_REQUIRED' }, { status: 403 })
         }
 
-        // 2. Run all 10 engines in parallel
+        // 2. Run all 10 engines in parallel using Gemini
         const engineKeys = Object.keys(ENGINE_PROMPTS) as Array<keyof typeof ENGINE_PROMPTS>
+        const model = getGeminiModel()
 
-        const openai = getOpenAI()
         const enginePromises = engineKeys.map(async (key) => {
             try {
-                const response = await openai.chat.completions.create({
-                    model: 'gpt-4o',
-                    messages: [
-                        { role: 'system', content: ENGINE_PROMPTS[key] },
-                        { role: 'user', content: idea }
-                    ],
-                    response_format: { type: 'json_object' }
-                })
+                const prompt = `${ENGINE_PROMPTS[key]}\n\nStartup Idea: ${idea}\n\nReturn the response as a JSON object.`
+                const result = await model.generateContent(prompt)
+                const response = await result.response
+                const text = response.text()
 
-                const content = response.choices[0].message.content
-                return { key, data: content ? JSON.parse(content) : null, success: true }
+                // Gemini sometimes wraps JSON in markdown blocks
+                const jsonMatch = text.match(/\{[\s\S]*\}/)
+                const cleanJson = jsonMatch ? jsonMatch[0] : text
+
+                return { key, data: JSON.parse(cleanJson), success: true }
             } catch (error) {
-                console.error(`Engine ${key} failed:`, error)
+                console.error(`Gemini Engine ${key} failed:`, error)
                 return { key, data: null, success: false }
             }
         })
 
         const results = await Promise.all(enginePromises)
 
-        // 3. Prepare data for Supabase
-        const analysisData: any = {
-            user_id: userId,
-            idea: idea,
-        }
-
-        results.forEach((res) => {
-            analysisData[`engine${Object.keys(ENGINE_PROMPTS).indexOf(res.key) + 1}_${res.key}`] = res.data
+        // 3. Prepare data for Neon
+        const engineData: Record<string, any> = {}
+        results.forEach((res, index) => {
+            const colName = `engine${index + 1}_${res.key === 'revenue' ? 'revenue' : res.key}`
+            engineData[colName] = res.data
         })
 
-        // 4. Save to Supabase
-        const { data: analysis, error: analysisError } = await supabase
-            .from('analyses')
-            .insert(analysisData)
-            .select()
-            .single()
-
-        if (analysisError) {
-            console.error('Failed to save analysis:', analysisError)
-            return NextResponse.json({ error: 'Failed to save analysis' }, { status: 500 })
-        }
+        // 4. Save to Neon
+        const [analysis] = await sql`
+            INSERT INTO analyses (
+                user_id, 
+                idea, 
+                engine1_niche, 
+                engine2_validation, 
+                engine3_mvp, 
+                engine4_pricing, 
+                engine5_outreach, 
+                engine6_competitor, 
+                engine7_investor, 
+                engine8_yc, 
+                engine9_pivot, 
+                engine10_revenue
+            ) VALUES (
+                ${userId}, 
+                ${idea}, 
+                ${engineData.engine1_niche}, 
+                ${engineData.engine2_validation}, 
+                ${engineData.engine3_mvp}, 
+                ${engineData.engine4_pricing}, 
+                ${engineData.engine5_outreach}, 
+                ${engineData.engine6_competitor}, 
+                ${engineData.engine7_investor}, 
+                ${engineData.engine8_yc}, 
+                ${engineData.engine9_pivot}, 
+                ${engineData.engine10_revenue}
+            )
+            RETURNING id
+        `
 
         // 5. Increment usage count
-        await (supabase as any).rpc('increment_usage', { user_id: userId })
+        await sql`
+            UPDATE users SET usage_count = usage_count + 1 WHERE id = ${userId}
+        `
 
-        const finalAnalysis = analysis as any
         return NextResponse.json({
             success: true,
-            analysisId: finalAnalysis.id,
+            analysisId: analysis.id,
             results: results.reduce((acc, curr) => ({ ...acc, [curr.key]: curr.data }), {})
         })
 
