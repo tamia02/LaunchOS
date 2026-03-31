@@ -56,10 +56,10 @@ export function YCEngine({ data }: { data: YCData }) {
                         <div>
                             <div className="flex items-center gap-2 mb-1">
                                 <div className="px-2 py-0.5 rounded bg-[#F04E23]/10 border border-[#F04E23]/20">
-                                    <span className="text-[#F04E23] text-[8px] font-bold tracking-widest uppercase font-label">S24 Batch Draft</span>
+                                    <span className="text-[#F04E23] text-[8px] font-bold tracking-widest font-label">S24 Batch Draft</span>
                                 </div>
                             </div>
-                            <h2 className="text-2xl md:text-3xl font-headline font-bold text-white uppercase tracking-tighter leading-none antialiased">{data.project_name}</h2>
+                            <h2 className="text-2xl md:text-3xl font-headline font-bold text-white tracking-tighter leading-none antialiased">{data.project_name}</h2>
                         </div>
                     </div>
                     <p className="text-[13px] text-on-surface-variant font-body leading-relaxed opacity-80 max-w-xl">
@@ -68,9 +68,9 @@ export function YCEngine({ data }: { data: YCData }) {
                 </div>
                 <button
                     onClick={() => copyToClipboard(JSON.stringify(data, null, 2), 'all')}
-                    className="bg-[#F04E23] hover:bg-[#d03d1a] text-white px-8 py-3 rounded-lg text-[10px] font-bold uppercase tracking-widest flex items-center gap-3 shadow-md transition-all active:scale-95"
+                    className="bg-[#F04E23] hover:bg-[#d03d1a] text-white px-8 py-3 rounded-lg text-[10px] font-bold tracking-widest flex items-center gap-3 shadow-md transition-all active:scale-95"
                 >
-                    <span className="material-symbols-outlined text-lg">send</span> PUSH_TO_SUBMISSION
+                    <span className="material-symbols-outlined text-lg">send</span> Push_To_Submission
                 </button>
             </header>
 
@@ -82,7 +82,7 @@ export function YCEngine({ data }: { data: YCData }) {
                             <div className="lg:w-1/4 space-y-3">
                                 <div className="flex items-center gap-3">
                                     <div className="w-1 h-8 bg-[#F04E23]/20 group-hover:bg-[#F04E23] transition-all rounded-full"></div>
-                                    <h4 className="text-[9px] font-bold text-[#F04E23] uppercase tracking-widest font-label border-b border-[#F04E23]/10 pb-1">{sec.label}</h4>
+                                    <h4 className="text-[9px] font-bold text-[#F04E23] tracking-widest font-label border-b border-[#F04E23]/10 pb-1">{sec.label}</h4>
                                 </div>
                                 <p className="text-[12px] text-on-surface-variant/40 font-body leading-relaxed pl-4">{sec.hint}</p>
                             </div>

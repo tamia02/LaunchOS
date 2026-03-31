@@ -31,19 +31,19 @@ export function ValidationEngine({ data }: ValidationEngineProps) {
             <header className="mb-8 flex flex-col md:flex-row md:items-start justify-between gap-4">
                 <div className="max-w-xl">
                     <div className="flex items-center gap-2 mb-2">
-                        <span className="px-1.5 py-0.5 rounded bg-surface-container-high text-tertiary text-[9px] font-black tracking-widest uppercase font-label border border-white/5 antialiased">Project Analysis</span>
+                        <span className="px-1.5 py-0.5 rounded bg-surface-container-high text-tertiary text-[9px] font-black tracking-widest font-label border border-white/5 antialiased">Project Analysis</span>
                         <span className="w-1 h-1 rounded-full bg-tertiary"></span>
-                        <span className="text-on-surface-variant text-[9px] font-black uppercase tracking-widest opacity-40 antialiased">Integrity: Optimal</span>
+                        <span className="text-on-surface-variant text-[9px] font-black tracking-widest opacity-40 antialiased">Integrity: Optimal</span>
                     </div>
-                    <h1 className="text-xl md:text-2xl font-bold font-headline tracking-tighter text-white mb-2 uppercase antialiased">Project Validation</h1>
+                    <h1 className="text-xl md:text-2xl font-bold font-headline tracking-tighter text-white mb-2 antialiased">Project Validation</h1>
                     <p className="text-on-surface-variant text-[13px] max-w-xl font-body antialiased leading-relaxed">
                         Deep vertical analysis for <span className="text-primary font-bold">{data.project_name}</span>. Aggregated demand signals from latent communities and market liquidity data.
                     </p>
                 </div>
                 <div className="relative group">
                     <div className="relative bg-surface-container-highest px-6 py-3 rounded-xl border border-tertiary/20 flex flex-col items-center justify-center shadow-lg glass-edge">
-                        <span className="text-[9px] text-tertiary font-bold tracking-wider uppercase mb-0.5 font-label antialiased">Decision</span>
-                        <span className="text-xl font-black text-white font-headline tracking-tight uppercase antialiased">{data.decision}</span>
+                        <span className="text-[9px] text-tertiary font-bold tracking-wider mb-0.5 font-label antialiased">Decision</span>
+                        <span className="text-xl font-black text-white font-headline tracking-tight antialiased">{data.decision}</span>
                     </div>
                 </div>
             </header>
@@ -56,7 +56,7 @@ export function ValidationEngine({ data }: ValidationEngineProps) {
                     <div className="p-6 relative z-10">
                         <div className="flex justify-between items-start mb-6">
                             <div>
-                                <h3 className="text-on-surface-variant text-[10px] font-bold uppercase tracking-wider font-label mb-1 antialiased">Idea_Score</h3>
+                                <h3 className="text-on-surface-variant text-[10px] font-bold tracking-wider font-label mb-1 antialiased">Idea_Score</h3>
                                 <p className="text-on-surface text-[10px] font-body opacity-40 antialiased tracking-tight">Composite feasibility metric.</p>
                             </div>
                             <div className="text-right">
@@ -73,12 +73,12 @@ export function ValidationEngine({ data }: ValidationEngineProps) {
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
                                 <div className="p-4 rounded-xl bg-surface-container-high/40 border border-white/5 glass-edge group hover:bg-surface-container-high/60 transition-all">
-                                    <p className="text-[9px] text-on-surface-variant font-bold uppercase mb-1 antialiased tracking-widest opacity-40">Verdict</p>
-                                    <p className="text-lg font-black font-headline text-white antialiased tracking-tight uppercase">{data.verdict}</p>
+                                    <p className="text-[9px] text-on-surface-variant font-bold mb-1 antialiased tracking-widest opacity-40">Verdict</p>
+                                    <p className="text-lg font-black font-headline text-white antialiased tracking-tight">{data.verdict}</p>
                                 </div>
                                 <div className="p-4 rounded-xl bg-surface-container-high/40 border border-white/5 glass-edge group hover:bg-surface-container-high/60 transition-all">
-                                    <p className="text-[9px] text-on-surface-variant font-bold uppercase mb-1 antialiased tracking-widest opacity-40">Willingness to Pay</p>
-                                    <p className="text-lg font-black font-headline text-white antialiased tracking-tight uppercase">{data.willingness_to_pay}</p>
+                                    <p className="text-[9px] text-on-surface-variant font-bold mb-1 antialiased tracking-widest opacity-40">Willingness to Pay</p>
+                                    <p className="text-lg font-black font-headline text-white antialiased tracking-tight">{data.willingness_to_pay}</p>
                                 </div>
                             </div>
                         </div>
@@ -90,11 +90,11 @@ export function ValidationEngine({ data }: ValidationEngineProps) {
                     <div className="absolute top-0 left-0 w-full h-1 bg-error shadow-[0_0_10px_rgba(238,125,119,0.5)]"></div>
                     <div>
                         <div className="flex justify-between items-center mb-6">
-                            <h3 className="text-on-surface-variant text-[10px] font-bold uppercase tracking-wider font-label antialiased">Pain_Intensity</h3>
+                            <h3 className="text-on-surface-variant text-[10px] font-bold tracking-wider font-label antialiased">Pain_Intensity</h3>
                             <span className="material-symbols-outlined text-error text-xl animate-pulse" style={{ fontVariationSettings: "'FILL' 1" }}>warning</span>
                         </div>
                         <div className="mb-2">
-                            <span className="text-2xl font-black font-headline text-white uppercase tracking-tighter antialiased">{data.pain_score >= 8 ? 'CRITICAL' : 'HIGH'}</span>
+                            <span className="text-2xl font-black font-headline text-white tracking-tighter antialiased">{data.pain_score >= 8 ? 'Critical' : 'High'}</span>
                         </div>
                         <p className="text-on-surface-variant text-[12px] font-body leading-relaxed antialiased opacity-70">
                             {data.decision_rationale}

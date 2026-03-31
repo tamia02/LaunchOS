@@ -43,7 +43,7 @@ export function Sidebar() {
                     </div>
                     <div>
                         <div className="text-[13px] font-bold text-white font-headline">Project Alpha</div>
-                        <div className="text-[9px] uppercase tracking-widest text-slate-400 mt-0.5">AI Analysis Active</div>
+                        <div className="text-[9px] tracking-widest text-slate-400 mt-0.5">Ai Analysis Active</div>
                     </div>
                 </div>
             </div>
@@ -78,7 +78,7 @@ export function Sidebar() {
                     onClick={() => router.push('/dashboard')}
                     className="w-full bg-gradient-to-br from-slate-300 to-slate-500 text-slate-900 font-bold py-2 rounded-md text-[12px] shadow-lg flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
                 >
-                    <span>BUILD</span>
+                    <span>Build</span>
                     <span className="material-symbols-outlined text-[13px]">bolt</span>
                 </button>
                 <div className="flex flex-col gap-1 pt-3">

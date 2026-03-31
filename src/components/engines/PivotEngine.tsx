@@ -28,12 +28,12 @@ export function PivotEngine({ data }: { data: PivotData }) {
                 <div className="max-w-xl">
                     <div className="flex items-center gap-2 mb-4">
                         <div className="px-2 py-0.5 rounded bg-surface-variant/20 border border-white/5">
-                            <span className="text-tertiary text-[9px] font-bold tracking-widest uppercase font-label">Tactical Shift</span>
+                            <span className="text-tertiary text-[9px] font-bold tracking-widest font-label">Tactical Shift</span>
                         </div>
                     </div>
-                    <h1 className="text-2xl md:text-3xl font-bold font-headline tracking-tighter text-white mb-4 leading-none uppercase">{data.project_name} <span className="text-tertiary">Pivots.</span></h1>
+                    <h1 className="text-2xl md:text-3xl font-bold font-headline tracking-tighter text-white mb-4 leading-none">{data.project_name} <span className="text-tertiary">Pivots.</span></h1>
                     <div className="bg-surface-container-low p-6 rounded-xl shadow-md border border-white/5 relative group transition-all">
-                        <h3 className="text-[9px] font-bold text-on-surface-variant/40 uppercase tracking-widest mb-2">Legacy Thesis Audit</h3>
+                        <h3 className="text-[9px] font-bold text-on-surface-variant/40 tracking-widest mb-2">Legacy Thesis Audit</h3>
                         <p className="text-lg font-headline font-medium text-white leading-relaxed antialiased">
                             "{data.original_idea_assessment}"
                         </p>
@@ -41,7 +41,7 @@ export function PivotEngine({ data }: { data: PivotData }) {
                 </div>
                 <div className="bg-surface-container-low p-6 rounded-xl flex items-center gap-4 shadow-md border border-white/5">
                     <span className="material-symbols-outlined text-xl text-tertiary">shuffle</span>
-                    <p className="text-[9px] font-bold text-on-surface-variant/40 uppercase tracking-widest max-w-[100px]">Recalibration Engine</p>
+                    <p className="text-[9px] font-bold text-on-surface-variant/40 tracking-widest max-w-[100px]">Recalibration Engine</p>
                 </div>
             </header>
 
@@ -55,7 +55,7 @@ export function PivotEngine({ data }: { data: PivotData }) {
                             isRecommended ? "bg-surface-container-high ring-1 ring-tertiary/20" : "hover:bg-surface-container"
                         )}>
                             {isRecommended && (
-                                <div className="absolute top-0 right-0 px-3 py-1 bg-tertiary rounded-bl-lg text-[8px] font-bold text-on-tertiary uppercase tracking-widest shadow-lg flex items-center gap-1 font-label">
+                                <div className="absolute top-0 right-0 px-3 py-1 bg-tertiary rounded-bl-lg text-[8px] font-bold text-on-tertiary tracking-widest shadow-lg flex items-center gap-1 font-label">
                                     <span className="material-symbols-outlined text-xs">verified</span>
                                     Recommended
                                 </div>
@@ -64,10 +64,10 @@ export function PivotEngine({ data }: { data: PivotData }) {
                             <div className="relative z-10 flex flex-col h-full">
                                 <div className="flex justify-between items-start mb-6">
                                     <div>
-                                        <h4 className="text-lg font-headline font-bold text-white uppercase tracking-tight mb-0.5">
+                                        <h4 className="text-lg font-headline font-bold text-white tracking-tight mb-0.5">
                                             {pivot.pivot_name}
                                         </h4>
-                                        <p className="text-[8px] font-bold text-tertiary uppercase tracking-widest">Option Sequence 0{i + 1}</p>
+                                        <p className="text-[8px] font-bold text-tertiary tracking-widest">Option Sequence 0{i + 1}</p>
                                     </div>
                                     <div className="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center border border-white/5">
                                         <span className="material-symbols-outlined text-tertiary text-lg">route</span>
@@ -86,16 +86,16 @@ export function PivotEngine({ data }: { data: PivotData }) {
                                     <div className="space-y-2">
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-tertiary text-[14px]">insights</span>
-                                            <span className="text-[8px] font-bold text-on-surface-variant/30 uppercase tracking-widest">Revenue Alpha</span>
+                                            <span className="text-[8px] font-bold text-on-surface-variant/30 tracking-widest">Revenue Alpha</span>
                                         </div>
-                                        <p className="text-[10px] font-bold uppercase text-white tracking-widest pl-5">{pivot.revenue_potential}</p>
+                                        <p className="text-[10px] font-bold text-white tracking-widest pl-5">{pivot.revenue_potential}</p>
                                     </div>
                                     <div className="space-y-2">
                                         <div className="flex items-center gap-2">
                                             <span className="material-symbols-outlined text-tertiary text-[14px]">warning_amber</span>
-                                            <span className="text-[8px] font-bold text-on-surface-variant/30 uppercase tracking-widest">Risk Threshold</span>
+                                            <span className="text-[8px] font-bold text-on-surface-variant/30 tracking-widest">Risk Threshold</span>
                                         </div>
-                                        <p className="text-[10px] font-bold uppercase text-white tracking-widest pl-5">{pivot.risk_level}</p>
+                                        <p className="text-[10px] font-bold text-white tracking-widest pl-5">{pivot.risk_level}</p>
                                     </div>
                                 </div>
                             </div>

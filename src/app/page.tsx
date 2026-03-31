@@ -9,7 +9,7 @@ export default function LandingPage() {
             {/* TopNavBar */}
             <nav className="fixed top-0 w-full z-50 bg-slate-900/60 backdrop-blur-xl flex justify-between items-center h-16 px-8 max-w-full shadow-[0px_4px_12px_rgba(0,0,0,0.2)]">
                 <div className="flex items-center gap-8">
-                    <span className="text-xl font-bold tracking-tighter text-slate-100 font-headline">launchOS</span>
+                    <span className="text-xl font-bold tracking-tighter text-slate-100 font-headline">LaunchOS</span>
                     <div className="hidden md:flex gap-6 items-center">
                         <Link className="text-slate-400 font-medium hover:text-slate-200 transition-colors duration-200 font-body text-sm" href="/dashboard">Dashboard</Link>
                         <Link className="text-slate-400 font-medium hover:text-slate-200 transition-colors duration-200 font-body text-sm" href="/dashboard">Projects</Link>
@@ -36,7 +36,7 @@ export default function LandingPage() {
                 <section className="flex-1 flex flex-col items-center justify-center px-6 text-center py-20 lg:py-32">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-variant/40 border border-outline-variant/10 mb-8">
                         <span className="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
-                        <span className="text-xs font-label uppercase tracking-widest text-on-surface-variant">Intelligence v2.4 Live</span>
+                        <span className="text-xs font-label tracking-widest text-on-surface-variant">Intelligence v2.4 Live</span>
                     </div>
 
                     {/* Architectural Headline - Professional Density */}
@@ -135,11 +135,11 @@ export default function LandingPage() {
 
                 {/* Footer */}
                 <footer className="w-full py-8 mt-auto flex flex-col md:flex-row justify-between items-center px-12 border-t border-slate-800/30 bg-slate-950">
-                    <p className="font-body text-[10px] uppercase tracking-widest text-slate-500 font-label">© 2024 launchOS. Editorial Precision.</p>
+                    <p className="font-body text-[10px] tracking-widest text-slate-500 font-label">© 2024 LaunchOS. Editorial Precision.</p>
                     <div className="flex gap-8 mt-4 md:mt-0">
-                        <Link className="font-body text-[10px] uppercase tracking-widest text-slate-600 hover:text-slate-400 transition-colors" href="#">Terms</Link>
-                        <Link className="font-body text-[10px] uppercase tracking-widest text-slate-600 hover:text-slate-400 transition-colors" href="#">Privacy</Link>
-                        <Link className="font-body text-[10px] uppercase tracking-widest text-slate-600 hover:text-slate-400 transition-colors" href="#">Support</Link>
+                        <Link className="font-body text-[10px] tracking-widest text-slate-600 hover:text-slate-400 transition-colors" href="#">Terms</Link>
+                        <Link className="font-body text-[10px] tracking-widest text-slate-600 hover:text-slate-400 transition-colors" href="#">Privacy</Link>
+                        <Link className="font-body text-[10px] tracking-widest text-slate-600 hover:text-slate-400 transition-colors" href="#">Support</Link>
                     </div>
                 </footer>
             </main>

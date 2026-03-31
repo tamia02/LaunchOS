@@ -48,7 +48,7 @@ export function IdeaInput() {
                         </div>
                         <div className="flex-1 flex flex-col pt-0">
                             <div className="flex items-center gap-2 mb-1">
-                                <span className="text-[9px] font-black font-label text-tertiary uppercase tracking-[0.3em]">Intelligence_Sequence_Init</span>
+                                <span className="text-[9px] font-black font-label text-tertiary tracking-[0.3em]">Intelligence_Sequence_Init</span>
                                 <span className="w-1 h-2 bg-tertiary/40 rounded-full animate-pulse"></span>
                             </div>
                             <Input
@@ -66,7 +66,7 @@ export function IdeaInput() {
                         onClick={handleAnalyze}
                         disabled={isLoading || !idea.trim()}
                         className={cn(
-                            "button-metallic relative overflow-hidden px-8 py-3 rounded-xl font-headline font-black text-[12px] uppercase tracking-[0.2em] shadow-lg active:scale-95 transition-all duration-500 custom-ease group/btn",
+                            "button-metallic relative overflow-hidden px-8 py-3 rounded-xl font-headline font-black text-[12px] tracking-[0.2em] shadow-lg active:scale-95 transition-all duration-500 custom-ease group/btn",
                             isLoading || !idea.trim() ? "opacity-50 grayscale cursor-not-allowed" : "hover:-translate-y-0.5"
                         )}
                     >
@@ -90,11 +90,11 @@ export function IdeaInput() {
             <div className="flex flex-wrap justify-center items-center gap-12 opacity-30 px-6">
                 <div className="flex items-center gap-4">
                     <div className="w-8 h-[1px] bg-on-surface-variant/20" />
-                    <p className="text-[9px] font-black font-label text-on-surface-variant uppercase tracking-widest">Neural Protocol v.0.84</p>
+                    <p className="text-[9px] font-black font-label text-on-surface-variant tracking-widest">Neural Protocol v.0.84</p>
                 </div>
                 <div className="flex items-center gap-4">
                     <div className="w-1 h-1 rounded-full bg-tertiary/40" />
-                    <p className="text-[9px] font-black font-label text-on-surface-variant uppercase tracking-widest">Multi-Spike Synapse</p>
+                    <p className="text-[9px] font-black font-label text-on-surface-variant tracking-widest">Multi-Spike Synapse</p>
                 </div>
                 <div className="flex items-center gap-4">
                     <div className="w-1 h-1 rounded-full bg-tertiary/40" />

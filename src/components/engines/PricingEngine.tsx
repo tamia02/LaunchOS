@@ -30,7 +30,7 @@ export function PricingEngine({ data }: PricingEngineProps) {
             {/* Header Section */}
             <div className="flex flex-col lg:flex-row justify-between items-start gap-4 mb-10">
                 <div className="max-w-xl">
-                    <h1 className="font-headline text-xl md:text-2xl font-bold tracking-tighter text-primary mb-2 leading-tight uppercase antialiased">
+                    <h1 className="font-headline text-xl md:text-2xl font-bold tracking-tighter text-primary mb-2 leading-tight antialiased">
                         SaaS Monetization Model
                     </h1>
                     <p className="text-on-surface-variant text-[13px] leading-relaxed max-w-xl antialiased opacity-70">
@@ -39,7 +39,7 @@ export function PricingEngine({ data }: PricingEngineProps) {
                 </div>
                 <div className="bg-surface-container/40 backdrop-blur-3xl border border-white/5 p-4 rounded-xl min-w-[280px] shadow-lg glass-edge">
                     <div className="flex justify-between items-center mb-3">
-                        <span className="font-label text-[9px] font-bold uppercase tracking-wider text-on-surface-variant antialiased">Revenue Target</span>
+                        <span className="font-label text-[9px] font-bold tracking-wider text-on-surface-variant antialiased">Revenue Target</span>
                         <span className="text-tertiary font-headline font-bold text-lg antialiased tracking-tight">{data.revenue_target}</span>
                     </div>
                     <div className="h-1.5 w-full bg-surface-container-lowest rounded-full overflow-hidden mb-2 border border-white/5">
@@ -56,10 +56,10 @@ export function PricingEngine({ data }: PricingEngineProps) {
                 {/* Strategic Rationale */}
                 <div className="col-span-12 lg:col-span-4 bg-surface-container-low rounded-xl p-6 border border-white/5 relative overflow-hidden group shadow-lg">
                     <span className="material-symbols-outlined text-tertiary mb-6 text-2xl">lightbulb</span>
-                    <h3 className="font-headline text-lg font-bold text-white mb-6 uppercase tracking-tight antialiased">Strategic Rationale</h3>
+                    <h3 className="font-headline text-lg font-bold text-white mb-6 tracking-tight antialiased">Strategic Rationale</h3>
                     <div className="space-y-6">
                         <div className="group/item">
-                            <h4 className="text-[11px] font-bold font-headline text-white mb-2 flex items-center uppercase tracking-wider antialiased">
+                            <h4 className="text-[11px] font-bold font-headline text-white mb-2 flex items-center tracking-wider antialiased">
                                 <span className="w-1.5 h-1.5 rounded-full bg-tertiary mr-2.5"></span>
                                 Value Blueprint
                             </h4>
@@ -84,19 +84,19 @@ export function PricingEngine({ data }: PricingEngineProps) {
                         >
                             {tier.recommended && (
                                 <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 bg-tertiary px-3 py-0.5 rounded-full shadow-md z-20">
-                                    <span className="text-[8px] font-bold uppercase tracking-wider text-on-tertiary-container antialiased">RECOMMENDED</span>
+                                    <span className="text-[8px] font-bold tracking-wider text-on-tertiary-container antialiased">Recommended</span>
                                 </div>
                             )}
                             <div className="mb-6 relative z-10">
                                 <span className={cn(
-                                    "text-[9px] font-bold uppercase tracking-widest antialiased",
+                                    "text-[9px] font-bold tracking-widest antialiased",
                                     tier.recommended ? "text-tertiary" : "text-on-surface-variant/40"
                                 )}>
                                     {tier.name}
                                 </span>
                                 <div className="mt-3 flex items-baseline gap-1.5">
                                     <span className="text-2xl font-headline font-bold text-white tracking-tight antialiased">{tier.price}</span>
-                                    {tier.price !== "Custom" && !tier.price.includes('/') && <span className="text-on-surface-variant/40 text-[9px] font-bold uppercase tracking-widest">/MO</span>}
+                                    {tier.price !== "Custom" && !tier.price.includes('/') && <span className="text-on-surface-variant/40 text-[9px] font-bold tracking-widest">/mo</span>}
                                 </div>
                                 <p className="text-[10px] text-on-surface-variant/40 mt-1 antialiased">{tier.description}</p>
                             </div>

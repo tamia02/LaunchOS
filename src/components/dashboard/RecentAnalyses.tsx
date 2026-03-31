@@ -42,7 +42,7 @@ export function RecentAnalyses() {
                         <div className="flex justify-between items-start mb-4 relative z-10">
                             <div className="flex items-center gap-2">
                                 <span className="material-symbols-outlined text-on-surface-variant/30 text-[14px]">calendar_month</span>
-                                <span className="text-[9px] text-on-surface-variant/40 font-black uppercase tracking-[0.2em] font-label">{analysis.date}</span>
+                                <span className="text-[9px] text-on-surface-variant/40 font-black tracking-[0.2em] font-label">{analysis.date}</span>
                             </div>
                             <div className="bg-surface-container/60 px-2.5 py-1 rounded-lg glass-edge border border-white/5 flex items-center gap-2">
                                 <div className={cn(
@@ -62,7 +62,7 @@ export function RecentAnalyses() {
 
                         <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/5 relative z-10">
                             <div className="px-2 py-1 rounded-md bg-surface-variant/20 border border-white/5">
-                                <span className="text-tertiary text-[9px] font-black uppercase tracking-[0.1em] font-label">{analysis.niche}</span>
+                                <span className="text-tertiary text-[9px] font-black tracking-[0.1em] font-label">{analysis.niche}</span>
                             </div>
                             <div className="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 custom-ease shadow-lg">
                                 <span className="material-symbols-outlined text-white text-[12px]">arrow_forward_ios</span>

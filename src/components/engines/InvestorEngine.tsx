@@ -30,8 +30,8 @@ export function InvestorEngine({ data }: { data: InvestorData }) {
             <header className="mb-8">
                 <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
                     <div className="space-y-2 max-w-xl">
-                        <span className="text-tertiary font-bold text-[9px] uppercase tracking-widest antialiased opacity-60 font-label">Capital Synthesis</span>
-                        <h1 className="text-xl md:text-2xl font-bold font-headline tracking-tighter text-white uppercase antialiased">Investor Protocol</h1>
+                        <span className="text-tertiary font-bold text-[9px] tracking-widest antialiased opacity-60 font-label">Capital Synthesis</span>
+                        <h1 className="text-xl md:text-2xl font-bold font-headline tracking-tighter text-white antialiased">Investor Protocol</h1>
                         <p className="text-on-surface-variant text-[13px] leading-relaxed antialiased opacity-70">
                             Securing the fuel for <span className="text-white font-bold">{data.project_name}</span> via strategic equity distribution.
                         </p>
@@ -56,11 +56,11 @@ export function InvestorEngine({ data }: { data: InvestorData }) {
                         </svg>
                         <div className="text-center z-10 translate-y-1">
                             <span className="text-4xl font-headline font-bold text-white tracking-tighter leading-none">{data.readiness_score}</span>
-                            <p className="text-[8px] font-bold text-tertiary uppercase tracking-widest mt-1">Alpha Score</p>
+                            <p className="text-[8px] font-bold text-tertiary tracking-widest mt-1">Alpha Score</p>
                         </div>
                     </div>
                     <div className="mt-6 text-center space-y-2 relative z-10">
-                        <p className="text-lg font-bold text-white uppercase tracking-tight">Grade: {data.grade}</p>
+                        <p className="text-lg font-bold text-white tracking-tight">Grade: {data.grade}</p>
                         <p className="text-[12px] text-on-surface-variant font-body opacity-60 leading-relaxed max-w-[200px] antialiased">"{data.verdict}"</p>
                     </div>
                 </div>
@@ -69,15 +69,15 @@ export function InvestorEngine({ data }: { data: InvestorData }) {
                 <div className="lg:col-span-8 bg-surface-container rounded-xl p-8 shadow-md border border-white/5">
                     <div className="flex justify-between items-center mb-10">
                         <div>
-                            <h3 className="text-lg font-bold text-white uppercase tracking-tight leading-none mb-1">Telemetry Metrics</h3>
-                            <p className="text-[9px] font-bold text-on-surface-variant/30 uppercase tracking-widest">Architectural Resonance</p>
+                            <h3 className="text-lg font-bold text-white tracking-tight leading-none mb-1">Telemetry Metrics</h3>
+                            <p className="text-[9px] font-bold text-on-surface-variant/30 tracking-widest">Architectural Resonance</p>
                         </div>
                         <span className="material-symbols-outlined text-xl text-tertiary/40">query_stats</span>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
                         {Object.entries(data.scores).map(([key, score]) => (
                             <div key={key} className="space-y-3">
-                                <div className="flex justify-between text-[9px] font-bold uppercase tracking-widest text-on-surface-variant/60">
+                                <div className="flex justify-between text-[9px] font-bold tracking-widest text-on-surface-variant/60">
                                     <span>{key.replace(/_/g, ' ')}</span>
                                     <span className="text-tertiary">{score} / 10</span>
                                 </div>
@@ -96,7 +96,7 @@ export function InvestorEngine({ data }: { data: InvestorData }) {
             {/* SWOT Logic - Tonal Separation */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16">
                 <div className="bg-surface-container-low rounded-xl p-6 shadow-md relative overflow-hidden group border border-white/5 transition-all">
-                    <h3 className="text-[9px] font-bold text-tertiary uppercase tracking-widest mb-6">Core Leverages</h3>
+                    <h3 className="text-[9px] font-bold text-tertiary tracking-widest mb-6">Core Leverages</h3>
                     <ul className="space-y-4">
                         {data.strengths.map((s, i) => (
                             <li key={i} className="text-[13px] font-body text-on-surface-variant leading-relaxed opacity-80 border-l-2 border-tertiary/20 pl-4 py-0.5">

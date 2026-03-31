@@ -44,7 +44,7 @@ export function NicheEngine({ data }: NicheEngineProps) {
                             </div>
                         </div>
                         <div>
-                            <p className="text-[9px] font-bold uppercase tracking-wider text-on-surface-variant mb-0.5 antialiased">Niche Fit</p>
+                            <p className="text-[9px] font-bold tracking-wider text-on-surface-variant mb-0.5 antialiased">Niche Fit</p>
                             <h3 className="text-base font-headline font-bold text-white antialiased">Strong Alpha</h3>
                             <p className="text-[10px] text-on-surface-variant antialiased">Recommended</p>
                         </div>
@@ -64,23 +64,23 @@ export function NicheEngine({ data }: NicheEngineProps) {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-surface-container-low via-surface-container-low/40 to-transparent"></div>
                         <div className="absolute bottom-0 left-0 p-6">
-                            <div className="inline-block px-2 py-0.5 bg-tertiary/20 text-tertiary text-[9px] font-bold tracking-wider uppercase rounded mb-2 antialiased">Core Recommendation</div>
-                            <h2 className="text-2xl font-headline font-extrabold tracking-tight mb-2 text-white uppercase antialiased">{data.niche_name}</h2>
+                            <div className="inline-block px-2 py-0.5 bg-tertiary/20 text-tertiary text-[9px] font-bold tracking-wider rounded mb-2 antialiased">Core Recommendation</div>
+                            <h2 className="text-2xl font-headline font-extrabold tracking-tight mb-2 text-white antialiased">{data.niche_name}</h2>
                             <p className="text-[13px] text-on-surface-variant max-w-lg antialiased leading-snug line-clamp-2">{data.niche_description}</p>
                         </div>
                     </div>
                     <div className="p-6 grid grid-cols-3 gap-6 border-t border-white/5">
                         <div>
-                            <p className="text-[9px] font-bold text-on-surface-variant uppercase mb-1 antialiased tracking-widest">Market Size</p>
+                            <p className="text-[9px] font-bold text-on-surface-variant mb-1 antialiased tracking-widest">Market Size</p>
                             <p className="text-lg font-headline font-bold text-white antialiased">{data.audience_size}</p>
                         </div>
                         <div>
-                            <p className="text-[9px] font-bold text-on-surface-variant uppercase mb-1 antialiased tracking-widest">Pain Level</p>
+                            <p className="text-[9px] font-bold text-on-surface-variant mb-1 antialiased tracking-widest">Pain Level</p>
                             <p className="text-lg font-headline font-bold text-white antialiased">{data.pain_level}</p>
                         </div>
                         <div>
-                            <p className="text-[9px] font-bold text-on-surface-variant uppercase mb-1 antialiased tracking-widest">Entry Barrier</p>
-                            <p className="text-lg font-headline font-bold text-tertiary antialiased uppercase">Optimized</p>
+                            <p className="text-[9px] font-bold text-on-surface-variant mb-1 antialiased tracking-widest">Entry Barrier</p>
+                            <p className="text-lg font-headline font-bold text-tertiary antialiased">Optimized</p>
                         </div>
                     </div>
                 </div>
@@ -98,10 +98,10 @@ export function NicheEngine({ data }: NicheEngineProps) {
                             </div>
                             <div>
                                 <h4 className="text-base font-headline font-bold text-white antialiased tracking-tight">Persona Profile</h4>
-                                <p className="text-[9px] text-tertiary font-bold uppercase tracking-wider antialiased">Primary Alpha</p>
+                                <p className="text-[9px] text-tertiary font-bold tracking-wider antialiased">Primary Alpha</p>
                             </div>
                         </div>
-                        <h5 className="text-[11px] font-bold mb-3 text-white uppercase tracking-wider antialiased">Key Pain Points</h5>
+                        <h5 className="text-[11px] font-bold mb-3 text-white tracking-wider antialiased">Key Pain Points</h5>
                         <ul className="space-y-2">
                             {data.audience_tags.slice(0, 3).map((tag, i) => (
                                 <li key={i} className="flex items-start gap-2.5 group">
@@ -112,7 +112,7 @@ export function NicheEngine({ data }: NicheEngineProps) {
                         </ul>
                     </div>
                     <div className="bg-surface-container-high glass-edge rounded-xl p-5 border border-white/5 shadow-lg group hover:bg-surface-container-high/80 transition-all duration-500">
-                        <h4 className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant mb-4 antialiased">Market Momentum</h4>
+                        <h4 className="text-[11px] font-bold tracking-wider text-on-surface-variant mb-4 antialiased">Market Momentum</h4>
                         <div className="space-y-3">
                             <div className="flex justify-between items-end">
                                 <span className="text-[12px] font-medium text-white antialiased">Inbound Demand</span>
@@ -128,9 +128,9 @@ export function NicheEngine({ data }: NicheEngineProps) {
                 {/* Adjacent Opportunities */}
                 <div className="col-span-12 bg-surface-container-low p-6 rounded-xl border border-white/5 shadow-inner">
                     <div className="flex justify-between items-center mb-6">
-                        <h3 className="text-lg font-headline font-bold text-white uppercase tracking-tight antialiased">Adjacent Intelligence</h3>
-                        <button className="text-[9px] text-tertiary font-bold uppercase tracking-widest flex items-center gap-2 group/link transition-all antialiased hover:opacity-80">
-                            EXPLORE_NETWORK <span className="material-symbols-outlined text-[14px] group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
+                        <h3 className="text-lg font-headline font-bold text-white tracking-tight antialiased">Adjacent Intelligence</h3>
+                        <button className="text-[9px] text-tertiary font-bold tracking-widest flex items-center gap-2 group/link transition-all antialiased hover:opacity-80">
+                            Explore_Network <span className="material-symbols-outlined text-[14px] group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
                         </button>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -140,7 +140,7 @@ export function NicheEngine({ data }: NicheEngineProps) {
                                     <span className="material-symbols-outlined text-2xl text-on-surface-variant group-hover:text-tertiary transition-all">shield</span>
                                     <span className="px-2 py-0.5 bg-surface-bright text-[8px] font-black tracking-widest rounded-full border border-white/5">{70 + i * 10}% MATCH</span>
                                 </div>
-                                <h4 className="font-headline font-bold text-white mb-1.5 uppercase tracking-tight text-[13px] antialiased">{niche}</h4>
+                                <h4 className="font-headline font-bold text-white mb-1.5 tracking-tight text-[13px] antialiased">{niche}</h4>
                                 <p className="text-[11px] text-on-surface-variant leading-relaxed antialiased">Strategic expansion vector identified.</p>
                             </div>
                         ))}

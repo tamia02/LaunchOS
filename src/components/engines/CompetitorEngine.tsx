@@ -32,9 +32,9 @@ export function CompetitorEngine({ data }: { data: CompetitorData }) {
                     </div>
                     <div className="space-y-3 flex-1">
                         <div className="flex items-center gap-2">
-                            <span className="text-tertiary text-[9px] font-bold tracking-widest uppercase opacity-60">Market Positioning</span>
+                            <span className="text-tertiary text-[9px] font-bold tracking-widest opacity-60">Market Positioning</span>
                         </div>
-                        <h1 className="font-headline text-xl md:text-2xl font-bold tracking-tighter text-white uppercase leading-none">Intelligence Cluster</h1>
+                        <h1 className="font-headline text-xl md:text-2xl font-bold tracking-tighter text-white leading-none">Intelligence Cluster</h1>
                         <p className="text-on-surface-variant text-[13px] leading-relaxed font-body opacity-70 antialiased max-w-2xl">
                             {data.positioning_statement}
                         </p>
@@ -45,14 +45,14 @@ export function CompetitorEngine({ data }: { data: CompetitorData }) {
             {/* Core Gap Analysis */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div className="p-6 rounded-xl bg-surface-container-high relative overflow-hidden group shadow-md border border-white/5 hover:bg-surface-bright/10 transition-all">
-                    <h3 className="text-[9px] font-bold text-tertiary uppercase tracking-widest mb-4">Market Void</h3>
-                    <p className="text-white text-lg font-headline font-bold leading-tight uppercase tracking-tight antialiased">
+                    <h3 className="text-[9px] font-bold text-tertiary tracking-widest mb-4">Market Void</h3>
+                    <p className="text-white text-lg font-headline font-bold leading-tight tracking-tight antialiased">
                         {data.market_gap}
                     </p>
                 </div>
                 <div className="p-6 rounded-xl bg-surface-container-high relative overflow-hidden group shadow-md border border-white/5 hover:bg-surface-bright/10 transition-all">
-                    <h3 className="text-[9px] font-bold text-on-surface-variant/40 uppercase tracking-widest mb-4">Architectural Response</h3>
-                    <p className="text-white text-lg font-headline font-bold leading-tight uppercase tracking-tight antialiased">
+                    <h3 className="text-[9px] font-bold text-on-surface-variant/40 tracking-widest mb-4">Architectural Response</h3>
+                    <p className="text-white text-lg font-headline font-bold leading-tight tracking-tight antialiased">
                         {data.your_angle}
                     </p>
                 </div>
@@ -61,7 +61,7 @@ export function CompetitorEngine({ data }: { data: CompetitorData }) {
             {/* Competitor Grid */}
             <div className="space-y-8 mb-8">
                 <div className="flex items-center gap-4">
-                    <h2 className="text-lg font-bold font-headline tracking-tight uppercase text-white leading-none">Telemetry Scan</h2>
+                    <h2 className="text-lg font-bold font-headline tracking-tight text-white leading-none">Telemetry Scan</h2>
                     <div className="h-px flex-1 bg-white/5"></div>
                 </div>
 
@@ -70,13 +70,13 @@ export function CompetitorEngine({ data }: { data: CompetitorData }) {
                         <div key={i} className="group bg-surface-container-low rounded-xl p-6 shadow-md relative border border-white/5 hover:bg-surface-container transition-all">
                             <div className="flex justify-between items-start mb-6">
                                 <div className="space-y-1">
-                                    <h4 className="text-lg font-headline font-bold text-white uppercase tracking-tight flex items-center gap-3 leading-none">
+                                    <h4 className="text-lg font-headline font-bold text-white tracking-tight flex items-center gap-3 leading-none">
                                         {comp.name}
                                         <a href={comp.url} target="_blank" rel="noopener noreferrer" className="opacity-10 hover:opacity-100 transition-opacity">
                                             <span className="material-symbols-outlined text-base text-tertiary">arrow_outward</span>
                                         </a>
                                     </h4>
-                                    <p className="text-[9px] font-bold text-tertiary uppercase tracking-wider font-label px-2 py-0.5 rounded bg-tertiary/10 inline-block">{comp.pricing}</p>
+                                    <p className="text-[9px] font-bold text-tertiary tracking-wider font-label px-2 py-0.5 rounded bg-tertiary/10 inline-block">{comp.pricing}</p>
                                 </div>
                                 <span className="text-2xl font-bold font-headline text-white/5 tracking-tighter">0{i + 1}</span>
                             </div>
@@ -89,14 +89,14 @@ export function CompetitorEngine({ data }: { data: CompetitorData }) {
                                 <div className="space-y-2">
                                     <div className="flex items-center gap-2">
                                         <span className="material-symbols-outlined text-error text-lg">scan_delete</span>
-                                        <span className="text-[9px] font-bold text-error/80 uppercase tracking-widest">Vulnerability</span>
+                                        <span className="text-[9px] font-bold text-error/80 tracking-widest">Vulnerability</span>
                                     </div>
                                     <p className="text-[12px] text-on-surface-variant font-medium leading-relaxed opacity-70">{comp.weakness}</p>
                                 </div>
                                 <div className="space-y-2">
                                     <div className="flex items-center gap-2">
                                         <span className="material-symbols-outlined text-tertiary text-lg">voice_selection</span>
-                                        <span className="text-[9px] font-bold text-tertiary/80 uppercase tracking-widest">Friction Signal</span>
+                                        <span className="text-[9px] font-bold text-tertiary/80 tracking-widest">Friction Signal</span>
                                     </div>
                                     <p className="text-[12px] text-on-surface-variant font-medium leading-relaxed opacity-70">"{comp.user_complaints}"</p>
                                 </div>

@@ -20,8 +20,8 @@ export function Header() {
     return (
         <header className="fixed top-0 w-full z-50 bg-slate-950/60 backdrop-blur-xl flex justify-between items-center px-6 py-2.5 shadow-[0_4px_12px_rgba(0,0,0,0.2)] border-b border-white/5">
             <div className="flex items-center gap-6">
-                <Link href="/" className="text-lg font-bold tracking-tighter text-slate-100 font-headline uppercase antialiased">
-                    launchOS
+                <Link href="/" className="text-lg font-bold tracking-tighter text-slate-100 font-headline antialiased">
+                    LaunchOS
                 </Link>
                 <nav className="hidden md:flex gap-4 items-center">
                     <Link

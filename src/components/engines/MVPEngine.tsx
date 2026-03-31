@@ -28,8 +28,8 @@ export function MVPEngine({ data }: MVPEngineProps) {
             <header className="max-w-6xl mb-8">
                 <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
                     <div className="space-y-2">
-                        <span className="text-tertiary font-bold tracking-widest text-[9px] uppercase font-label">Engineering Department</span>
-                        <h2 className="text-xl md:text-2xl font-bold font-headline tracking-tight text-white leading-tight antialiased uppercase">
+                        <span className="text-tertiary font-bold tracking-widest text-[9px] font-label">Engineering Department</span>
+                        <h2 className="text-xl md:text-2xl font-bold font-headline tracking-tight text-white leading-tight antialiased">
                             MVP Engineering Blueprint
                         </h2>
                         <p className="text-on-surface-variant max-w-xl font-medium mt-2 text-[13px] antialiased">
@@ -39,15 +39,15 @@ export function MVPEngine({ data }: MVPEngineProps) {
                     <div className="bg-surface-container-high/60 backdrop-blur-3xl p-4 rounded-xl border border-white/5 shadow-lg glass-edge flex items-center gap-6">
                         <div className="text-center">
                             <div className="text-2xl font-black text-tertiary font-headline tracking-tighter antialiased">A+</div>
-                            <div className="text-[8px] text-on-surface-variant uppercase tracking-widest font-bold mt-0.5 antialiased">Integrity Grade</div>
+                            <div className="text-[8px] text-on-surface-variant tracking-widest font-bold mt-0.5 antialiased">Integrity Grade</div>
                         </div>
                         <div className="h-8 w-[1px] bg-white/10"></div>
                         <div className="space-y-0.5">
                             <div className="flex items-center gap-1.5">
                                 <div className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_6px_#22c55e]"></div>
-                                <span className="text-[10px] text-on-surface font-semibold tracking-tight antialiased uppercase">System Integrity Active</span>
+                                <span className="text-[10px] text-on-surface font-semibold tracking-tight antialiased">System Integrity Active</span>
                             </div>
-                            <p className="text-[8px] text-on-surface-variant antialiased opacity-60 uppercase tracking-tighter font-black">Efficiency optimized</p>
+                            <p className="text-[8px] text-on-surface-variant antialiased opacity-60 tracking-tighter font-black">Efficiency optimized</p>
                         </div>
                     </div>
                 </div>
@@ -63,11 +63,11 @@ export function MVPEngine({ data }: MVPEngineProps) {
                                 <span className="material-symbols-outlined text-xl">security</span>
                             </div>
                         </div>
-                        <h3 className="text-base font-bold font-headline mb-2 text-white uppercase tracking-tight">Core Auth & Security</h3>
+                        <h3 className="text-base font-bold font-headline mb-2 text-white tracking-tight">Core Auth & Security</h3>
                         <p className="text-on-surface-variant text-[12px] mb-4 flex-grow antialiased leading-snug">Foundational fortress. OAuth2 integration, multi-factor protocols, and encryption.</p>
                         <ul className="space-y-2">
                             {data.features.slice(0, 2).map((feature, i) => (
-                                <li key={i} className="flex items-center gap-2 text-[10px] text-on-surface-variant font-bold uppercase tracking-wider opacity-60">
+                                <li key={i} className="flex items-center gap-2 text-[10px] text-on-surface-variant font-bold tracking-wider opacity-60">
                                     <span className="material-symbols-outlined text-[12px] text-tertiary">check_circle</span>
                                     {feature}
                                 </li>
@@ -80,18 +80,18 @@ export function MVPEngine({ data }: MVPEngineProps) {
                         <div className="grid md:grid-cols-2 gap-6 h-full">
                             <div>
                                 <span className="text-3xl font-black text-white/5 font-headline mb-4 block">02</span>
-                                <h3 className="text-base font-bold font-headline mb-2 text-white uppercase tracking-tight">Neural Implementation</h3>
+                                <h3 className="text-base font-bold font-headline mb-2 text-white tracking-tight">Neural Implementation</h3>
                                 <p className="text-on-surface-variant text-[12px] mb-6 antialiased leading-snug">Proprietary LLM orchestrators. Focus on token efficiency and context management.</p>
                                 <div className="flex gap-2">
-                                    <div className="bg-surface-container px-2 py-1 rounded border border-white/5 text-[9px] font-bold text-tertiary uppercase">VECTOR_DB</div>
-                                    <div className="bg-surface-container px-2 py-1 rounded border border-white/5 text-[9px] font-bold text-tertiary uppercase">RAG_PIPELINE</div>
+                                    <div className="bg-surface-container px-2 py-1 rounded border border-white/5 text-[9px] font-bold text-tertiary">Vector_Db</div>
+                                    <div className="bg-surface-container px-2 py-1 rounded border border-white/5 text-[9px] font-bold text-tertiary">Rag_Pipeline</div>
                                 </div>
                             </div>
                             <div className="rounded-lg overflow-hidden relative min-h-[140px] border border-white/5">
                                 <img alt="AI Neural Network" className="object-cover w-full h-full opacity-30 grayscale transition-all duration-1000" src="https://images.unsplash.com/photo-1639322537228-f710d846310a?auto=format&fit=crop&q=80&w=2070" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-surface-container-low to-transparent"></div>
                                 <div className="absolute bottom-2 left-3">
-                                    <span className="text-[9px] font-bold tracking-widest text-tertiary uppercase antialiased opacity-60">Latency: 140ms</span>
+                                    <span className="text-[9px] font-bold tracking-widest text-tertiary antialiased opacity-60">Latency: 140ms</span>
                                 </div>
                             </div>
                         </div>

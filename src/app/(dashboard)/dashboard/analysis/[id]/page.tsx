@@ -198,11 +198,11 @@ function AnalysisPageInner() {
             {/* Page Header */}
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-1">
                 <div className="space-y-2 max-w-2xl">
-                    <Link href="/dashboard" className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-tertiary hover:tracking-[0.5em] transition-all duration-500">
+                    <Link href="/dashboard" className="inline-flex items-center gap-2 text-[10px] font-black tracking-widest text-tertiary hover:tracking-[0.5em] transition-all duration-500">
                         <span className="material-symbols-outlined text-sm">arrow_back</span>
                         Return to Dashboard
                     </Link>
-                    <h1 className="text-3xl md:text-4xl font-headline font-black tracking-tighter text-white uppercase leading-tight">
+                    <h1 className="text-3xl md:text-4xl font-headline font-black tracking-tighter text-white leading-tight">
                         {analysis?.idea}
                     </h1>
                     <div className="flex flex-wrap items-center gap-6">
@@ -218,15 +218,15 @@ function AnalysisPageInner() {
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
-                    <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-container-high/60 text-on-surface-variant hover:text-white hover:bg-surface-container-highest transition-all duration-300 font-headline font-bold text-[9px] uppercase tracking-widest border border-white/5">
+                    <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-container-high/60 text-on-surface-variant hover:text-white hover:bg-surface-container-highest transition-all duration-300 font-headline font-bold text-[9px] tracking-widest border border-white/5">
                         <span className="material-symbols-outlined text-base">share</span>
                         Share
                     </button>
-                    <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-container-high/60 text-on-surface-variant hover:text-white hover:bg-surface-container-highest transition-all duration-300 font-headline font-bold text-[9px] uppercase tracking-widest border border-white/5">
+                    <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-container-high/60 text-on-surface-variant hover:text-white hover:bg-surface-container-highest transition-all duration-300 font-headline font-bold text-[9px] tracking-widest border border-white/5">
                         <span className="material-symbols-outlined text-base">description</span>
                         Export
                     </button>
-                    <button className="bg-tertiary text-white flex items-center gap-2 px-5 py-2 rounded-lg font-headline font-bold text-[9px] uppercase tracking-widest shadow-lg hover:brightness-110 active:scale-95 transition-all duration-300 border border-white/10">
+                    <button className="bg-tertiary text-white flex items-center gap-2 px-5 py-2 rounded-lg font-headline font-bold text-[9px] tracking-widest shadow-lg hover:brightness-110 active:scale-95 transition-all duration-300 border border-white/10">
                         <span className="material-symbols-outlined text-base">sync</span>
                         Re-Run
                     </button>
@@ -276,7 +276,7 @@ export default function AnalysisPage() {
                     <div className="w-20 h-20 border-2 border-tertiary/20 border-t-tertiary rounded-full animate-spin shadow-[0_0_40px_rgba(103,156,255,0.15)]" />
                     <span className="material-symbols-outlined absolute inset-0 flex items-center justify-center text-tertiary text-2xl">database</span>
                 </div>
-                <p className="text-white font-headline font-black uppercase tracking-widest text-xs">Loading Analysis...</p>
+                <p className="text-white font-headline font-black tracking-widest text-xs">Loading Analysis...</p>
             </div>
         }>
             <AnalysisPageInner />

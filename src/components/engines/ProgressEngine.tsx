@@ -41,18 +41,18 @@ export function ProgressEngine({ data }: ProgressEngineProps) {
             {/* Header Section */}
             <section className="flex flex-col md:flex-row justify-between items-start gap-4 mb-8">
                 <div>
-                    <h1 className="text-xl md:text-2xl font-bold font-headline tracking-tighter text-white uppercase antialiased">Execution Velocity</h1>
+                    <h1 className="text-xl md:text-2xl font-bold font-headline tracking-tighter text-white antialiased">Execution Velocity</h1>
                     <p className="text-on-surface-variant font-body mt-1 text-[13px] leading-relaxed antialiased opacity-70">
                         Concept to market entry for <span className="text-white font-bold">{data.project_name}</span>.
                     </p>
                 </div>
                 <div className="flex gap-3">
                     <div className="bg-surface-container-high/40 backdrop-blur-3xl px-4 py-3 rounded-xl border border-white/5 text-right shadow-lg glass-edge">
-                        <span className="block text-[8px] uppercase tracking-widest text-tertiary font-bold antialiased opacity-60">Health Score</span>
+                        <span className="block text-[8px] tracking-widest text-tertiary font-bold antialiased opacity-60">Health Score</span>
                         <span className="text-lg font-bold text-white font-headline tracking-tight antialiased">{data.health_score}</span>
                     </div>
                     <div className="bg-surface-container-high/40 backdrop-blur-3xl px-4 py-3 rounded-xl border border-white/5 text-right shadow-lg glass-edge">
-                        <span className="block text-[8px] uppercase tracking-widest text-primary font-bold antialiased opacity-60">Time to MVP</span>
+                        <span className="block text-[8px] tracking-widest text-primary font-bold antialiased opacity-60">Time to MVP</span>
                         <span className="text-lg font-bold text-white font-headline tracking-tight antialiased">{data.time_to_mvp}</span>
                     </div>
                 </div>
@@ -64,12 +64,12 @@ export function ProgressEngine({ data }: ProgressEngineProps) {
                 <div className="col-span-12 lg:col-span-8 bg-surface-container-low rounded-xl p-6 relative overflow-hidden group border border-white/5 shadow-lg">
                     <div className="flex justify-between items-start mb-6">
                         <div>
-                            <h3 className="text-lg font-bold font-headline text-white uppercase tracking-tight antialiased">Momentum Analysis</h3>
+                            <h3 className="text-lg font-bold font-headline text-white tracking-tight antialiased">Momentum Analysis</h3>
                             <p className="text-[10px] text-on-surface-variant mt-1 antialiased opacity-40">Deployment points vs. roadmap</p>
                         </div>
                         <div className="flex gap-4">
-                            <span className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-wider text-on-surface-variant/40"><div className="w-2 h-2 rounded-full bg-tertiary"></div> ACTUAL</span>
-                            <span className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-wider text-on-surface-variant/40"><div className="w-2 h-2 rounded-full bg-white/10"></div> PROJECTED</span>
+                            <span className="flex items-center gap-2 text-[9px] font-bold tracking-wider text-on-surface-variant/40"><div className="w-2 h-2 rounded-full bg-tertiary"></div> ACTUAL</span>
+                            <span className="flex items-center gap-2 text-[9px] font-bold tracking-wider text-on-surface-variant/40"><div className="w-2 h-2 rounded-full bg-white/10"></div> PROJECTED</span>
                         </div>
                     </div>
                     {/* Simulated Line Chart */}
@@ -92,7 +92,7 @@ export function ProgressEngine({ data }: ProgressEngineProps) {
                             ></div>
                         ))}
                     </div>
-                    <div className="mt-4 pt-4 border-t border-white/5 flex justify-between text-[8px] font-bold text-on-surface-variant uppercase tracking-widest opacity-20 antialiased">
+                    <div className="mt-4 pt-4 border-t border-white/5 flex justify-between text-[8px] font-bold text-on-surface-variant tracking-widest opacity-20 antialiased">
                         <span>Initiation</span>
                         <span>Phase 1</span>
                         <span>Mid Cycle</span>
