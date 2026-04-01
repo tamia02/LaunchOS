@@ -103,6 +103,4 @@ export async function logout() {
     // Note: Client-side signOut() from 'next-auth/react' is usually preferred for clearing the session,
     // but here we just clear the cookie and redirect. NextAuth session will expire or can be cleared via client-side call.
     redirect('/login')
-    
-    redirect('/login')
 }

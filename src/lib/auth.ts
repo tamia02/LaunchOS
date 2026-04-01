@@ -31,15 +31,6 @@ export const authOptions: NextAuthOptions = {
           `
         }
 
-        // Set the legacy userId cookie for backward compatibility
-        const cookieStore = await cookies()
-        cookieStore.set('userId', userId, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
-          maxAge: 60 * 60 * 24 * 30, // 30 days
-          path: '/',
-        })
-
         return true
       } catch (error) {
         console.error("Error during sign in:", error)
