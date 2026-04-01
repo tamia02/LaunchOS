@@ -3,10 +3,52 @@ import sql from '@/lib/db'
 import { getGeminiModel } from '@/lib/gemini/client'
 import { ENGINE_PROMPTS } from '@/lib/gemini/prompts'
 
+async function callAI(prompt: string) {
+    // 1. Try OpenRouter first (User preference)
+    try {
+        if (!process.env.OPENROUTER_API_KEY) throw new Error('OPENROUTER_API_KEY missing');
+        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
+                "HTTP-Referer": "https://launch-os.app",
+                "X-Title": "LaunchOS",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                model: "google/gemini-2.0-flash-001",
+                messages: [{ role: "user", content: prompt }],
+                response_format: { type: "json_object" }
+            })
+        });
+
+        const data = await response.json();
+        if (data.choices?.[0]?.message?.content) {
+            return JSON.parse(data.choices[0].message.content);
+        }
+    } catch (err) {
+        console.error('OpenRouter failed, falling back to Gemini SDK:', err);
+    }
+
+    // 2. Fallback to Gemini SDK
+    try {
+        const model = getGeminiModel('gemini-1.5-flash')
+        const result = await model.generateContent({
+            contents: [{ role: 'user', parts: [{ text: prompt }] }],
+            generationConfig: { responseMimeType: "application/json" }
+        })
+        const text = result.response.text() || '{}'
+        return JSON.parse(text);
+    } catch (err) {
+        console.error('Gemini SDK also failed:', err);
+        return null;
+    }
+}
+
 export async function POST(req: Request) {
     try {
         const { idea, userId } = await req.json()
-        console.log('--- STARTING ANALYSIS (Gemini 2.0 Flash) ---')
+        console.log('--- STARTING ANALYSIS (Hybrid AI Stack) ---')
         console.log('Idea:', idea)
         console.log('User:', userId)
         
@@ -17,7 +59,7 @@ export async function POST(req: Request) {
         // 1. Check user usage
         const [user] = await sql`
             SELECT plan_type, usage_count FROM users WHERE id = ${userId}
-        `
+        ` as any[]
 
         if (!user) {
             console.log('Auto-creating user:', userId)
@@ -30,32 +72,27 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: 'Upgrade required', code: 'UPGRADE_REQUIRED' }, { status: 403 })
         }
 
-        // 2. Run all 10 engines sequentially with a small delay to avoid rate limits
+        // 2. Run all engine prompts
         const engineKeys = Object.keys(ENGINE_PROMPTS) as Array<keyof typeof ENGINE_PROMPTS>
-        const model = getGeminiModel('gemini-2.0-flash')
 
-        console.log(`Calling Gemini (gemini-2.0-flash) for ${engineKeys.length} engines sequentially...`)
+        console.log(`Running analysis using hybrid AI stack for ${engineKeys.length} engines...`)
         const results = []
         
         for (const key of engineKeys) {
             try {
-                // Wait 1.5s between requests to respect free-tier RPM limits
-                if (results.length > 0) await new Promise(resolve => setTimeout(resolve, 1500));
+                // Small throttle to avoid hitting free constraints too hard
+                if (results.length > 0) await new Promise(resolve => setTimeout(resolve, 800));
 
                 const prompt = `${ENGINE_PROMPTS[key]}\n\nStartup Idea: ${idea}\n\nReturn ONLY the JSON object.`
+                const parsedData = await callAI(prompt);
                 
-                const result = await model.generateContent({
-                    contents: [{ role: 'user', parts: [{ text: prompt }] }],
-                    generationConfig: {
-                        responseMimeType: "application/json",
-                    }
-                })
-
-                const text = result.response.text() || '{}'
-                const parsedData = JSON.parse(text)
-                results.push({ key, data: parsedData, success: true })
+                if (parsedData) {
+                   results.push({ key, data: parsedData, success: true })
+                } else {
+                   throw new Error('AI returned no data')
+                }
             } catch (error: any) {
-                console.error(`[ERROR] Gemini Engine ${key} failed:`, error.message)
+                console.error(`[ERROR] Engine ${key} failed:`, error.message)
                 results.push({ key, data: null, success: false })
             }
         }
@@ -73,8 +110,6 @@ export async function POST(req: Request) {
             const colName = columns[index]
             engineData[colName] = res.data
         })
-
-        console.log('[DEBUG] Final engineData mapping for Neon:', JSON.stringify(engineData, null, 2))
 
         // 4. Save to Neon
         console.log('Saving results to Neon...')
@@ -107,7 +142,7 @@ export async function POST(req: Request) {
                 ${engineData.engine10_revenue}
             )
             RETURNING id
-        `
+        ` as any[]
         console.log('Analysis saved with ID:', analysis.id)
 
         // 5. Increment usage count
@@ -121,8 +156,8 @@ export async function POST(req: Request) {
             results: results.reduce((acc, curr) => ({ ...acc, [curr.key]: curr.data }), {})
         })
 
-    } catch (error) {
+    } catch (error: any) {
         console.error('Analysis error:', error)
-        return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+        return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 })
     }
 }

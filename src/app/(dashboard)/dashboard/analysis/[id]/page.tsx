@@ -179,7 +179,21 @@ function AnalysisPageInner() {
             try {
                 const data = await getAnalysisById(id as string)
                 if (data) {
-                    setAnalysis(data)
+                    const isValid = (obj: any) => obj && typeof obj === 'object' && Object.keys(obj).length > 2;
+                    const safeData = {
+                        ...data,
+                        niche: isValid(data.niche) ? data.niche : { ...MOCK_ANALYSIS.niche, project_name: data.idea || 'Project', _simulated: true },
+                        validation: isValid(data.validation) ? data.validation : { ...MOCK_ANALYSIS.validation, project_name: data.idea || 'Project', _simulated: true },
+                        mvp: isValid(data.mvp) ? data.mvp : { ...MOCK_ANALYSIS.mvp, name: `${data.idea || 'Project'} MVP`, _simulated: true },
+                        pricing: isValid(data.pricing) ? data.pricing : { ...MOCK_ANALYSIS.pricing, project_name: data.idea || 'Project', _simulated: true },
+                        outreach: isValid(data.outreach) ? data.outreach : { ...MOCK_ANALYSIS.outreach, project_name: data.idea || 'Project', _simulated: true },
+                        competitor: isValid(data.competitor) ? data.competitor : { ...MOCK_ANALYSIS.competitor, project_name: data.idea || 'Project', _simulated: true },
+                        investor: isValid(data.investor) ? data.investor : { ...MOCK_ANALYSIS.investor, _simulated: true },
+                        yc: isValid(data.yc) ? data.yc : { ...MOCK_ANALYSIS.yc, company_name: data.idea || 'Project', _simulated: true },
+                        pivot: isValid(data.pivot) ? data.pivot : { ...MOCK_ANALYSIS.pivot, _simulated: true },
+                        revenue: isValid(data.revenue) ? data.revenue : { ...MOCK_ANALYSIS.revenue, project_name: data.idea || 'Project', _simulated: true }
+                    }
+                    setAnalysis(safeData)
                 }
             } catch (err) {
                 console.error('Failed to fetch analysis:', err)
@@ -235,9 +249,15 @@ function AnalysisPageInner() {
                         <span className="text-[10px] text-on-surface-variant font-black uppercase tracking-widest opacity-40">
                             ID: <span className="text-tertiary">{String(id).slice(0, 8)}</span>
                         </span>
-                        <span className="text-[10px] text-on-surface-variant font-black uppercase tracking-widest opacity-40">
-                            Status: <span className="text-green-400">OPTIMAL</span>
-                        </span>
+                        {analysis?.[activeTab]?._simulated ? (
+                            <span className="text-[10px] text-on-surface-variant font-black uppercase tracking-widest">
+                                Status: <span className="text-orange-400">SIMULATED DATA</span>
+                            </span>
+                        ) : (
+                            <span className="text-[10px] text-on-surface-variant font-black uppercase tracking-widest opacity-40">
+                                Status: <span className="text-green-400">OPTIMAL</span>
+                            </span>
+                        )}
                         <span className="text-[10px] text-on-surface-variant font-black uppercase tracking-widest opacity-40">
                             {analysis?.created_at}
                         </span>
