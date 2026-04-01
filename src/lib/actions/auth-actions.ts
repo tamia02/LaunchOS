@@ -73,8 +73,9 @@ export async function getCurrentUser() {
     // 2. If no legacy cookie, try Auth.js session
     if (!userId) {
         const session = await getServerSession(authOptions)
-        if (session?.user?.id) {
-            userId = (session.user as any).id
+        const userWithId = session?.user as any
+        if (userWithId?.id) {
+            userId = userWithId.id
         } else if (session?.user?.email) {
             // Fallback: look up by email
             const [user] = await sql`SELECT id FROM users WHERE LOWER(email) = LOWER(${session.user.email})`
