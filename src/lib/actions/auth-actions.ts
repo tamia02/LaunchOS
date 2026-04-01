@@ -5,6 +5,7 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { authOptions } from '@/lib/auth'
 import { getServerSession } from "next-auth/next"
+import { randomUUID } from "crypto"
 
 export async function signup(formData: FormData) {
     const email = formData.get('email') as string
@@ -14,7 +15,7 @@ export async function signup(formData: FormData) {
     if (!email || !name) return { error: 'Missing fields' }
 
     try {
-        const id = crypto.randomUUID()
+        const id = randomUUID()
         await sql`
             INSERT INTO users (id, email, full_name, plan_type, usage_count)
             VALUES (${id}, ${email.toLowerCase()}, ${name}, 'free', 0)

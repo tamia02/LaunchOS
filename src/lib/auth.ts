@@ -2,6 +2,7 @@ import NextAuth, { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import sql from "@/lib/db"
 import { cookies } from "next/headers"
+import { randomUUID } from "crypto"
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -24,7 +25,7 @@ export const authOptions: NextAuthOptions = {
 
         if (!existingUser) {
           // Create user if they don't exist
-          userId = crypto.randomUUID()
+          userId = randomUUID()
           await sql`
             INSERT INTO users (id, email, full_name, plan_type, usage_count)
             VALUES (${userId}, ${user.email.toLowerCase()}, ${user.name || 'Founder'}, 'free', 0)
