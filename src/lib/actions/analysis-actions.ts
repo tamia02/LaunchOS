@@ -1,14 +1,24 @@
 'use server'
 
 import sql from '@/lib/db'
+import { getCurrentUser } from './auth-actions'
 
 export async function getAnalysisById(id: string) {
+    const user = await getCurrentUser()
+    if (!user) return null
+
+    console.log('Fetching analysis by ID:', id, 'for user:', user.id)
     try {
         const [data] = await sql`
-            SELECT * FROM analyses WHERE id = ${id}
+            SELECT * FROM analyses WHERE id = ${id} AND user_id = ${user.id}
         `
 
-        if (!data) return null
+        if (!data) {
+            console.warn('No analysis found for ID:', id)
+            return null
+        }
+
+        console.log('Analysis found:', data.idea)
 
         // Map database columns to the structured object expected by the UI
         return {
@@ -36,23 +46,43 @@ export async function getAnalysisById(id: string) {
     }
 }
 
-export async function getRecentAnalyses(limit = 10) {
+export interface AnalysisSummary {
+    id: string
+    idea: string
+    date: string
+    niche: string
+    score: number
+    verdict: string
+}
+
+export async function getRecentAnalyses(limit = 10): Promise<AnalysisSummary[]> {
+    const user = await getCurrentUser()
+    if (!user) return []
+
     try {
         const data = await sql`
             SELECT id, idea, created_at, engine1_niche, engine2_validation 
             FROM analyses 
+            WHERE user_id = ${user.id}
             ORDER BY created_at DESC 
             LIMIT ${limit}
         `
 
-        return data.map(item => ({
-            id: item.id,
-            idea: item.idea,
-            date: new Date(item.created_at).toISOString().split('T')[0],
-            niche: (item.engine1_niche as any)?.niche_name || 'General Niche',
-            score: (item.engine2_validation as any)?.pain_score * 10 || 0,
-            verdict: (item.engine2_validation as any)?.validation_verdict || 'yellow'
-        }))
+        console.log(`Fetched ${data.length} recent analyses`)
+
+        return data.map(item => {
+            const nicheData = item.engine1_niche as any
+            const validationData = item.engine2_validation as any
+
+            return {
+                id: item.id,
+                idea: item.idea,
+                date: new Date(item.created_at).toISOString().split('T')[0],
+                niche: nicheData?.niche_name || 'General Niche',
+                score: (validationData?.pain_score || 0) * 10,
+                verdict: validationData?.validation_verdict || 'yellow'
+            }
+        })
     } catch (error) {
         console.error('Error fetching recent analyses:', error)
         return []

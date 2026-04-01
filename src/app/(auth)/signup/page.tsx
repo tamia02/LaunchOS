@@ -8,14 +8,30 @@ import { Input } from '@/components/ui/Input'
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
 import { ArrowRight, UserPlus, Mail, Lock, User } from 'lucide-react'
 
+import { signup } from '@/lib/actions/auth-actions'
+import { useRouter } from 'next/navigation'
+import { signIn } from 'next-auth/react'
+
 export default function SignupPage() {
     const [loading, setLoading] = useState(false)
+    const [error, setError] = useState<string | null>(null)
+    const router = useRouter()
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setLoading(true)
-        // Supabase auth logic will go here
-        setTimeout(() => setLoading(false), 1500)
+        setError(null)
+        
+        const formData = new FormData(e.currentTarget)
+        const result = await signup(formData)
+
+        if (result.success) {
+            router.push('/dashboard')
+            router.refresh()
+        } else {
+            setError(result.error || 'Signup failed')
+            setLoading(false)
+        }
     }
 
     return (
@@ -31,25 +47,30 @@ export default function SignupPage() {
 
                 <Card className="p-8 space-y-6 bg-secondary/50 backdrop-blur-sm border-white/5 shadow-2xl">
                     <form onSubmit={handleSubmit} className="space-y-4">
+                        {error && (
+                            <div className="p-3 bg-error/10 border border-error/20 rounded-lg text-error text-xs font-bold text-center">
+                                {error}
+                            </div>
+                        )}
                         <div className="space-y-2">
                             <label className="text-[10px] uppercase font-bold text-text-muted tracking-widest pl-1">Full Name</label>
                             <div className="relative">
                                 <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
-                                <Input type="text" placeholder="John Doe" className="pl-10 h-12 bg-black/40" required />
+                                <Input name="name" type="text" placeholder="John Doe" className="pl-10 h-12 bg-black/40" required />
                             </div>
                         </div>
                         <div className="space-y-2">
                             <label className="text-[10px] uppercase font-bold text-text-muted tracking-widest pl-1">Email Address</label>
                             <div className="relative">
                                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
-                                <Input type="email" placeholder="name@example.com" className="pl-10 h-12 bg-black/40" required />
+                                <Input name="email" type="email" placeholder="name@example.com" className="pl-10 h-12 bg-black/40" required />
                             </div>
                         </div>
                         <div className="space-y-2">
                             <label className="text-[10px] uppercase font-bold text-text-muted tracking-widest pl-1">Password</label>
                             <div className="relative">
                                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
-                                <Input type="password" placeholder="••••••••" className="pl-10 h-12 bg-black/40" required />
+                                <Input name="password" type="password" placeholder="••••••••" className="pl-10 h-12 bg-black/40" required />
                             </div>
                         </div>
 
@@ -72,7 +93,12 @@ export default function SignupPage() {
                         </div>
                     </div>
 
-                    <Button variant="secondary" className="w-full h-12 bg-black/40 border-white/10">
+                    <Button 
+                        variant="secondary" 
+                        className="w-full h-12 bg-black/40 border-white/10"
+                        onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
+                        type="button"
+                    >
                         <img src="https://www.google.com/favicon.ico" className="w-4 h-4 mr-2" alt="Google" />
                         Sign up with Google
                     </Button>

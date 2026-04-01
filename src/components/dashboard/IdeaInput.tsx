@@ -6,7 +6,7 @@ import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
 import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 
-export function IdeaInput() {
+export function IdeaInput({ userId }: { userId: string }) {
     const [idea, setIdea] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
@@ -19,7 +19,7 @@ export function IdeaInput() {
             const res = await fetch('/api/analyze', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ idea, userId: 'dummy-user' })
+                body: JSON.stringify({ idea, userId })
             })
 
             const data = await res.json()
@@ -34,73 +34,62 @@ export function IdeaInput() {
     }
 
     return (
-        <div className="w-full max-w-5xl mx-auto space-y-12">
-            <div className="relative group perspective-1000">
-                {/* Atmospheric Background Blur */}
-                <div className="absolute -inset-8 bg-tertiary/5 rounded-[3rem] blur-[100px] opacity-0 group-focus-within:opacity-100 transition-opacity duration-1000 pointer-events-none" />
-
-                {/* Main Input Container - No-Line Glassmorphism */}
-                <div className="relative flex flex-col md:flex-row gap-4 p-2 bg-surface-container-low/60 rounded-2xl shadow-xl border border-white/5 transition-all duration-1000 custom-ease backdrop-blur-2xl group-focus-within:bg-surface-container-high/80 group-focus-within:scale-[1.005] hover:bg-surface-container-low/80">
-
-                    <div className="flex-1 flex items-center px-4 py-1">
-                        <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-surface-variant/20 mr-4 shadow-inner glass-edge border border-white/5 transition-transform duration-700">
-                            <span className="material-symbols-outlined text-tertiary text-xl shadow-[0_0_10px_rgba(103,156,255,0.4)]">terminal</span>
-                        </div>
-                        <div className="flex-1 flex flex-col pt-0">
-                            <div className="flex items-center gap-2 mb-1">
-                                <span className="text-[9px] font-black font-label text-tertiary tracking-[0.3em]">Intelligence_Sequence_Init</span>
-                                <span className="w-1 h-2 bg-tertiary/40 rounded-full animate-pulse"></span>
-                            </div>
-                            <Input
-                                value={idea}
-                                onChange={(e) => setIdea(e.target.value)}
-                                onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()}
-                                placeholder="Describe the future you're building..."
-                                className="w-full bg-transparent border-none focus-visible:ring-0 h-10 text-xl font-headline font-black tracking-tighter text-white placeholder:text-on-surface-variant/10 p-0 antialiased"
-                                disabled={isLoading}
-                            />
-                        </div>
-                    </div>
-
-                    <button
-                        onClick={handleAnalyze}
-                        disabled={isLoading || !idea.trim()}
-                        className={cn(
-                            "button-metallic relative overflow-hidden px-8 py-3 rounded-xl font-headline font-black text-[12px] tracking-[0.2em] shadow-lg active:scale-95 transition-all duration-500 custom-ease group/btn",
-                            isLoading || !idea.trim() ? "opacity-50 grayscale cursor-not-allowed" : "hover:-translate-y-0.5"
-                        )}
-                    >
-                        {/* Button Glow Effect */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/5 to-white/0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-[1500ms]" />
-
-                        <div className="flex items-center justify-center relative z-10">
-                            {isLoading ? (
-                                <LoadingSpinner className="mr-4" />
-                            ) : (
-                                <span className="material-symbols-outlined mr-2 text-xl font-black">bolt</span>
-                            )}
-                            <span className="antialiased">Execute_Analysis</span>
-                            <span className="material-symbols-outlined ml-3 text-xl font-black text-on-primary/30 group-hover/btn:translate-x-1 transition-transform duration-700">arrow_forward</span>
-                        </div>
-                    </button>
+        <div className="w-full relative group max-w-4xl mx-auto">
+            {/* Ambient Glow */}
+            <div className="absolute -inset-2 bg-gradient-to-r from-tertiary/20 via-primary/10 to-tertiary/20 rounded-[2.5rem] blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
+            
+            <div className="relative flex flex-col md:flex-row items-stretch p-3 bg-surface-container-low/90 backdrop-blur-3xl rounded-[2rem] border border-outline-variant/15 shadow-[0_30px_60px_rgba(0,0,0,0.6)] glass-edge transition-all duration-500 group-focus-within:border-tertiary/30">
+                <div className="flex-1 flex items-center px-6 gap-4 min-w-0">
+                    <span className="material-symbols-outlined text-tertiary text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>
+                        lightbulb
+                    </span>
+                    <input
+                        type="text"
+                        value={idea}
+                        onChange={(e) => setIdea(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()}
+                        placeholder="What's the startup idea keeping you up at night?"
+                        className="w-full bg-transparent border-none focus-visible:ring-0 text-white placeholder:text-on-surface-variant/30 font-body text-lg py-5 selection:bg-tertiary/30"
+                        disabled={isLoading}
+                    />
                 </div>
+                
+                <button
+                    onClick={handleAnalyze}
+                    disabled={isLoading || !idea.trim()}
+                    className={cn(
+                        "button-metallic px-10 py-5 rounded-[1.5rem] font-headline font-black text-sm tracking-tight transition-all duration-500 flex items-center justify-center gap-3 active:scale-95 disabled:opacity-50 disabled:grayscale",
+                        isLoading ? "cursor-wait" : "hover:brightness-110 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)]"
+                    )}
+                >
+                    {isLoading ? (
+                        <>
+                            <span className="material-symbols-outlined animate-spin shadow-[0_0_20px_white]">refresh</span>
+                            <span>SEQUENCING...</span>
+                        </>
+                    ) : (
+                        <>
+                            <span>EXECUTE_ANALYSIS</span>
+                            <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                        </>
+                    )}
+                </button>
             </div>
 
-            {/* Status Telemetry */}
-            <div className="flex flex-wrap justify-center items-center gap-12 opacity-30 px-6">
-                <div className="flex items-center gap-4">
-                    <div className="w-8 h-[1px] bg-on-surface-variant/20" />
-                    <p className="text-[9px] font-black font-label text-on-surface-variant tracking-widest">Neural Protocol v.0.84</p>
-                </div>
-                <div className="flex items-center gap-4">
-                    <div className="w-1 h-1 rounded-full bg-tertiary/40" />
-                    <p className="text-[9px] font-black font-label text-on-surface-variant tracking-widest">Multi-Spike Synapse</p>
-                </div>
-                <div className="flex items-center gap-4">
-                    <div className="w-1 h-1 rounded-full bg-tertiary/40" />
-                    <p className="text-[9px] font-black font-label text-on-surface-variant uppercase tracking-widest">Precision Filtering</p>
-                    <div className="w-8 h-[1px] bg-on-surface-variant/20" />
-                </div>
+            {/* Micro-Interaction Hint */}
+            <div className="mt-8 flex justify-center gap-8 text-[9px] font-black tracking-[0.2em] font-label text-on-surface-variant/20 uppercase">
+                <span className="flex items-center gap-2 decoration-tertiary/20 underline underline-offset-4">
+                    <span className="w-1 h-1 rounded-full bg-tertiary/40" />
+                    Neural Validation
+                </span>
+                <span className="flex items-center gap-2">
+                    <span className="w-1 h-1 rounded-full bg-on-surface-variant/20" />
+                    Market Synthesis
+                </span>
+                <span className="flex items-center gap-2">
+                    <span className="w-1 h-1 rounded-full bg-on-surface-variant/20" />
+                    Revenue Modeling
+                </span>
             </div>
         </div>
     )

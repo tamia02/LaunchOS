@@ -2,7 +2,7 @@ import React from 'react'
 import { NextResponse } from 'next/server'
 import { renderToStream } from '@react-pdf/renderer'
 import { AnalysisPDF } from '@/components/pdf/AnalysisPDF'
-import { createClient } from '@/lib/supabase/server'
+import sql from '@/lib/db'
 
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url)
@@ -10,18 +10,27 @@ export async function GET(req: Request) {
 
     if (!id) return NextResponse.json({ error: 'Missing ID' }, { status: 400 })
 
-    const supabase = await createClient()
-
-    // Real fetch: const { data } = await supabase.from('analyses').select('*').eq('id', id).single()
-    // Mocking for now to demonstrate layout
-    const mockData = {
-        idea: 'AI-powered garden planner for urban dwellers.',
-        niche: { niche_description: 'Beginner gardeners in apartment buildings...', audience_size: '2.3M', pain_level: 'High' },
-        validation: { key_insight: 'Market opportunity is huge due to rising organic trends...', tam_estimate: '$4.2B', validation_verdict: 'green' }
-    }
-
     try {
-        const stream = await renderToStream(<AnalysisPDF data={mockData} />)
+        const [row] = await sql`
+            SELECT idea, engine1_niche, engine2_validation 
+            FROM analyses WHERE id = ${id}
+        `
+
+        if (!row) {
+            return NextResponse.json({ error: 'Analysis not found' }, { status: 404 })
+        }
+
+        const data = {
+            idea: row.idea,
+            niche: row.engine1_niche,
+            validation: {
+                key_insight: row.engine2_validation.decision_rationale || row.engine2_validation.verdict,
+                tam_estimate: row.engine2_validation.market_size,
+                validation_verdict: row.engine2_validation.verdict
+            }
+        }
+
+        const stream = await renderToStream(<AnalysisPDF data={data} />)
 
         return new Response(stream as any, {
             headers: {

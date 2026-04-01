@@ -6,58 +6,78 @@ import { ENGINE_PROMPTS } from '@/lib/gemini/prompts'
 export async function POST(req: Request) {
     try {
         const { idea, userId } = await req.json()
-
+        console.log('--- STARTING ANALYSIS (Gemini 2.0 Flash) ---')
+        console.log('Idea:', idea)
+        console.log('User:', userId)
+        
         if (!idea || !userId) {
             return NextResponse.json({ error: 'Missing idea or userId' }, { status: 400 })
         }
 
-        // 1. Check user usage (simplified for Neon)
+        // 1. Check user usage
         const [user] = await sql`
             SELECT plan_type, usage_count FROM users WHERE id = ${userId}
         `
 
         if (!user) {
-            // Auto-create user if not exists for demo purposes
+            console.log('Auto-creating user:', userId)
             await sql`
                 INSERT INTO users (id, email, plan_type, usage_count)
                 VALUES (${userId}, 'demo@founder.os', 'free', 0)
             `
-        } else if (user.plan_type === 'free' && user.usage_count >= 10) {
+        } else if (user.plan_type === 'free' && user.usage_count >= 20) {
+            console.log('Usage limit reached for user:', userId)
             return NextResponse.json({ error: 'Upgrade required', code: 'UPGRADE_REQUIRED' }, { status: 403 })
         }
 
-        // 2. Run all 10 engines in parallel using Gemini
+        // 2. Run all 10 engines sequentially with a small delay to avoid rate limits
         const engineKeys = Object.keys(ENGINE_PROMPTS) as Array<keyof typeof ENGINE_PROMPTS>
-        const model = getGeminiModel()
+        const model = getGeminiModel('gemini-2.0-flash')
 
-        const enginePromises = engineKeys.map(async (key) => {
+        console.log(`Calling Gemini (gemini-2.0-flash) for ${engineKeys.length} engines sequentially...`)
+        const results = []
+        
+        for (const key of engineKeys) {
             try {
-                const prompt = `${ENGINE_PROMPTS[key]}\n\nStartup Idea: ${idea}\n\nReturn the response as a JSON object.`
-                const result = await model.generateContent(prompt)
-                const response = await result.response
-                const text = response.text()
+                // Wait 1.5s between requests to respect free-tier RPM limits
+                if (results.length > 0) await new Promise(resolve => setTimeout(resolve, 1500));
 
-                // Gemini sometimes wraps JSON in markdown blocks
-                const jsonMatch = text.match(/\{[\s\S]*\}/)
-                const cleanJson = jsonMatch ? jsonMatch[0] : text
+                const prompt = `${ENGINE_PROMPTS[key]}\n\nStartup Idea: ${idea}\n\nReturn ONLY the JSON object.`
+                
+                const result = await model.generateContent({
+                    contents: [{ role: 'user', parts: [{ text: prompt }] }],
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                    }
+                })
 
-                return { key, data: JSON.parse(cleanJson), success: true }
-            } catch (error) {
-                console.error(`Gemini Engine ${key} failed:`, error)
-                return { key, data: null, success: false }
+                const text = result.response.text() || '{}'
+                const parsedData = JSON.parse(text)
+                results.push({ key, data: parsedData, success: true })
+            } catch (error: any) {
+                console.error(`[ERROR] Gemini Engine ${key} failed:`, error.message)
+                results.push({ key, data: null, success: false })
             }
-        })
-
-        const results = await Promise.all(enginePromises)
+        }
+        console.log('All engines processed.')
 
         // 3. Prepare data for Neon
         const engineData: Record<string, any> = {}
+        const columns = [
+            'engine1_niche', 'engine2_validation', 'engine3_mvp', 'engine4_pricing',
+            'engine5_outreach', 'engine6_competitor', 'engine7_investor', 'engine8_yc',
+            'engine9_pivot', 'engine10_revenue'
+        ]
+
         results.forEach((res, index) => {
-            const colName = `engine${index + 1}_${res.key === 'revenue' ? 'revenue' : res.key}`
+            const colName = columns[index]
             engineData[colName] = res.data
         })
 
+        console.log('[DEBUG] Final engineData mapping for Neon:', JSON.stringify(engineData, null, 2))
+
         // 4. Save to Neon
+        console.log('Saving results to Neon...')
         const [analysis] = await sql`
             INSERT INTO analyses (
                 user_id, 
@@ -88,6 +108,7 @@ export async function POST(req: Request) {
             )
             RETURNING id
         `
+        console.log('Analysis saved with ID:', analysis.id)
 
         // 5. Increment usage count
         await sql`

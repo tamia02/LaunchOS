@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
-import { createClient } from '@/lib/supabase/server'
+import sql from '@/lib/db'
 import { headers } from 'next/headers'
 
 const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -20,27 +20,28 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 })
     }
 
-    const supabase = await createClient()
-
     switch (event.type) {
         case 'checkout.session.completed':
             const session = event.data.object as Stripe.Checkout.Session
-            await (supabase as any)
-                .from('users')
-                .update({
-                    plan_type: 'pro',
-                    stripe_customer_id: session.customer as string,
-                    stripe_subscription_id: session.subscription as string
-                })
-                .eq('id', session.metadata?.userId)
+            if (session.metadata?.userId) {
+                await sql`
+                    UPDATE users 
+                    SET 
+                        plan_type = 'pro',
+                        stripe_customer_id = ${session.customer as string},
+                        stripe_subscription_id = ${session.subscription as string}
+                    WHERE id = ${session.metadata.userId}
+                `
+            }
             break
 
         case 'customer.subscription.deleted':
             const subscription = event.data.object as Stripe.Subscription
-            await (supabase as any)
-                .from('users')
-                .update({ plan_type: 'free' })
-                .eq('stripe_subscription_id', subscription.id)
+            await sql`
+                UPDATE users 
+                SET plan_type = 'free' 
+                WHERE stripe_subscription_id = ${subscription.id}
+            `
             break
     }
 

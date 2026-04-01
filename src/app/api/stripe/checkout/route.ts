@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
-import { createClient } from '@/lib/supabase/server'
+import sql from '@/lib/db'
 
 const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!, {
     apiVersion: '2026-03-25.dahlia',
@@ -9,19 +9,20 @@ const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export async function POST(req: Request) {
     try {
         const { userId, planType } = await req.json()
-        const supabase = await createClient()
+        
+        // Fetch user from Neon
+        const [user] = await sql`
+            SELECT email FROM users WHERE id = ${userId}
+        `
 
-        const { data: user } = await supabase
-            .from('users')
-            .select('email')
-            .eq('id', userId)
-            .single()
+        if (!user) {
+            return NextResponse.json({ error: 'User not found' }, { status: 404 })
+        }
 
-        const userData = user as any
         const stripe = getStripe()
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
-            customer_email: userData?.email,
+            customer_email: user.email,
             line_items: [
                 {
                     price_data: {

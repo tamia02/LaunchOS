@@ -1,9 +1,9 @@
 'use client'
 
-import React from 'react'
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
+import { usePathname, useSearchParams, useRouter } from 'next/navigation'
+import { logout } from '@/lib/actions/auth-actions'
 
 const engineNavItems = [
     { id: 'niche', name: 'Niche', icon: 'category' },
@@ -90,6 +90,13 @@ export function Sidebar() {
                         <span className="material-symbols-outlined text-[16px]">help</span>
                         <span>Support</span>
                     </Link>
+                    <button
+                        onClick={() => logout()}
+                        className="text-error/60 hover:text-error px-2.5 py-1.5 flex items-center gap-2.5 text-[11px] transition-colors rounded-md hover:bg-error/5 mt-2 w-full text-left"
+                    >
+                        <span className="material-symbols-outlined text-[16px]">logout</span>
+                        <span>Sign Out</span>
+                    </button>
                 </div>
             </div>
         </aside>
