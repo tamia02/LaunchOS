@@ -77,16 +77,78 @@ export async function POST(req: Request) {
 
         console.log(`Running analysis using hybrid AI stack for ${engineKeys.length} engines...`)
         const results = []
+        let nicheData: any = null
+        let validationData: any = null
         
         for (const key of engineKeys) {
             try {
                 // Small throttle to avoid hitting free constraints too hard
                 if (results.length > 0) await new Promise(resolve => setTimeout(resolve, 800));
 
-                const prompt = `${ENGINE_PROMPTS[key]}\n\nStartup Idea: ${idea}\n\nReturn ONLY the JSON object.`
+                let promptContext = `\n\nStartup Idea: ${idea}\n\nReturn ONLY the JSON object.`
+                
+                if (key === 'validation') {
+                    promptContext = `\n\nUSER MESSAGE:\nStartup idea: ${idea}\nPrimary niche from Engine 1: ${nicheData?.niche_name || 'N/A'}\nNiche description: ${nicheData?.niche_description || 'N/A'}\n\nReturn ONLY the JSON object.`
+                } else if (key === 'mvp') {
+                    promptContext = `\n\nUSER MESSAGE:\nStartup idea: ${idea}\nValidated niche: ${nicheData?.niche_name || 'N/A'}\nMarket verdict: ${validationData?.verdict || 'GO'}\nValidation score: ${validationData?.validation_score?.total || 50}/100\n\nReturn ONLY the JSON object.`
+                } else if (key === 'pricing') {
+                    // MOCK ARCHITECTURE FOR MVP: Simulate external Apify/ProductHunt fetching
+                    const mockMarketData = {
+                        upwork: "Average requests range from $45-$120/hr",
+                        fiverr: "Entry tiers ~$20, Pro tiers $300+",
+                        trends: "Stable growth over past 12 months",
+                        ph: "Similar tools charge $29/mo or $500 setup"
+                    }
+                    promptContext = `\n\nUSER MESSAGE:\nStartup idea: ${idea}\nNiche: ${nicheData?.niche_name || 'N/A'}\n\nEXTERNAL MARKET DATA SIGNALS:\nUpwork: ${mockMarketData.upwork}\nFiverr: ${mockMarketData.fiverr}\nTrends: ${mockMarketData.trends}\nProductHunt Competitors: ${mockMarketData.ph}\n\nReturn ONLY the JSON object.`
+                } else if (key === 'outreach') {
+                    promptContext = `\n\nUSER MESSAGE:\nStartup idea: ${idea}\nTarget Niche: ${nicheData?.niche_name || 'N/A'}\n\nCreate a comprehensive free and paid outreach strategy following Alex Hormozi's framework. Return ONLY the JSON object.`
+                }
+
+                const prompt = `${ENGINE_PROMPTS[key]}${promptContext}`
                 const parsedData = await callAI(prompt);
                 
                 if (parsedData) {
+                   if (key === 'niche') {
+                       nicheData = parsedData;
+                       // Enrichment 1: Reddit API
+                       const redditQuery = parsedData.niche_name || idea;
+                       try {
+                           const redditRes = await fetch(`https://www.reddit.com/search.json?q=${encodeURIComponent(redditQuery)}&sort=top&t=year&limit=3&type=link`, {
+                               headers: { 'User-Agent': 'launchOS/1.0 (founder@launchos.app)' }
+                           });
+                           if (redditRes.ok) {
+                               const redditJson = await redditRes.json();
+                               parsedData.reddit_posts = redditJson.data?.children?.map((c: any) => ({
+                                   title: c.data.title,
+                                   subreddit: c.data.subreddit_name_prefixed,
+                                   upvotes: c.data.score,
+                                   url: `https://reddit.com${c.data.permalink}`
+                               })) || [];
+                           }
+                       } catch (e) {
+                           console.error('Reddit API failed:', e);
+                           parsedData.reddit_posts = [];
+                       }
+
+                       // Enrichment 2: Google Trends API
+                       try {
+                           const googleTrends = require('google-trends-api');
+                           const trendsStr = await googleTrends.interestOverTime({ keyword: redditQuery });
+                           const trendsJson = JSON.parse(trendsStr);
+                           parsedData.trends = trendsJson?.default?.timelineData?.map((pt: any) => ({
+                               date: pt.formattedTime,
+                               value: pt.value[0]
+                           })) || [];
+                       } catch (e) {
+                           console.error('Trends API failed:', e);
+                           parsedData.trends = [];
+                       }
+                   }
+                   
+                   if (key === 'validation') {
+                       validationData = parsedData;
+                   }
+
                    results.push({ key, data: parsedData, success: true })
                 } else {
                    throw new Error('AI returned no data')

@@ -1,185 +1,160 @@
-import { cn } from '@/lib/utils'
+"use client"
 
-interface InvestorData {
-    project_name: string
-    readiness_score: number
-    grade: string
-    verdict: string
-    scores: {
-        market_size: number
-        problem_clarity: number
-        solution_uniqueness: number
-        business_model: number
-        founder_market_fit: number
-        scalability: number
-    }
-    strengths: string[]
-    weaknesses: string[]
-    to_reach_90: string[]
-    investor_type: string
-    raise_amount: string
-    use_of_funds: string[]
-}
+import { useState, useEffect } from 'react'
+import { Card } from "@/components/ui/Card"
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts'
+import { Landmark, TrendingUp, AlertTriangle, CheckCircle2, Crosshair, DollarSign, Target, PieChart } from 'lucide-react'
 
-export function InvestorEngine({ data }: { data: InvestorData }) {
-    if (!data) return null
+export function InvestorEngine({ data }: { data: any }) {
+    const [isMounted, setIsMounted] = useState(false)
+
+    useEffect(() => {
+        setIsMounted(true)
+    }, [])
+
+    if (!isMounted) return <div className="h-64 flex items-center justify-center text-zinc-500">Loading UI...</div>
+
+    const radarData = [
+        { subject: 'Market Size', A: data.dimension_scores?.market_size?.score || 0, fullMark: 10 },
+        { subject: 'Problem Clarity', A: data.dimension_scores?.problem_clarity?.score || 0, fullMark: 10 },
+        { subject: 'Solution Uniqueness', A: data.dimension_scores?.solution_uniqueness?.score || 0, fullMark: 10 },
+        { subject: 'Business Model', A: data.dimension_scores?.business_model?.score || 0, fullMark: 10 },
+        { subject: 'Go-To-Market', A: data.dimension_scores?.go_to_market?.score || 0, fullMark: 10 },
+        { subject: 'Founder Fit', A: data.dimension_scores?.founder_market_fit?.score || 0, fullMark: 10 },
+    ]
 
     return (
-        <div className="animate-in fade-in slide-in-from-bottom-8 duration-[2000ms] custom-ease">
-            {/* Phase Header */}
-            <header className="mb-8">
-                <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
-                    <div className="space-y-2 max-w-xl">
-                        <span className="text-tertiary font-bold text-[9px] tracking-widest antialiased opacity-60 font-label">Capital Synthesis</span>
-                        <h1 className="text-xl md:text-2xl font-bold font-headline tracking-tighter text-white antialiased">Investor Protocol</h1>
-                        <p className="text-on-surface-variant text-[13px] leading-relaxed antialiased opacity-70">
-                            Securing the fuel for <span className="text-white font-bold">{data.project_name}</span> via strategic equity distribution.
-                        </p>
-                    </div>
-                </div>
-            </header>
-
-            {/* Readiness Index & Scores - Cinematic Bento */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16">
-                {/* Score Dial */}
-                <div className="lg:col-span-4 bg-surface-container-low rounded-xl p-6 flex flex-col items-center justify-center relative group overflow-hidden shadow-lg border border-white/5">
-                    <div className="relative w-40 h-40 flex items-center justify-center">
-                        <svg className="absolute inset-0 w-full h-full -rotate-90">
-                            <circle cx="80" cy="80" r="70" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/5" />
-                            <circle
-                                cx="80" cy="80" r="70" fill="none" stroke="currentColor" strokeWidth="4"
-                                strokeDasharray={439.8}
-                                strokeDashoffset={439.8 - (439.8 * data.readiness_score) / 100}
-                                strokeLinecap="round"
-                                className="text-tertiary"
-                            />
-                        </svg>
-                        <div className="text-center z-10 translate-y-1">
-                            <span className="text-4xl font-headline font-bold text-white tracking-tighter leading-none">{data.readiness_score}</span>
-                            <p className="text-[8px] font-bold text-tertiary tracking-widest mt-1">Alpha Score</p>
+        <div className="space-y-6">
+            {/* Score Hero */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <Card className="md:col-span-1 bg-black/40 border-cyan-500/30 p-8 backdrop-blur-md flex flex-col items-center justify-center relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/10 to-transparent"></div>
+                    <div className="relative z-10 text-center">
+                        <div className="text-sm font-semibold tracking-widest text-cyan-400 uppercase mb-2">Readiness Score</div>
+                        <div className="flex items-baseline justify-center gap-2 mb-2">
+                            <span className="text-6xl font-black text-white">{data.overall_score || 0}</span>
+                            <span className="text-2xl text-zinc-500 font-bold">/100</span>
+                        </div>
+                        <div className="inline-block px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-400 font-bold tracking-widest">
+                            GRADE {data.grade}
                         </div>
                     </div>
-                    <div className="mt-6 text-center space-y-2 relative z-10">
-                        <p className="text-lg font-bold text-white tracking-tight">Grade: {data.grade}</p>
-                        <p className="text-[12px] text-on-surface-variant font-body opacity-60 leading-relaxed max-w-[200px] antialiased">"{data.verdict}"</p>
-                    </div>
-                </div>
+                </Card>
 
-                {/* Telemetry Metrics */}
-                <div className="lg:col-span-8 bg-surface-container rounded-xl p-8 shadow-md border border-white/5">
-                    <div className="flex justify-between items-center mb-10">
+                <Card className="md:col-span-2 bg-zinc-900/50 border-zinc-800 p-6 flex flex-col justify-center">
+                    <div className="flex items-start gap-4">
+                        <div className="p-3 bg-white/5 rounded-xl text-emerald-400 shrink-0">
+                            <Landmark className="w-6 h-6" />
+                        </div>
                         <div>
-                            <h3 className="text-lg font-bold text-white tracking-tight leading-none mb-1">Telemetry Metrics</h3>
-                            <p className="text-[9px] font-bold text-on-surface-variant/30 tracking-widest">Architectural Resonance</p>
-                        </div>
-                        <span className="material-symbols-outlined text-xl text-tertiary/40">query_stats</span>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
-                        {Object.entries(data.scores).map(([key, score]) => (
-                            <div key={key} className="space-y-3">
-                                <div className="flex justify-between text-[9px] font-bold tracking-widest text-on-surface-variant/60">
-                                    <span>{key.replace(/_/g, ' ')}</span>
-                                    <span className="text-tertiary">{score} / 10</span>
+                            <h3 className="text-xl font-bold text-white mb-2">Investor Verdict</h3>
+                            <p className="text-zinc-300 leading-relaxed mb-4">{data.verdict}</p>
+                            <div className="bg-rose-500/5 border border-rose-500/20 rounded-lg p-3 inline-block">
+                                <div className="flex items-center gap-2 text-rose-400 text-xs font-semibold uppercase tracking-wider mb-1">
+                                    <AlertTriangle className="w-3 h-3" /> Red Flag Warning
                                 </div>
-                                <div className="h-1 bg-surface-container-high rounded-full overflow-hidden">
-                                    <div
-                                        className="h-full bg-tertiary rounded-full transition-all"
-                                        style={{ width: `${score * 10}%` }}
-                                    />
+                                <p className="text-rose-200/80 text-sm">{data.red_flag_for_investors}</p>
+                            </div>
+                        </div>
+                    </div>
+                </Card>
+            </div>
+
+            {/* Radar Chart & Dimensions */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <Card className="lg:col-span-1 bg-zinc-900/50 border-zinc-800 p-6 flex items-center justify-center min-h-[300px]">
+                    <div className="w-full h-full min-h-[250px]">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <RadarChart cx="50%" cy="50%" outerRadius="70%" data={radarData}>
+                                <PolarGrid stroke="#3f3f46" />
+                                <PolarAngleAxis dataKey="subject" tick={{ fill: '#a1a1aa', fontSize: 10 }} />
+                                <PolarRadiusAxis angle={30} domain={[0, 10]} tick={false} axisLine={false} />
+                                <Radar name="Score" dataKey="A" stroke="#06b6d4" fill="#06b6d4" fillOpacity={0.3} />
+                            </RadarChart>
+                        </ResponsiveContainer>
+                    </div>
+                </Card>
+                <Card className="lg:col-span-2 bg-zinc-900/50 border-zinc-800 p-6">
+                    <h3 className="text-sm font-semibold text-zinc-400 uppercase tracking-widest mb-4">Dimension Analysis</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {Object.entries(data.dimension_scores || {}).map(([key, value]: [string, any]) => (
+                            <div key={key} className="bg-zinc-950/50 border border-zinc-800/50 p-4 rounded-xl">
+                                <div className="flex justify-between items-center mb-2">
+                                    <div className="text-zinc-200 font-medium capitalize">{key.replace(/_/g, ' ')}</div>
+                                    <div className="text-cyan-400 font-bold">{value.score}/10</div>
+                                </div>
+                                <p className="text-xs text-zinc-400 mb-2">{value.reasoning}</p>
+                                <div className="text-xs text-amber-400/90 border-t border-zinc-800/50 pt-2 flex items-start gap-1">
+                                    <TrendingUp className="w-3 h-3 mt-0.5 shrink-0" /> {value.how_to_improve}
                                 </div>
                             </div>
                         ))}
                     </div>
-                </div>
+                </Card>
             </div>
 
-            {/* SWOT Logic - Tonal Separation */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16">
-                <div className="bg-surface-container-low rounded-xl p-6 shadow-md relative overflow-hidden group border border-white/5 transition-all">
-                    <h3 className="text-[9px] font-bold text-tertiary tracking-widest mb-6">Core Leverages</h3>
-                    <ul className="space-y-4">
-                        {data.strengths.map((s, i) => (
-                            <li key={i} className="text-[13px] font-body text-on-surface-variant leading-relaxed opacity-80 border-l-2 border-tertiary/20 pl-4 py-0.5">
-                                {s}
+            {/* Road to 90 & Thesis */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card className="bg-zinc-900/50 border-zinc-800 p-6">
+                    <div className="flex items-center gap-2 mb-6">
+                        <Target className="w-5 h-5 text-emerald-400" />
+                        <h3 className="text-lg font-bold text-white">Road to 90 Score</h3>
+                    </div>
+                    <ul className="space-y-3">
+                        {data.to_reach_90_score?.map((item: string, i: number) => (
+                            <li key={i} className="flex items-start gap-3">
+                                <div className="bg-emerald-500/10 text-emerald-400 rounded-full w-5 h-5 flex items-center justify-center shrink-0 mt-0.5">
+                                    <CheckCircle2 className="w-4 h-4" />
+                                </div>
+                                <span className="text-sm text-zinc-300">{item}</span>
                             </li>
                         ))}
                     </ul>
-                </div>
-                <div className="bg-surface-container-low rounded-xl p-6 shadow-md relative overflow-hidden group border border-white/5 transition-all">
-                    <h3 className="text-[9px] font-bold text-on-surface-variant/40 uppercase tracking-widest mb-6">Structural Friction</h3>
-                    <ul className="space-y-4">
-                        {data.weaknesses.map((w, i) => (
-                            <li key={i} className="text-[13px] font-body text-on-surface-variant/60 leading-relaxed opacity-70 border-l-2 border-white/5 pl-4 py-0.5">
-                                {w}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            </div>
+                </Card>
 
-            {/* Raise strategy & Roadmap - No-Line Separation */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-                {/* Roadmap Optimization */}
-                <div className="lg:col-span-12 bg-surface-container-low rounded-xl p-8 shadow-lg border border-white/5">
-                    <div className="flex items-center justify-between mb-8">
-                        <div className="flex items-center gap-4">
-                            <div className="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center border border-white/5">
-                                <span className="material-symbols-outlined text-xl text-tertiary">rebase_edit</span>
+                <Card className="bg-zinc-900/50 border-zinc-800 p-6">
+                    <div className="space-y-6">
+                        <div>
+                            <div className="flex items-center gap-2 mb-2 text-cyan-400 text-xs font-semibold uppercase tracking-wider">
+                                <DollarSign className="w-4 h-4" /> Raise Recommendation
                             </div>
-                            <div>
-                                <h3 className="text-lg font-bold text-white uppercase tracking-tight leading-none mb-1">Optimization Sequence</h3>
-                                <p className="text-[9px] font-bold text-on-surface-variant/30 uppercase tracking-widest">Path to 90+ Efficiency</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {data.to_reach_90.map((step, i) => (
-                            <div key={i} className="bg-surface-container rounded-2xl p-6 shadow-md border border-white/5 group/item transition-all">
-                                <div className="flex justify-between items-start mb-4">
-                                    <span className="text-2xl font-bold font-headline text-white/5 group-hover/item:text-tertiary transition-colors">0{i + 1}</span>
+                            <div className="bg-zinc-950 rounded-lg border border-zinc-800 p-4 flex flex-col gap-2">
+                                <div className="flex justify-between items-center border-b border-zinc-800 pb-2">
+                                    <span className="text-sm text-zinc-500 font-medium">Target Mix</span>
+                                    <span className="text-sm text-zinc-200 font-bold">{data.investor_type}</span>
                                 </div>
-                                <p className="text-[13px] font-body text-on-surface-variant leading-relaxed opacity-70 group-hover/item:opacity-100 transition-opacity antialiased">{step}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Raise Architecture Overlay */}
-                <div className="lg:col-span-12 mt-4">
-                    <div className="bg-surface-container-high p-8 rounded-2xl shadow-lg flex flex-col lg:flex-row justify-between gap-12 group border border-white/10">
-                        <div className="flex-1">
-                            <div className="flex items-center gap-3 mb-8">
-                                <span className="material-symbols-outlined text-tertiary text-xl">monetization_on</span>
-                                <h3 className="text-[9px] font-bold text-tertiary uppercase tracking-widest">Deployment Architecture</h3>
-                            </div>
-                            <div className="flex flex-col md:flex-row items-end gap-12">
-                                <div>
-                                    <p className="text-[10px] uppercase text-on-surface-variant/40 font-bold tracking-widest mb-2">Target Allocation</p>
-                                    <p className="text-5xl lg:text-6xl font-headline font-bold text-white tracking-tighter leading-none">{data.raise_amount}</p>
+                                <div className="flex justify-between items-center border-b border-zinc-800 pb-2">
+                                    <span className="text-sm text-zinc-500 font-medium">Target Amount</span>
+                                    <span className="text-sm text-emerald-400 font-bold">{data.raise_recommendation?.amount}</span>
                                 </div>
-                                <div>
-                                    <p className="text-[10px] uppercase text-on-surface-variant/40 font-bold tracking-widest mb-2">Target Archetype</p>
-                                    <p className="text-2xl font-headline font-bold text-tertiary uppercase tracking-tight leading-none">{data.investor_type}</p>
+                                <div className="flex justify-between items-center border-b border-zinc-800 pb-2">
+                                    <span className="text-sm text-zinc-500 font-medium">Valuation Range</span>
+                                    <span className="text-sm text-zinc-200 font-bold">{data.raise_recommendation?.valuation_range}</span>
+                                </div>
+                                <div className="flex justify-between items-center pt-1">
+                                    <span className="text-sm text-zinc-500 font-medium">When to Raise</span>
+                                    <span className="text-sm text-zinc-200 font-medium">{data.raise_recommendation?.when_to_raise}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="space-y-6 lg:w-[320px]">
-                            <p className="text-[10px] uppercase text-on-surface-variant/40 font-bold tracking-widest">Primary Capital Channels</p>
-                            <div className="flex flex-wrap gap-2">
-                                {data.use_of_funds.map((use, i) => (
-                                    <span key={i} className="px-3 py-1 bg-surface-container-low rounded-lg text-[9px] font-bold text-white uppercase tracking-widest border border-white/5">
-                                        {use}
-                                    </span>
+                        <div>
+                            <div className="flex items-center gap-2 mb-2 text-cyan-400 text-xs font-semibold uppercase tracking-wider">
+                                <PieChart className="w-4 h-4" /> Use of Funds
+                            </div>
+                            <div className="space-y-2">
+                                {data.use_of_funds?.map((uf: any, i: number) => (
+                                    <div key={i} className="flex justify-between items-center bg-zinc-950 p-2 rounded border border-zinc-800/50">
+                                        <span className="text-xs text-zinc-300">{uf.category}</span>
+                                        <span className="text-xs font-mono text-cyan-500">{uf.percentage}%</span>
+                                    </div>
                                 ))}
                             </div>
-                            <button className="w-full py-3 bg-tertiary text-white rounded-lg text-[10px] font-bold uppercase tracking-widest shadow-md hover:bg-tertiary-dim transition-all">
-                                Request Expansion
-                            </button>
                         </div>
                     </div>
-                </div>
+                </Card>
             </div>
+            
         </div>
     )
 }

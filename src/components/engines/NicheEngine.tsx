@@ -1,152 +1,338 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
+import { LineChart, Line, ResponsiveContainer, YAxis, Tooltip } from 'recharts'
+import { cn } from '@/lib/utils'
 
 interface NicheData {
     niche_name: string
     niche_description: string
-    why_this_niche: string
-    audience_size: string
+    why_this_niche_first: string
     pain_level: string
+    willingness_to_pay: string
+    audience_size: string
+    audience_profile: {
+        age_range: string
+        role_or_title: string
+        income_range: string
+        tech_savviness: string
+        current_tools: string[]
+        biggest_frustration: string
+        dream_outcome: string
+    }
+    where_they_hang_out: {
+        subreddits: string[]
+        facebook_groups: string[]
+        primary_platform: string
+        communities: string[]
+        newsletters: string[]
+    }
     audience_tags: string[]
-    where_they_hang_out: string[]
-    secondary_niches: string[]
+    secondary_niches: Array<{
+        name: string
+        reason: string
+        timing: string
+        opportunity_level: string
+    }>
+    immediate_action: string
+    confidence_score: number
+    confidence_reasoning: string
+    reddit_posts?: Array<{
+        title: string
+        subreddit: string
+        upvotes: number
+        url: string
+    }>
+    trends?: Array<{
+        date: string
+        value: number
+    }>
 }
 
-interface NicheEngineProps {
-    data: NicheData
-}
+export function NicheEngine({ data }: { data: NicheData }) {
+    const [copied, setCopied] = useState(false)
 
-export function NicheEngine({ data }: NicheEngineProps) {
-    if (!data) return null
+    if (!data || Object.keys(data).length < 5) return null
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(data.immediate_action)
+        setCopied(true)
+        setTimeout(() => setCopied(false), 2000)
+    }
+
+    const getPainColor = (level: string) => {
+        const l = level?.toLowerCase() || ''
+        if (l.includes('critical')) return 'bg-red-500/20 text-red-400 border-red-500/30'
+        if (l.includes('high')) return 'bg-orange-500/20 text-orange-400 border-orange-500/30'
+        if (l.includes('medium')) return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'
+        return 'bg-green-500/20 text-green-400 border-green-500/30'
+    }
+
+    const getTimingColor = (timing: string) => {
+        const t = timing?.toLowerCase() || ''
+        if (t.includes('now')) return 'bg-green-500/20 text-green-400'
+        if (t.includes('later')) return 'bg-yellow-500/20 text-yellow-400'
+        return 'bg-surface-container-high text-on-surface-variant'
+    }
+
+    // Determine trend direction for chart color
+    let trendColor = '#679cff' // default blue
+    if (data.trends && data.trends.length > 1) {
+        const first = data.trends[0].value
+        const last = data.trends[data.trends.length - 1].value
+        if (last > first * 1.2) trendColor = '#34d399' // green (growing)
+        else if (last < first * 0.8) trendColor = '#f87171' // red (declining)
+    }
 
     return (
-        <div className="animate-in fade-in slide-in-from-bottom-8 duration-1000">
-            {/* Header Section: Compact Layout */}
-            <header className="flex flex-col md:flex-row justify-between items-start gap-4 mb-10">
-                <div className="max-w-2xl">
-                    <h1 className="text-xl font-bold font-headline tracking-tight text-on-surface mb-2 leading-tight antialiased">
-                        Architecting <span className="text-tertiary">Precision</span> Market Fits.
-                    </h1>
-                    <p className="text-[13px] text-on-surface-variant leading-relaxed antialiased">
-                        {data.why_this_niche} We recommend prioritizing <span className="text-white font-medium">{data.niche_name}</span> as your primary entry point.
-                    </p>
-                </div>
-                <div className="flex flex-col items-end">
-                    <div className="bg-surface-container-high glass-edge rounded-lg p-4 border border-white/5 flex items-center gap-4 shadow-lg">
-                        <div className="relative w-16 h-16">
-                            <svg className="w-full h-full transform -rotate-90">
-                                <circle className="text-surface-container-low" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" strokeWidth="4"></circle>
-                                <circle className="text-tertiary transition-all duration-1000" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" strokeDasharray="175.93" strokeDashoffset="21.11" strokeWidth="5"></circle>
-                            </svg>
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <span className="text-lg font-black font-headline text-white">88%</span>
-                            </div>
-                        </div>
-                        <div>
-                            <p className="text-[9px] font-bold tracking-wider text-on-surface-variant mb-0.5 antialiased">Niche Fit</p>
-                            <h3 className="text-base font-headline font-bold text-white antialiased">Strong Alpha</h3>
-                            <p className="text-[10px] text-on-surface-variant antialiased">Recommended</p>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            {/* Bento Grid */}
+        <div className="space-y-6 animate-in fade-in slide-in-from-bottom-8 duration-700">
+            {/* HERO CARD & TRENDS GRID */}
             <div className="grid grid-cols-12 gap-6">
-                {/* Main Recommendation Card */}
-                <div className="col-span-12 lg:col-span-8 bg-surface-container-low rounded-xl overflow-hidden border border-white/5 group shadow-lg">
-                    <div className="relative h-[160px]">
-                        <img
-                            alt={data.niche_name}
-                            className="w-full h-full object-cover grayscale opacity-30 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-                            src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=2070"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-surface-container-low via-surface-container-low/40 to-transparent"></div>
-                        <div className="absolute bottom-0 left-0 p-6">
-                            <div className="inline-block px-2 py-0.5 bg-tertiary/20 text-tertiary text-[9px] font-bold tracking-wider rounded mb-2 antialiased">Core Recommendation</div>
-                            <h2 className="text-2xl font-headline font-extrabold tracking-tight mb-2 text-white antialiased">{data.niche_name}</h2>
-                            <p className="text-[13px] text-on-surface-variant max-w-lg antialiased leading-snug line-clamp-2">{data.niche_description}</p>
+                
+                {/* Main Hero Card (Component 1) */}
+                <div className="col-span-12 lg:col-span-8 bg-surface-container-low rounded-xl p-6 border border-white/5 shadow-lg relative overflow-hidden flex flex-col justify-between">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-tertiary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+                    
+                    <div>
+                        <div className="flex flex-wrap items-center gap-3 mb-4">
+                            <h2 className="text-2xl md:text-3xl font-headline font-black text-white tracking-tight">
+                                {data.niche_name || "Primary Target Engine"}
+                            </h2>
+                            <span className={cn("px-2.5 py-1 text-[9px] font-black uppercase tracking-widest rounded-full border", getPainColor(data.pain_level))}>
+                                PAIN: {data.pain_level}
+                            </span>
+                            <span className="px-2.5 py-1 text-[9px] font-black uppercase tracking-widest rounded-full border border-tertiary/30 bg-tertiary/10 text-tertiary">
+                                WTP: {data.willingness_to_pay}
+                            </span>
+                        </div>
+
+                        <p className="text-[14px] text-on-surface-variant leading-relaxed max-w-2xl mb-6">
+                            {data.niche_description}
+                        </p>
+                        
+                        <div className="pl-4 border-l-2 border-tertiary/50 italic">
+                            <p className="text-[13px] text-white/90">"{data.why_this_niche_first}"</p>
                         </div>
                     </div>
-                    <div className="p-6 grid grid-cols-3 gap-6 border-t border-white/5">
-                        <div>
-                            <p className="text-[9px] font-bold text-on-surface-variant mb-1 antialiased tracking-widest">Market Size</p>
-                            <p className="text-lg font-headline font-bold text-white antialiased">{data.audience_size}</p>
+
+                    <div className="mt-8 flex items-center justify-between border-t border-white/5 pt-5">
+                        <div className="flex flex-col">
+                            <span className="text-[9px] font-black uppercase tracking-widest text-on-surface-variant mb-1">
+                                Market Reach Segment
+                            </span>
+                            <span className="text-lg font-headline font-bold text-white">
+                                {data.audience_size}
+                            </span>
                         </div>
-                        <div>
-                            <p className="text-[9px] font-bold text-on-surface-variant mb-1 antialiased tracking-widest">Pain Level</p>
-                            <p className="text-lg font-headline font-bold text-white antialiased">{data.pain_level}</p>
-                        </div>
-                        <div>
-                            <p className="text-[9px] font-bold text-on-surface-variant mb-1 antialiased tracking-widest">Entry Barrier</p>
-                            <p className="text-lg font-headline font-bold text-tertiary antialiased">Optimized</p>
+                        <div className="flex items-center gap-3 bg-surface-container py-2 px-4 rounded-lg border border-white/5">
+                            <div className="flex flex-col text-right">
+                                <span className="text-[9px] font-black uppercase tracking-widest text-on-surface-variant leading-none mb-1">
+                                    Confidence
+                                </span>
+                                <span className="text-[10px] text-tertiary line-clamp-1 max-w-[120px]" title={data.confidence_reasoning}>
+                                    {data.confidence_reasoning}
+                                </span>
+                            </div>
+                            <span className="text-3xl font-headline font-black text-white">
+                                {data.confidence_score}
+                            </span>
                         </div>
                     </div>
                 </div>
 
-                {/* Persona Card */}
-                <div className="col-span-12 lg:col-span-4 space-y-4">
-                    <div className="bg-surface-container glass-edge rounded-xl p-5 border border-white/5 shadow-lg">
-                        <div className="flex items-center gap-3 mb-5">
-                            <div className="w-12 h-12 rounded-full overflow-hidden border border-tertiary shadow-md">
-                                <img
-                                    alt="Target Persona"
-                                    src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=1000"
-                                    className="w-full h-full object-cover"
-                                />
+                {/* Trends Mini Chart (Component 5) */}
+                <div className="col-span-12 lg:col-span-4 bg-surface-container-low rounded-xl p-5 border border-white/5 shadow-lg flex flex-col">
+                    <h3 className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-4">
+                        Search Interest — Last 12 Months
+                    </h3>
+                    <div className="flex-grow w-full h-[140px] mt-auto">
+                        {data.trends && data.trends.length > 0 ? (
+                            <ResponsiveContainer width="100%" height="100%">
+                                <LineChart data={data.trends}>
+                                    <Line 
+                                        type="monotone" 
+                                        dataKey="value" 
+                                        stroke={trendColor} 
+                                        strokeWidth={2} 
+                                        dot={false}
+                                        isAnimationActive={true}
+                                    />
+                                    <Tooltip 
+                                        contentStyle={{ backgroundColor: '#1E1E1E', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', fontSize: '12px' }}
+                                        labelStyle={{ color: '#A0A0A0' }}
+                                    />
+                                    <YAxis hide domain={['dataMin - 10', 'dataMax + 10']} />
+                                </LineChart>
+                            </ResponsiveContainer>
+                        ) : (
+                            <div className="w-full h-full flex flex-col items-center justify-center border border-dashed border-white/10 rounded-lg">
+                                <span className="material-symbols-outlined text-on-surface-variant mb-2 opacity-50">show_chart</span>
+                                <span className="text-[10px] text-on-surface-variant uppercase tracking-widest">No Trend Data</span>
                             </div>
-                            <div>
-                                <h4 className="text-base font-headline font-bold text-white antialiased tracking-tight">Persona Profile</h4>
-                                <p className="text-[9px] text-tertiary font-bold tracking-wider antialiased">Primary Alpha</p>
-                            </div>
-                        </div>
-                        <h5 className="text-[11px] font-bold mb-3 text-white tracking-wider antialiased">Key Pain Points</h5>
-                        <ul className="space-y-2">
-                            {data.audience_tags.slice(0, 3).map((tag, i) => (
-                                <li key={i} className="flex items-start gap-2.5 group">
-                                    <span className="material-symbols-outlined text-tertiary text-[14px] mt-0.5">priority_high</span>
-                                    <p className="text-[12px] text-on-surface-variant antialiased leading-relaxed">{tag}</p>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                    <div className="bg-surface-container-high glass-edge rounded-xl p-5 border border-white/5 shadow-lg group hover:bg-surface-container-high/80 transition-all duration-500">
-                        <h4 className="text-[11px] font-bold tracking-wider text-on-surface-variant mb-4 antialiased">Market Momentum</h4>
-                        <div className="space-y-3">
-                            <div className="flex justify-between items-end">
-                                <span className="text-[12px] font-medium text-white antialiased">Inbound Demand</span>
-                                <span className="text-lg font-headline font-bold text-tertiary antialiased tracking-tight">+240%</span>
-                            </div>
-                            <div className="w-full h-1 bg-surface-container-low rounded-full overflow-hidden">
-                                <div className="w-3/4 h-full bg-tertiary transition-all duration-1000"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Adjacent Opportunities */}
-                <div className="col-span-12 bg-surface-container-low p-6 rounded-xl border border-white/5 shadow-inner">
-                    <div className="flex justify-between items-center mb-6">
-                        <h3 className="text-lg font-headline font-bold text-white tracking-tight antialiased">Adjacent Intelligence</h3>
-                        <button className="text-[9px] text-tertiary font-bold tracking-widest flex items-center gap-2 group/link transition-all antialiased hover:opacity-80">
-                            Explore_Network <span className="material-symbols-outlined text-[14px] group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
-                        </button>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {data.secondary_niches.map((niche, i) => (
-                            <div key={i} className="bg-surface-container-high/40 rounded-lg p-5 border border-white/5 hover:border-tertiary/40 transition-all duration-500 cursor-pointer group hover:bg-surface-container-high/60 shadow-md">
-                                <div className="flex justify-between items-start mb-4">
-                                    <span className="material-symbols-outlined text-2xl text-on-surface-variant group-hover:text-tertiary transition-all">shield</span>
-                                    <span className="px-2 py-0.5 bg-surface-bright text-[8px] font-black tracking-widest rounded-full border border-white/5">{70 + i * 10}% MATCH</span>
-                                </div>
-                                <h4 className="font-headline font-bold text-white mb-1.5 tracking-tight text-[13px] antialiased">{niche}</h4>
-                                <p className="text-[11px] text-on-surface-variant leading-relaxed antialiased">Strategic expansion vector identified.</p>
-                            </div>
-                        ))}
+                        )}
                     </div>
                 </div>
             </div>
+
+            {/* AUDIENCE PROFILE & HANG OUT GRID */}
+            <div className="grid grid-cols-12 gap-6">
+                
+                {/* Audience Profile Card (Component 2) */}
+                <div className="col-span-12 lg:col-span-6 bg-surface-container-low rounded-xl p-6 border border-white/5 shadow-lg">
+                    <h3 className="text-sm font-headline font-black text-white uppercase tracking-widest mb-6 flex items-center gap-2">
+                        <span className="material-symbols-outlined text-tertiary text-lg">person_search</span>
+                        Audience Profile
+                    </h3>
+                    
+                    <div className="grid grid-cols-2 gap-4 mb-6">
+                        <div className="bg-surface-container p-3 rounded-lg">
+                            <span className="text-[9px] font-black uppercase tracking-widest text-on-surface-variant block mb-1">Role / Title</span>
+                            <span className="text-sm font-bold text-white line-clamp-1">{data.audience_profile?.role_or_title}</span>
+                        </div>
+                        <div className="bg-surface-container p-3 rounded-lg">
+                            <span className="text-[9px] font-black uppercase tracking-widest text-on-surface-variant block mb-1">Age Range</span>
+                            <span className="text-sm font-bold text-white">{data.audience_profile?.age_range}</span>
+                        </div>
+                        <div className="bg-surface-container p-3 rounded-lg">
+                            <span className="text-[9px] font-black uppercase tracking-widest text-on-surface-variant block mb-1">Income</span>
+                            <span className="text-sm font-bold text-white">{data.audience_profile?.income_range}</span>
+                        </div>
+                        <div className="bg-surface-container p-3 rounded-lg">
+                            <span className="text-[9px] font-black uppercase tracking-widest text-on-surface-variant block mb-1">Tech Savviness</span>
+                            <span className="text-sm font-bold text-white">{data.audience_profile?.tech_savviness}</span>
+                        </div>
+                    </div>
+
+                    <div className="space-y-4">
+                        <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-lg relative overflow-hidden">
+                            <span className="text-[9px] font-black uppercase tracking-widest text-red-400 block mb-1 relative z-10">Biggest Frustration</span>
+                            <p className="text-[13px] text-white/90 relative z-10">"{data.audience_profile?.biggest_frustration}"</p>
+                        </div>
+                        <div className="bg-green-500/10 border border-green-500/20 p-4 rounded-lg relative overflow-hidden">
+                            <span className="text-[9px] font-black uppercase tracking-widest text-green-400 block mb-1 relative z-10">Dream Outcome</span>
+                            <p className="text-[13px] text-white/90 relative z-10">"{data.audience_profile?.dream_outcome}"</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Where They Hang Out Card (Component 3) */}
+                <div className="col-span-12 lg:col-span-6 bg-surface-container-low rounded-xl p-6 border border-white/5 shadow-lg flex flex-col">
+                    <h3 className="text-sm font-headline font-black text-white uppercase tracking-widest mb-5 flex items-center gap-2">
+                        <span className="material-symbols-outlined text-tertiary text-lg">public</span>
+                        Where They Hang Out
+                    </h3>
+                    
+                    <div className="flex flex-wrap gap-2 mb-6">
+                        {data.where_they_hang_out?.subreddits?.map((sr, i) => (
+                            <span key={i} className="px-3 py-1.5 bg-[#FF4500]/10 text-[#FF4500] text-[11px] font-bold rounded-lg border border-[#FF4500]/20 flex items-center gap-1.5 flex-wrap">
+                                r/{sr.replace('r/', '')}
+                            </span>
+                        ))}
+                        {data.where_they_hang_out?.primary_platform && (
+                            <span className="px-3 py-1.5 bg-blue-500/10 text-blue-400 text-[11px] font-bold rounded-lg border border-blue-500/20">
+                                {data.where_they_hang_out.primary_platform}
+                            </span>
+                        )}
+                        {data.where_they_hang_out?.facebook_groups?.slice(0, 1).map((fg, i) => (
+                            <span key={i} className="px-3 py-1.5 bg-[#1877F2]/10 text-[#1877F2] text-[11px] font-bold rounded-lg border border-[#1877F2]/20 line-clamp-1 max-w-[200px]">
+                                FB: {fg}
+                            </span>
+                        ))}
+                    </div>
+
+                    <div className="mt-auto bg-surface-container p-4 rounded-xl border border-white/5">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-tertiary block mb-3">
+                            {data.reddit_posts && data.reddit_posts.length > 0 ? "Real people talking right now" : "Key Communities"}
+                        </span>
+                        
+                        <div className="space-y-3">
+                            {data.reddit_posts && data.reddit_posts.length > 0 ? (
+                                data.reddit_posts.slice(0, 3).map((post, i) => (
+                                    <a key={i} href={post.url} target="_blank" rel="noreferrer" className="block group">
+                                        <div className="flex gap-3 items-start">
+                                            <div className="flex flex-col items-center min-w-[32px] pt-0.5">
+                                                <span className="material-symbols-outlined text-[14px] text-on-surface-variant group-hover:text-[#FF4500] transition-colors">arrow_upward</span>
+                                                <span className="text-[10px] font-bold text-on-surface-variant">{post.upvotes}</span>
+                                            </div>
+                                            <div>
+                                                <p className="text-[12px] text-white/90 font-medium line-clamp-2 leading-snug group-hover:text-tertiary transition-colors mb-1">
+                                                    {post.title}
+                                                </p>
+                                                <span className="text-[9px] text-on-surface-variant font-bold">{post.subreddit}</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                ))
+                            ) : (
+                                <div className="text-[12px] text-on-surface-variant opacity-80 space-y-2">
+                                    <p>Newsletters: {data.where_they_hang_out?.newsletters?.join(', ')}</p>
+                                    <p>Communities: {data.where_they_hang_out?.communities?.join(', ')}</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* AUDIENCE TAGS (Component 4) */}
+            <div className="bg-surface-container-low rounded-xl py-4 px-6 border border-white/5 flex flex-wrap gap-2 items-center">
+                <span className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mr-3">Tags:</span>
+                {data.audience_tags?.map((tag, i) => (
+                    <span key={i} className="px-2.5 py-1 bg-surface-container-high text-white text-[10px] rounded-md font-medium border border-white/5">
+                        {tag}
+                    </span>
+                ))}
+            </div>
+
+            {/* SECONDARY NICHES (Component 6) */}
+            <div>
+                <h3 className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-4 pl-1">
+                    Pivot Opportunities (Secondary Niches)
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {data.secondary_niches?.map((niche, i) => (
+                        <div key={i} className="bg-surface-container-low p-5 rounded-xl border border-white/5 hover:bg-surface-container transition-colors">
+                            <div className="flex justify-between items-start mb-3">
+                                <span className={cn("px-2 py-0.5 text-[8px] font-black uppercase tracking-widest rounded-sm", getTimingColor(niche.timing))}>
+                                    {niche.timing}
+                                </span>
+                                <span className="text-[9px] font-bold text-on-surface-variant">Opp: {niche.opportunity_level}</span>
+                            </div>
+                            <h4 className="font-headline font-bold text-white text-[13px] mb-2">{niche.name}</h4>
+                            <p className="text-[11px] text-on-surface-variant leading-relaxed">
+                                {niche.reason}
+                            </p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* IMMEDIATE ACTION (Component 7) */}
+            <div className="bg-surface-container-high rounded-xl p-6 md:p-8 border-l-4 border-l-tertiary border-y border-r border-white/5 shadow-2xl relative overflow-hidden group">
+                <div className="absolute inset-0 bg-gradient-to-r from-tertiary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div className="relative z-10 flex flex-col md:flex-row gap-6 justify-between items-start md:items-center">
+                    <div className="max-w-3xl">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-tertiary block mb-2">
+                            Your Action for the Next 24 Hours
+                        </span>
+                        <p className="text-[16px] md:text-[18px] font-medium text-white leading-relaxed">
+                            {data.immediate_action}
+                        </p>
+                    </div>
+                    <button 
+                        onClick={handleCopy}
+                        className={cn(
+                            "shrink-0 flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300",
+                            copied ? "bg-green-500/20 text-green-400" : "bg-white/5 text-white hover:bg-white/10"
+                        )}
+                    >
+                        <span className="material-symbols-outlined text-[20px]">
+                            {copied ? 'check' : 'content_copy'}
+                        </span>
+                    </button>
+                </div>
+            </div>
+            
         </div>
     )
 }

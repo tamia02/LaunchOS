@@ -1,120 +1,97 @@
-import React, { useState } from 'react'
-import { cn } from '@/lib/utils'
+"use client"
 
-interface YCData {
-    project_name: string
-    one_liner: string
-    what_do_you_do: string
-    problem: string
-    solution: string
-    why_now: string
-    market_size: string
-    business_model: string
-    traction: string
-    why_us: string
-    competition: string
-    what_makes_you_different: string
-    yc_why: string
+import { useState, useEffect } from 'react'
+import { Card } from "@/components/ui/Card"
+import { Building2, FileText, ClipboardList } from 'lucide-react'
+
+// Helper to highlight [FILL IN] tags
+const formatYCAnswer = (text: string) => {
+    if (!text) return null;
+    const parts = text.split(/(\[FILL IN[^\]]*\])/g);
+    return (
+        <span className="whitespace-pre-wrap leading-relaxed text-zinc-300">
+            {parts.map((part, i) => {
+                if (part.startsWith('[FILL IN')) {
+                    return (
+                        <span key={i} className="inline-block px-1.5 py-0.5 mx-0.5 bg-rose-500/20 text-rose-300 border border-rose-500/30 rounded font-mono text-sm animate-pulse">
+                            {part}
+                        </span>
+                    )
+                }
+                return <span key={i}>{part}</span>
+            })}
+        </span>
+    )
 }
 
-export function YCEngine({ data }: { data: YCData }) {
-    if (!data) return null
-    const [copiedIdx, setCopiedIdx] = useState<number | null>(null)
+export function YCEngine({ data }: { data: any }) {
+    const [isMounted, setIsMounted] = useState(false)
 
-    const copyToClipboard = (text: string, idx: number | 'all') => {
-        navigator.clipboard.writeText(text)
-        if (idx !== 'all') {
-            setCopiedIdx(idx as number)
-            setTimeout(() => setCopiedIdx(null), 2000)
-        }
-    }
+    useEffect(() => {
+        setIsMounted(true)
+    }, [])
 
-    const sections = [
-        { label: 'The One-Liner', value: data.one_liner, hint: 'Clear, concise, and high-impact.' },
-        { label: 'Operational Core', value: data.what_do_you_do, hint: 'What exactly are you building?' },
-        { label: 'Market Friction', value: data.problem, hint: 'The burning pain you are solving.' },
-        { label: 'Tactical Solution', value: data.solution, hint: 'The architectural answer.' },
-        { label: 'Tectonics & Timing', value: data.why_now, hint: 'Why is this inevitable today?' },
-        { label: 'Economic Horizon', value: data.market_size, hint: 'TAM/SAM/SOM breakdown.' },
-        { label: 'Revenue Mechanics', value: data.business_model, hint: 'Unit economics and capture.' },
-        { label: 'Momentum Signals', value: data.traction, hint: 'Evidence of product-market fit.' },
-        { label: 'Founding Resonance', value: data.why_us, hint: 'Why you are the only one.' },
-        { label: 'The Landscape', value: data.competition, hint: 'Incumbents and alternatives.' },
-        { label: 'Systemic Alpha', value: data.what_makes_you_different, hint: 'Your unfair advantage.' },
-        { label: 'Why YC?', value: data.yc_why, hint: 'Strategic alignment with the accelerator.' },
-    ]
+    if (!isMounted) return <div className="h-64 flex items-center justify-center text-zinc-500">Loading UI...</div>
+
+    const renderQuestion = (question: string, answer: string) => (
+        <div className="mb-8 pl-4 border-l-2 border-[#f26522]/30 hover:border-[#f26522] transition-colors">
+            <h4 className="text-sm font-bold text-white mb-2">{question}</h4>
+            <div className="text-sm font-medium">
+                {formatYCAnswer(answer)}
+            </div>
+        </div>
+    )
 
     return (
-        <div className="animate-in fade-in slide-in-from-bottom-8 duration-[2000ms] custom-ease">
-            {/* YC Header */}
-            <header className="flex flex-col md:flex-row md:items-start justify-between gap-8 mb-8 px-2">
-                <div className="space-y-4 max-w-2xl">
-                    <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-[#F04E23] rounded-lg flex items-center justify-center shadow-lg group">
-                            <span className="text-white font-headline font-bold text-xl tracking-tighter select-none">YC</span>
-                        </div>
-                        <div>
-                            <div className="flex items-center gap-2 mb-1">
-                                <div className="px-2 py-0.5 rounded bg-[#F04E23]/10 border border-[#F04E23]/20">
-                                    <span className="text-[#F04E23] text-[8px] font-bold tracking-widest font-label">S24 Batch Draft</span>
-                                </div>
+        <div className="max-w-4xl mx-auto space-y-6">
+            {/* Header */}
+            <Card className="bg-black/60 border-[#f26522]/30 p-8 backdrop-blur-md relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#f26522] to-transparent"></div>
+                <div className="flex flex-col md:flex-row gap-6 items-start md:items-center justify-between">
+                    <div>
+                        <div className="flex items-center gap-3 mb-2">
+                            <div className="p-2 rounded-lg bg-[#f26522]/10 text-[#f26522]">
+                                <span className="font-bold text-xl tracking-tighter">Y</span>
                             </div>
-                            <h2 className="text-2xl md:text-3xl font-headline font-bold text-white tracking-tighter leading-none antialiased">{data.project_name}</h2>
+                            <h2 className="text-2xl font-bold text-white tracking-wide">Y Combinator Application</h2>
                         </div>
+                        <p className="text-sm text-zinc-400">Pre-filled application draft formulated by a simulated YC Alumni.</p>
                     </div>
-                    <p className="text-[13px] text-on-surface-variant font-body leading-relaxed opacity-80 max-w-xl">
-                        Drafting the <span className="text-white font-bold underline decoration-[#F04E23]/40 underline-offset-4">Standard-Setting Application</span> for Y Combinator.
-                    </p>
                 </div>
-                <button
-                    onClick={() => copyToClipboard(JSON.stringify(data, null, 2), 'all')}
-                    className="bg-[#F04E23] hover:bg-[#d03d1a] text-white px-8 py-3 rounded-lg text-[10px] font-bold tracking-widest flex items-center gap-3 shadow-md transition-all active:scale-95"
-                >
-                    <span className="material-symbols-outlined text-lg">send</span> Push_To_Submission
-                </button>
-            </header>
+            </Card>
 
-            {/* Application Flow */}
-            <div className="grid grid-cols-1 gap-6 mb-12">
-                {sections.map((sec, i) => (
-                    <div key={i} className="group relative bg-surface-container-low rounded-xl p-6 shadow-md border border-white/5 hover:bg-surface-container transition-all overflow-hidden">
-                        <div className="flex flex-col lg:flex-row gap-8 relative z-10">
-                            <div className="lg:w-1/4 space-y-3">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-1 h-8 bg-[#F04E23]/20 group-hover:bg-[#F04E23] transition-all rounded-full"></div>
-                                    <h4 className="text-[9px] font-bold text-[#F04E23] tracking-widest font-label border-b border-[#F04E23]/10 pb-1">{sec.label}</h4>
-                                </div>
-                                <p className="text-[12px] text-on-surface-variant/40 font-body leading-relaxed pl-4">{sec.hint}</p>
-                            </div>
-                            <div className="lg:w-3/4 relative pt-1">
-                                <p className="text-lg font-headline font-bold text-white leading-relaxed pr-12 whitespace-pre-wrap antialiased group-hover:translate-x-1 transition-transform">
-                                    {sec.value}
-                                </p>
-                                <button
-                                    onClick={() => copyToClipboard(sec.value, i)}
-                                    className="absolute top-0 right-0 p-2 bg-surface-container-high rounded-lg shadow-lg"
-                                >
-                                    {copiedIdx === i ? (
-                                        <span className="material-symbols-outlined text-tertiary text-sm">check_circle</span>
-                                    ) : (
-                                        <span className="material-symbols-outlined text-white/20 hover:text-white transition-colors text-sm">content_copy</span>
-                                    )}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
+            <Card className="bg-zinc-900/40 border-zinc-800 p-8">
+                {renderQuestion("Company name:", data.company_name)}
+                {renderQuestion("Company url, if any:", "https://")}
+                {renderQuestion("Describe what your company does in 50 characters or less.", data.one_liner)}
+                
+                <div className="my-10 h-px bg-zinc-800" />
+                <h3 className="text-xl font-bold text-[#f26522] mb-6 flex items-center gap-2">
+                    <Building2 className="w-5 h-5" /> Company
+                </h3>
+                
+                {renderQuestion("What is your company going to make? Please describe your product and what it does. Also, tell us the next big product feature you will start work on.", data.what_do_you_do || data.what_does_company_do)}
+                {renderQuestion("What is the core problem you are solving?", data.problem || data.the_problem)}
+                {renderQuestion("Who are your target customers?", data.target_customers)}
+                {renderQuestion("How do you or will you make money? Please describe your pricing and your current revenue.", data.how_you_make_money)}
+                {renderQuestion("How much money have you raised?", data.money_raised)}
+                {renderQuestion("If you have revenue, what was your revenue in the last full calendar month?", data.monthly_revenue)}
+                {renderQuestion("If you have users, what is your growth rate?", data.growth_rate)}
+                {renderQuestion("Who are your competitors, and what do you understand about your business that they don't?", data.competitors + "\n\n" + data.what_you_understand)}
+                {renderQuestion("How will you get your first 1,000 customers?", data.first_1000_customers)}
+                
+                <div className="my-10 h-px bg-zinc-800" />
+                <h3 className="text-xl font-bold text-[#f26522] mb-6 flex items-center gap-2">
+                    <ClipboardList className="w-5 h-5" /> Idea
+                </h3>
+                
+                {renderQuestion("Why did you pick this idea to work on?", data.why_this_idea)}
+                {renderQuestion("How long have you been working on this? What have you built so far?", data.how_long_working)}
+                {renderQuestion("Why is now the right time for this?", data.why_now)}
+                {renderQuestion("What is your unfair advantage?", data.unfair_advantage)}
+                {renderQuestion("Why YC?", data.yc_why)}
 
-            {/* YC Founders Note */}
-            <div className="bg-[#F04E23]/5 rounded-2xl p-8 shadow-md border border-[#F04E23]/10 relative overflow-hidden group mb-12">
-                <div className="relative z-10 flex flex-col md:flex-row gap-8 items-start md:items-center">
-                    <div className="px-4 py-2 bg-[#F04E23] rounded-lg text-white font-bold text-[9px] tracking-widest uppercase font-label">ARCHITECT_PROTOCOL</div>
-                    <p className="text-[#F04E23] text-lg md:text-xl font-headline font-bold uppercase tracking-tight leading-tight max-w-4xl antialiased">
-                        "YC looks for clarity, conciseness, and direct evidence. This draft follows high-fidelity alumni patterns."
-                    </p>
-                </div>
-            </div>
+            </Card>
         </div>
     )
 }

@@ -1,146 +1,149 @@
-import { cn } from '@/lib/utils'
+"use client"
 
-interface Pivot {
-    pivot_name: string
-    pivot_description: string
-    why_stronger: string
-    target_audience: string
-    revenue_potential: 'low' | 'medium' | 'high' | 'very high'
-    time_to_revenue: string
-    risk_level: 'low' | 'medium' | 'high'
-}
+import { useState, useEffect } from 'react'
+import { Card } from "@/components/ui/Card"
+import { Tag as Badge } from '@/components/ui/Tag'
+import { Shuffle, ArrowRight, BrainCircuit, Rocket, CheckCircle2, TrendingUp, FlaskConical, Target, Clock, ShieldAlert } from 'lucide-react'
 
-interface PivotData {
-    project_name: string
-    original_idea_assessment: string
-    pivots: Pivot[]
-    recommended_pivot: string
-    recommended_reason: string
-}
+// Render pill color based on value
+export const renderPill = (label: string, value: string) => {
+    let colorClass = "bg-zinc-800 text-zinc-300" // default
+    const lowerValue = value?.toLowerCase() || ""
 
-export function PivotEngine({ data }: { data: PivotData }) {
-    if (!data) return null
+    if (lowerValue.includes("high") && !lowerValue.includes("risk")) colorClass = "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+    if (lowerValue.includes("medium")) colorClass = "bg-amber-500/10 text-amber-400 border border-amber-500/20"
+    if (lowerValue.includes("low") && !lowerValue.includes("risk")) colorClass = "bg-rose-500/10 text-rose-400 border border-rose-500/20"
+    
+    // Reverse logic for risk/effort
+    if (label.includes("Risk") || label.includes("Effort")) {
+        if (lowerValue.includes("low")) colorClass = "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+        if (lowerValue.includes("high")) colorClass = "bg-rose-500/10 text-rose-400 border border-rose-500/20"
+    }
 
     return (
-        <div className="animate-in fade-in slide-in-from-bottom-8 duration-[2000ms] custom-ease">
-            {/* Evolution Header */}
-            <header className="mb-8 flex flex-col md:flex-row md:items-start justify-between gap-8">
-                <div className="max-w-xl">
-                    <div className="flex items-center gap-2 mb-4">
-                        <div className="px-2 py-0.5 rounded bg-surface-variant/20 border border-white/5">
-                            <span className="text-tertiary text-[9px] font-bold tracking-widest font-label">Tactical Shift</span>
-                        </div>
-                    </div>
-                    <h1 className="text-2xl md:text-3xl font-bold font-headline tracking-tighter text-white mb-4 leading-none">{data.project_name} <span className="text-tertiary">Pivots.</span></h1>
-                    <div className="bg-surface-container-low p-6 rounded-xl shadow-md border border-white/5 relative group transition-all">
-                        <h3 className="text-[9px] font-bold text-on-surface-variant/40 tracking-widest mb-2">Legacy Thesis Audit</h3>
-                        <p className="text-lg font-headline font-medium text-white leading-relaxed antialiased">
-                            "{data.original_idea_assessment}"
-                        </p>
-                    </div>
-                </div>
-                <div className="bg-surface-container-low p-6 rounded-xl flex items-center gap-4 shadow-md border border-white/5">
-                    <span className="material-symbols-outlined text-xl text-tertiary">shuffle</span>
-                    <p className="text-[9px] font-bold text-on-surface-variant/40 tracking-widest max-w-[100px]">Recalibration Engine</p>
-                </div>
-            </header>
+        <div className={`flex flex-col gap-1 p-2 rounded-lg ${colorClass}`}>
+            <span className="text-[10px] uppercase font-bold tracking-widest opacity-70">{label}</span>
+            <span className="text-xs font-semibold">{value}</span>
+        </div>
+    )
+}
 
-            {/* Pivot Options */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
-                {data.pivots.map((pivot, i) => {
-                    const isRecommended = pivot.pivot_name === data.recommended_pivot
+export function PivotEngine({ data }: { data: any }) {
+    const [isMounted, setIsMounted] = useState(false)
+
+    useEffect(() => {
+        setIsMounted(true)
+    }, [])
+
+    if (!isMounted) return <div className="h-64 flex items-center justify-center text-zinc-500">Loading UI...</div>
+
+    return (
+        <div className="space-y-6">
+            {/* Original Idea Verdict Card */}
+            <Card className="bg-zinc-900/50 border-zinc-800 p-6 flex flex-col md:flex-row gap-6 relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
+                    <Shuffle className="w-48 h-48" />
+                </div>
+                <div className="flex-1 z-10">
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="p-2 rounded-lg bg-indigo-500/20 text-indigo-400">
+                            <BrainCircuit className="w-5 h-5" />
+                        </div>
+                        <h2 className="text-xl font-bold text-white tracking-wide">Original Idea Assessment</h2>
+                    </div>
+                    <p className="text-zinc-300 leading-relaxed max-w-2xl">{data.original_idea_assessment}</p>
+                </div>
+                <div className="flex flex-col items-start md:items-end justify-center z-10 border-t md:border-t-0 md:border-l border-zinc-800 pt-4 md:pt-0 md:pl-6 min-w-[200px]">
+                    <div className="text-xs text-zinc-500 uppercase tracking-widest font-bold mb-2">Verdict</div>
+                    <div className={`text-lg font-black tracking-wide ${
+                        data.original_idea_verdict?.toLowerCase().includes("strong") ? "text-emerald-400" : "text-amber-400"
+                    }`}>
+                        {data.original_idea_verdict}
+                    </div>
+                </div>
+            </Card>
+
+            {/* Pivot Options Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {data.pivots?.map((pivot: any, idx: number) => {
+                    const isRecommended = pivot.pivot_number === data.recommended_pivot
+                    
                     return (
-                        <div key={i} className={cn(
-                            "group relative bg-surface-container-low rounded-xl p-6 shadow-md border border-white/5 transition-all flex flex-col justify-between min-h-[380px]",
-                            isRecommended ? "bg-surface-container-high ring-1 ring-tertiary/20" : "hover:bg-surface-container"
-                        )}>
+                        <Card key={idx} className={`relative flex flex-col p-6 transition-all duration-300 ${isRecommended ? 'bg-indigo-950/20 border-indigo-500/50 shadow-[0_0_30px_rgba(99,102,241,0.1)]' : 'bg-zinc-900/50 border-zinc-800'}`}>
                             {isRecommended && (
-                                <div className="absolute top-0 right-0 px-3 py-1 bg-tertiary rounded-bl-lg text-[8px] font-bold text-on-tertiary tracking-widest shadow-lg flex items-center gap-1 font-label">
-                                    <span className="material-symbols-outlined text-xs">verified</span>
-                                    Recommended
+                                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-indigo-500 text-white text-[10px] font-black tracking-widest uppercase rounded-full flex items-center gap-1 shadow-lg">
+                                    <Target className="w-3 h-3" /> Recommended
                                 </div>
                             )}
 
-                            <div className="relative z-10 flex flex-col h-full">
-                                <div className="flex justify-between items-start mb-6">
-                                    <div>
-                                        <h4 className="text-lg font-headline font-bold text-white tracking-tight mb-0.5">
-                                            {pivot.pivot_name}
-                                        </h4>
-                                        <p className="text-[8px] font-bold text-tertiary tracking-widest">Option Sequence 0{i + 1}</p>
-                                    </div>
-                                    <div className="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center border border-white/5">
-                                        <span className="material-symbols-outlined text-tertiary text-lg">route</span>
-                                    </div>
-                                </div>
-
-                                <p className="text-on-surface-variant text-[13px] font-body leading-relaxed mb-6 opacity-70 group-hover:opacity-100 transition-opacity antialiased">
-                                    {pivot.pivot_description}
-                                </p>
-
-                                <div className="bg-surface-container-high/40 p-4 rounded-xl border border-white/5 text-[12px] text-on-surface-variant/80 leading-relaxed mb-6">
-                                    "{pivot.why_stronger}"
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-6 mt-auto">
-                                    <div className="space-y-2">
-                                        <div className="flex items-center gap-2">
-                                            <span className="material-symbols-outlined text-tertiary text-[14px]">insights</span>
-                                            <span className="text-[8px] font-bold text-on-surface-variant/30 tracking-widest">Revenue Alpha</span>
-                                        </div>
-                                        <p className="text-[10px] font-bold text-white tracking-widest pl-5">{pivot.revenue_potential}</p>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <div className="flex items-center gap-2">
-                                            <span className="material-symbols-outlined text-tertiary text-[14px]">warning_amber</span>
-                                            <span className="text-[8px] font-bold text-on-surface-variant/30 tracking-widest">Risk Threshold</span>
-                                        </div>
-                                        <p className="text-[10px] font-bold text-white tracking-widest pl-5">{pivot.risk_level}</p>
-                                    </div>
-                                </div>
+                            <div className="flex justify-between items-start mb-4">
+                                <Badge variant="outline" className="bg-zinc-950 text-indigo-400 border-indigo-500/30 text-[10px] uppercase tracking-wider">
+                                    {pivot.pivot_type} Pivot
+                                </Badge>
+                                <span className="text-4xl font-black text-zinc-800/50">0{pivot.pivot_number}</span>
                             </div>
 
-                            <div className="pt-6 mt-6 border-t border-white/5 flex items-center justify-between">
-                                <div className="flex items-center gap-4">
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-[8px] font-bold text-on-surface-variant/40 uppercase tracking-widest">{pivot.target_audience}</span>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-[8px] font-bold text-on-surface-variant/40 uppercase tracking-widest">{pivot.time_to_revenue}</span>
-                                    </div>
-                                </div>
-                                <button className="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant/40 hover:text-tertiary transition-all">
-                                    <span className="material-symbols-outlined text-lg">north_east</span>
-                                </button>
+                            <h3 className="text-xl font-bold text-white mb-1">{pivot.pivot_name}</h3>
+                            <p className="text-xs text-indigo-400 font-medium mb-4">{pivot.one_liner}</p>
+                            
+                            <p className="text-sm text-zinc-400 leading-relaxed mb-6 border-l-2 border-zinc-800 pl-3">
+                                {pivot.description}
+                            </p>
+
+                            <div className="grid grid-cols-2 gap-2 mb-6">
+                                {renderPill("Revenue Potential", pivot.revenue_potential)}
+                                {renderPill("Risk Level", pivot.risk_level)}
+                                {renderPill("Time to Rev", pivot.time_to_first_revenue)}
+                                {renderPill("Effort", pivot.effort_to_build)}
                             </div>
-                        </div>
+
+                            <div className="mt-auto pt-4 border-t border-zinc-800 space-y-4">
+                                <div>
+                                    <div className="text-[10px] font-bold tracking-widest uppercase text-emerald-400 mb-1 flex items-center gap-1">
+                                        <TrendingUp className="w-3 h-3" /> Why Stronger
+                                    </div>
+                                    <p className="text-xs text-zinc-300 leading-relaxed">{pivot.why_stronger}</p>
+                                </div>
+                                <div className="bg-zinc-950 rounded-lg p-3 border border-zinc-800/50">
+                                    <div className="text-[10px] font-bold tracking-widest uppercase text-cyan-400 mb-1 flex items-center gap-1">
+                                        <ShieldAlert className="w-3 h-3" /> Real World Ref
+                                    </div>
+                                    <p className="text-xs text-zinc-300 font-medium">{pivot.real_world_example}</p>
+                                </div>
+                            </div>
+                        </Card>
                     )
                 })}
             </div>
 
-            {/* Strategic Summary */}
-            <div className="bg-surface-container-high p-8 rounded-xl shadow-lg border border-white/10 group relative transition-all">
+            {/* Validation Plan for Recommended Pivot */}
+            <Card className="bg-black/40 border-indigo-500/30 p-8 backdrop-blur-md relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 via-transparent to-transparent"></div>
                 <div className="relative z-10">
-                    <div className="flex items-center gap-4 mb-8">
-                        <div className="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center border border-white/5">
-                            <span className="material-symbols-outlined text-xl text-tertiary">auto_fix_high</span>
-                        </div>
-                        <div>
-                            <h3 className="text-lg font-bold text-white uppercase tracking-tight leading-none mb-1">Architecture verdict</h3>
-                            <p className="text-[9px] font-bold text-on-surface-variant/30 uppercase tracking-widest">Final Path Optimization</p>
-                        </div>
-                    </div>
+                    <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                        <Rocket className="w-5 h-5 text-indigo-400" /> Wait, why Pivot #{data.recommended_pivot}?
+                    </h3>
+                    <p className="text-zinc-300 text-sm leading-relaxed mb-6 max-w-3xl">
+                        {data.recommended_reason}
+                    </p>
 
-                    <div className="flex flex-col lg:flex-row items-start justify-between gap-8">
-                        <p className="text-tertiary text-lg md:text-xl font-headline font-bold uppercase tracking-tight leading-snug max-w-2xl antialiased">
-                            "{data.recommended_reason}"
-                        </p>
-                        <button className="bg-tertiary text-white px-8 py-3 rounded-lg font-bold text-[10px] uppercase tracking-widest shadow-md transition-all active:scale-95">
-                            Initialize Pivot
-                        </button>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="bg-indigo-500/10 rounded-xl p-5 border border-indigo-500/20">
+                            <div className="text-[10px] font-bold tracking-widest uppercase text-indigo-400 mb-2 flex items-center gap-1">
+                                <ArrowRight className="w-3 h-3" /> Vs Original Idea
+                            </div>
+                            <p className="text-sm text-indigo-100/90 font-medium">{data.pivot_vs_original}</p>
+                        </div>
+                        
+                        <div className="bg-emerald-500/10 rounded-xl p-5 border border-emerald-500/20">
+                            <div className="text-[10px] font-bold tracking-widest uppercase text-emerald-400 mb-2 flex items-center gap-1">
+                                <FlaskConical className="w-3 h-3" /> 48-Hour Validation Test
+                            </div>
+                            <p className="text-sm text-emerald-100/90 font-medium">{data.validation_test}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </Card>
         </div>
     )
 }
