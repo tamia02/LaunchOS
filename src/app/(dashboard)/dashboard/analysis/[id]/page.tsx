@@ -370,7 +370,7 @@ const MOCK_ANALYSIS = {
         pivot_vs_original: "Seed boxes command $15-$30/mo vs $5-$10/mo for software. The LTV is likely 3x higher.",
         validation_test: "Spin up a Carrd landing page offering the subscription box today. See if you can get 5 people to prepay $15."
     },
-    revenue: {
+    progress: {
         current_phase: "Launch",
         overall_progress: 35,
         days_completed: 12,

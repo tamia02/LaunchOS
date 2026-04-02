@@ -206,11 +206,11 @@ export function NicheEngine({ data }: { data: NicheData }) {
                     <div className="space-y-4">
                         <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-lg relative overflow-hidden">
                             <span className="text-[9px] font-black uppercase tracking-widest text-red-400 block mb-1 relative z-10">Biggest Frustration</span>
-                            <p className="text-[13px] text-white/90 relative z-10">"{data.audience_profile?.biggest_frustration}"</p>
+                            <p className="text-[13px] text-white/90 relative z-10">&quot;{data.audience_profile?.biggest_frustration}&quot;</p>
                         </div>
                         <div className="bg-green-500/10 border border-green-500/20 p-4 rounded-lg relative overflow-hidden">
                             <span className="text-[9px] font-black uppercase tracking-widest text-green-400 block mb-1 relative z-10">Dream Outcome</span>
-                            <p className="text-[13px] text-white/90 relative z-10">"{data.audience_profile?.dream_outcome}"</p>
+                            <p className="text-[13px] text-white/90 relative z-10">&quot;{data.audience_profile?.dream_outcome}&quot;</p>
                         </div>
                     </div>
                 </div>
