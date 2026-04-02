@@ -451,7 +451,7 @@ function AnalysisPageInner() {
             if (!id) return
             try {
                 const data = await getAnalysisById(id as string)
-                const finalData = data || { idea: 'LaunchOS Mock Prototype' }
+                const finalData: any = data || { idea: 'LaunchOS Mock Prototype' }
                 
                 const isValid = (obj: any) => obj && typeof obj === 'object' && Object.keys(obj).length > 2;
                 const safeData = {
