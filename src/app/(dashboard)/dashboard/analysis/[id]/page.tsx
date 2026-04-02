@@ -465,7 +465,7 @@ function AnalysisPageInner() {
                     investor: isValid(finalData.investor) ? finalData.investor : { ...MOCK_ANALYSIS.investor, _simulated: true },
                     yc: isValid(finalData.yc) ? finalData.yc : { ...MOCK_ANALYSIS.yc, company_name: finalData.idea || 'Project', _simulated: true },
                     pivot: isValid(finalData.pivot) ? finalData.pivot : { ...MOCK_ANALYSIS.pivot, _simulated: true },
-                    revenue: isValid(finalData.revenue) ? finalData.revenue : { ...MOCK_ANALYSIS.revenue, project_name: finalData.idea || 'Project', _simulated: true },
+                    progress: isValid(finalData.progress) ? finalData.progress : { ...MOCK_ANALYSIS.progress, project_name: finalData.idea || 'Project', _simulated: true },
                     created_at: finalData.created_at || MOCK_ANALYSIS.created_at
                 }
                 setAnalysis(safeData)
@@ -502,7 +502,7 @@ function AnalysisPageInner() {
             case 'investor': return <InvestorEngine data={analysis.investor} />
             case 'yc': return <YCEngine data={analysis.yc} />
             case 'pivot': return <PivotEngine data={analysis.pivot} />
-            case 'progress': return <ProgressEngine data={analysis.revenue} />
+            case 'progress': return <ProgressEngine data={analysis.progress} />
             default: return null
         }
     }

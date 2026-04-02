@@ -92,7 +92,7 @@ export function CompetitorEngine({ data }: { data: CompetitorData }) {
                                             {comp.website}
                                         </a>
                                     </div>
-                                    <Badge variant="outline" className="bg-zinc-800/50 text-amber-300 border-amber-900/50 font-mono">
+                                    <Badge className="bg-zinc-800/50 text-amber-300 border-amber-900/50 font-mono">
                                         {comp.pricing}
                                     </Badge>
                                 </div>

@@ -77,7 +77,7 @@ export function PivotEngine({ data }: { data: any }) {
                             )}
 
                             <div className="flex justify-between items-start mb-4">
-                                <Badge variant="outline" className="bg-zinc-950 text-indigo-400 border-indigo-500/30 text-[10px] uppercase tracking-wider">
+                                <Badge className="bg-zinc-950 text-indigo-400 border-indigo-500/30 text-[10px] uppercase tracking-wider">
                                     {pivot.pivot_type} Pivot
                                 </Badge>
                                 <span className="text-4xl font-black text-zinc-800/50">0{pivot.pivot_number}</span>
