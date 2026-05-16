@@ -2,9 +2,9 @@ import { NextResponse } from 'next/server';
 import Razorpay from 'razorpay';
 import { getCurrentUser } from '@/lib/actions/auth-actions';
 
-const razorpay = new Razorpay({
-    key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
-    key_secret: process.env.RAZORPAY_KEY_SECRET!,
+const getRazorpay = () => new Razorpay({
+    key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'dummy_key_id',
+    key_secret: process.env.RAZORPAY_KEY_SECRET || 'dummy_key_secret',
 });
 
 // Map plan types to amounts in paise (INR)
@@ -29,6 +29,7 @@ export async function POST(req: Request) {
 
         const amount = PLAN_PRICES[planType];
 
+        const razorpay = getRazorpay();
         const order = await razorpay.orders.create({
             amount,
             currency: 'INR',
