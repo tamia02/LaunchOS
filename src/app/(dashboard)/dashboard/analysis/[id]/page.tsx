@@ -16,6 +16,8 @@ import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { getAnalysisById } from '@/lib/actions/analysis-actions'
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
+import { canAccessFeature } from '@/lib/features'
+import { LockedCard } from '@/components/ui/LockedCard'
 
 const engines = [
     { id: 'niche', name: 'Niche', number: '01' },
@@ -466,7 +468,8 @@ function AnalysisPageInner() {
                     yc: isValid(finalData.yc) ? finalData.yc : { ...MOCK_ANALYSIS.yc, company_name: finalData.idea || 'Project', _simulated: true },
                     pivot: isValid(finalData.pivot) ? finalData.pivot : { ...MOCK_ANALYSIS.pivot, _simulated: true },
                     progress: isValid(finalData.progress) ? finalData.progress : { ...MOCK_ANALYSIS.progress, project_name: finalData.idea || 'Project', _simulated: true },
-                    created_at: finalData.created_at || MOCK_ANALYSIS.created_at
+                    created_at: finalData.created_at || MOCK_ANALYSIS.created_at,
+                    plan_type: finalData.plan_type || 'free'
                 }
                 setAnalysis(safeData)
             } catch (err) {
@@ -492,17 +495,37 @@ function AnalysisPageInner() {
         )
         if (!analysis) return <div className="text-center py-20 text-on-surface-variant/40">Protocol not found.</div>
 
+        const plan = analysis.plan_type;
+
         switch (activeTab) {
             case 'niche': return <NicheEngine data={analysis.niche} />
             case 'validation': return <ValidationEngine data={analysis.validation} />
             case 'mvp': return <MVPEngine data={analysis.mvp} />
             case 'pricing': return <PricingEngine data={analysis.pricing} />
-            case 'outreach': return <OutreachEngine data={analysis.outreach} />
-            case 'competitor': return <CompetitorEngine data={analysis.competitor} />
-            case 'investor': return <InvestorEngine data={analysis.investor} />
-            case 'yc': return <YCEngine data={analysis.yc} />
-            case 'pivot': return <PivotEngine data={analysis.pivot} />
-            case 'progress': return <ProgressEngine data={analysis.progress} />
+            case 'outreach': 
+                return canAccessFeature(plan, 'outreach_engine') ? 
+                    <OutreachEngine data={analysis.outreach} /> : 
+                    <LockedCard feature="Outreach & Acquisition Strategy" requiredPlan="Advanced" price="₹999/month" />
+            case 'competitor': 
+                return canAccessFeature(plan, 'competitor_engine') ? 
+                    <CompetitorEngine data={analysis.competitor} /> : 
+                    <LockedCard feature="Deep Competitor Intelligence" requiredPlan="Medium" price="₹799/month" />
+            case 'investor': 
+                return canAccessFeature(plan, 'investor_engine') ? 
+                    <InvestorEngine data={analysis.investor} /> : 
+                    <LockedCard feature="Investor Vitals & Pitch" requiredPlan="Medium" price="₹799/month" />
+            case 'yc': 
+                return canAccessFeature(plan, 'yc_engine') ? 
+                    <YCEngine data={analysis.yc} /> : 
+                    <LockedCard feature="Y-Combinator Application Generator" requiredPlan="Medium" price="₹799/month" />
+            case 'pivot': 
+                return canAccessFeature(plan, 'pivot_engine') ? 
+                    <PivotEngine data={analysis.pivot} /> : 
+                    <LockedCard feature="Intelligent Pivot Strategies" requiredPlan="Advanced" price="₹999/month" />
+            case 'progress': 
+                return canAccessFeature(plan, 'progress_engine') ? 
+                    <ProgressEngine data={analysis.progress} /> : 
+                    <LockedCard feature="Daily Progress Tracker" requiredPlan="Advanced" price="₹999/month" />
             default: return null
         }
     }

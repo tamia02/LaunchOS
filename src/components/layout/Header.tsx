@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 
-export function Header() {
+export function Header({ credits = 0, planType = 'free' }: { credits?: number, planType?: string }) {
     const pathname = usePathname()
 
     // Extract analysis ID from path so engine links keep the user on the same analysis
@@ -56,14 +56,23 @@ export function Header() {
                 </nav>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
+                {/* Credit Display */}
+                <Link href="/pricing" className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container border border-white/5 hover:border-tertiary/50 transition-all duration-300 group">
+                    <span className="material-symbols-outlined text-[14px] text-tertiary group-hover:animate-pulse">local_fire_department</span>
+                    <span className="text-xs font-bold text-white tracking-wider">{credits} <span className="text-on-surface-variant font-medium text-[10px] uppercase">Credits</span></span>
+                </Link>
+
+                <div className="h-4 w-px bg-white/10" />
+
                 <button className="p-1.5 text-slate-200 hover:bg-slate-800/40 rounded-full transition-all duration-300 flex items-center justify-center">
                     <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>notifications</span>
                 </button>
                 <button className="p-1.5 text-slate-200 hover:bg-slate-800/40 rounded-full transition-all duration-300 flex items-center justify-center">
                     <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>settings</span>
                 </button>
-                <div className="w-7 h-7 rounded-full bg-surface-container-high border border-white/5 overflow-hidden shadow-inner">
+                <div className="relative">
+                    <div className="w-8 h-8 rounded-full bg-surface-container-high border border-white/5 overflow-hidden shadow-inner cursor-pointer hover:ring-2 hover:ring-tertiary/50 transition-all">
                     <img
                         alt="User profile avatar"
                         className="w-full h-full object-cover"

@@ -1,15 +1,27 @@
 import React, { Suspense } from 'react'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { Header } from '@/components/layout/Header'
+import { getCurrentUser } from '@/lib/actions/auth-actions'
+import { getUserCredits } from '@/lib/credits'
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
     children,
 }: {
     children: React.ReactNode
 }) {
+    const user = await getCurrentUser();
+    let credits = { credits_remaining: 0, plan_type: 'free' };
+    
+    if (user?.id) {
+        const userCredits = await getUserCredits(user.id);
+        if (userCredits) {
+            credits = userCredits;
+        }
+    }
+
     return (
         <div className="flex min-h-screen bg-surface antialiased">
-            <Header />
+            <Header credits={credits.credits_remaining} planType={credits.plan_type} />
             <Suspense fallback={<div className="fixed left-0 top-0 h-screen w-60 z-40 bg-slate-950/60 backdrop-blur-2xl border-r border-white/5" />}>
                 <Sidebar />
             </Suspense>

@@ -10,7 +10,10 @@ export async function getAnalysisById(id: string) {
     console.log('Fetching analysis by ID:', id, 'for user:', user.id)
     try {
         const [data] = await sql`
-            SELECT * FROM analyses WHERE id = ${id} AND user_id = ${user.id}
+            SELECT a.*, u.plan_type 
+            FROM analyses a
+            JOIN users u ON u.id = a.user_id
+            WHERE a.id = ${id} AND a.user_id = ${user.id}
         `
 
         if (!data) {
@@ -24,6 +27,7 @@ export async function getAnalysisById(id: string) {
         return {
             id: data.id,
             idea: data.idea,
+            plan_type: data.plan_type || 'free',
             created_at: new Date(data.created_at).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',

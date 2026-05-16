@@ -1,0 +1,121 @@
+﻿Folder PATH listing for volume Acer
+Volume serial number is 6EA2-1CF1
+C:\USERS\TASMI\ONEDRIVE\LAUNCHOS\SRC
++---app
+|   |   favicon.ico
+|   |   globals.css
+|   |   layout.tsx
+|   |   page.tsx
+|   |   
+|   +---(auth)
+|   |   +---login
+|   |   |       page.tsx
+|   |   |       
+|   |   \---signup
+|   |           page.tsx
+|   |           
+|   +---(dashboard)
+|   |   |   layout.tsx
+|   |   |   
+|   |   +---countdown
+|   |   |       page.tsx
+|   |   |       
+|   |   +---dashboard
+|   |   |   |   page.tsx
+|   |   |   |   
+|   |   |   \---analysis
+|   |   |       \---[id]
+|   |   |               page.tsx
+|   |   |               
+|   |   +---gallery
+|   |   |       page.tsx
+|   |   |       
+|   |   +---journal
+|   |   |       page.tsx
+|   |   |       
+|   |   \---settings
+|   |           page.tsx
+|   |           
+|   \---api
+|       +---analyze
+|       |       route.ts
+|       |       
+|       +---auth
+|       |   +---![...nextauth]
+|       |   |       route.ts
+|       |   |       
+|       |   \---[...nextauth]
+|       |           route.ts
+|       |           
+|       +---pdf
+|       |       route.tsx
+|       |       
+|       +---stripe
+|       |   +---checkout
+|       |   |       route.ts
+|       |   |       
+|       |   \---webhook
+|       |           route.ts
+|       |           
+|       \---webhooks
+|           \---stripe
+|                   route.ts
+|                   
++---components
+|   |   Providers.tsx
+|   |   
+|   +---dashboard
+|   |       EngineTabs.tsx
+|   |       IdeaInput.tsx
+|   |       JournalClient.tsx
+|   |       RecentAnalyses.tsx
+|   |       
+|   +---engines
+|   |       CompetitorEngine.tsx
+|   |       InvestorEngine.tsx
+|   |       MVPEngine.tsx
+|   |       NicheEngine.tsx
+|   |       OutreachEngine.tsx
+|   |       PivotEngine.tsx
+|   |       PricingEngine.tsx
+|   |       ProgressEngine.tsx
+|   |       ValidationEngine.tsx
+|   |       YCEngine.tsx
+|   |       
+|   +---layout
+|   |       Header.tsx
+|   |       Sidebar.tsx
+|   |       
+|   +---pdf
+|   |       AnalysisPDF.tsx
+|   |       
+|   \---ui
+|           Button.tsx
+|           Card.tsx
+|           Input.tsx
+|           LoadingSpinner.tsx
+|           LockedCard.tsx
+|           MetricCard.tsx
+|           ProgressBar.tsx
+|           Tag.tsx
+|           
++---lib
+|   |   auth.ts
+|   |   credits.ts
+|   |   db.ts
+|   |   features.ts
+|   |   utils.ts
+|   |   
+|   +---actions
+|   |       analysis-actions.ts
+|   |       auth-actions.ts
+|   |       journal-actions.ts
+|   |       
+|   +---gemini
+|   |       client.ts
+|   |       prompts.ts
+|   |       
+|   \---resend
+|           client.ts
+|           
+\---types

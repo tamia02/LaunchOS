@@ -2,6 +2,10 @@ import { NextResponse } from 'next/server'
 import sql from '@/lib/db'
 import { getGeminiModel } from '@/lib/gemini/client'
 import { ENGINE_PROMPTS } from '@/lib/gemini/prompts'
+import { checkCredits, deductCredits } from '@/lib/credits'
+
+// DAY 1 FIX: Prevent Vercel from timing out at 10 seconds.
+export const maxDuration = 60; 
 
 async function callAI(prompt: string) {
     // 1. Try OpenRouter first (User preference)
@@ -45,6 +49,75 @@ async function callAI(prompt: string) {
     }
 }
 
+// Helper function to run a single engine
+async function runEngine(key: string, idea: string, nicheData: any = null, validationData: any = null) {
+    try {
+        let promptContext = `\n\nStartup Idea: ${idea}\n\nReturn ONLY the JSON object.`
+        
+        if (key === 'validation') {
+            promptContext = `\n\nUSER MESSAGE:\nStartup idea: ${idea}\nPrimary niche from Engine 1: ${nicheData?.niche_name || 'N/A'}\nNiche description: ${nicheData?.niche_description || 'N/A'}\n\nReturn ONLY the JSON object.`
+        } else if (key === 'mvp') {
+            promptContext = `\n\nUSER MESSAGE:\nStartup idea: ${idea}\nValidated niche: ${nicheData?.niche_name || 'N/A'}\nMarket verdict: ${validationData?.verdict || 'GO'}\nValidation score: ${validationData?.validation_score?.total || 50}/100\n\nReturn ONLY the JSON object.`
+        } else if (key === 'pricing') {
+            const mockMarketData = {
+                upwork: "Average requests range from $45-$120/hr",
+                fiverr: "Entry tiers ~$20, Pro tiers $300+",
+                trends: "Stable growth over past 12 months",
+                ph: "Similar tools charge $29/mo or $500 setup"
+            }
+            promptContext = `\n\nUSER MESSAGE:\nStartup idea: ${idea}\nNiche: ${nicheData?.niche_name || 'N/A'}\n\nEXTERNAL MARKET DATA SIGNALS:\nUpwork: ${mockMarketData.upwork}\nFiverr: ${mockMarketData.fiverr}\nTrends: ${mockMarketData.trends}\nProductHunt Competitors: ${mockMarketData.ph}\n\nReturn ONLY the JSON object.`
+        } else if (key === 'outreach') {
+            promptContext = `\n\nUSER MESSAGE:\nStartup idea: ${idea}\nTarget Niche: ${nicheData?.niche_name || 'N/A'}\n\nCreate a comprehensive free and paid outreach strategy following Alex Hormozi's framework. Return ONLY the JSON object.`
+        }
+
+        const prompt = `${ENGINE_PROMPTS[key as keyof typeof ENGINE_PROMPTS]}${promptContext}`
+        const parsedData = await callAI(prompt);
+        
+        if (parsedData) {
+           if (key === 'niche') {
+               const redditQuery = parsedData.niche_name || idea;
+               try {
+                   const redditRes = await fetch(`https://www.reddit.com/search.json?q=${encodeURIComponent(redditQuery)}&sort=top&t=year&limit=3&type=link`, {
+                       headers: { 'User-Agent': 'launchOS/1.0 (founder@launchos.app)' }
+                   });
+                   if (redditRes.ok) {
+                       const redditJson = await redditRes.json();
+                       parsedData.reddit_posts = redditJson.data?.children?.map((c: any) => ({
+                           title: c.data.title,
+                           subreddit: c.data.subreddit_name_prefixed,
+                           upvotes: c.data.score,
+                           url: `https://reddit.com${c.data.permalink}`
+                       })) || [];
+                   }
+               } catch (e) {
+                   console.error('Reddit API failed:', e);
+                   parsedData.reddit_posts = [];
+               }
+
+               try {
+                   const googleTrends = require('google-trends-api');
+                   const trendsStr = await googleTrends.interestOverTime({ keyword: redditQuery });
+                   const trendsJson = JSON.parse(trendsStr);
+                   parsedData.trends = trendsJson?.default?.timelineData?.map((pt: any) => ({
+                       date: pt.formattedTime,
+                       value: pt.value[0]
+                   })) || [];
+               } catch (e) {
+                   console.error('Trends API failed:', e);
+                   parsedData.trends = [];
+               }
+           }
+           
+           return { key, data: parsedData, success: true }
+        } else {
+           throw new Error('AI returned no data')
+        }
+    } catch (error: any) {
+        console.error(`[ERROR] Engine ${key} failed:`, error.message)
+        return { key, data: null, success: false }
+    }
+}
+
 export async function POST(req: Request) {
     try {
         const { idea, userId } = await req.json()
@@ -67,98 +140,50 @@ export async function POST(req: Request) {
                 INSERT INTO users (id, email, plan_type, usage_count)
                 VALUES (${userId}, 'demo@founder.os', 'free', 0)
             `
-        } else if (user.plan_type === 'free' && user.usage_count >= 20) {
-            console.log('Usage limit reached for user:', userId)
-            return NextResponse.json({ error: 'Upgrade required', code: 'UPGRADE_REQUIRED' }, { status: 403 })
         }
 
-        // 2. Run all engine prompts
-        const engineKeys = Object.keys(ENGINE_PROMPTS) as Array<keyof typeof ENGINE_PROMPTS>
-
-        console.log(`Running analysis using hybrid AI stack for ${engineKeys.length} engines...`)
-        const results = []
-        let nicheData: any = null
-        let validationData: any = null
+        // --- 1.5 CHECK CREDITS BEFORE RUNNING AI ---
+        const requiredCredits = 100; // First validation is 100 credits
+        const creditCheck = await checkCredits(userId, requiredCredits);
         
-        for (const key of engineKeys) {
-            try {
-                // Small throttle to avoid hitting free constraints too hard
-                if (results.length > 0) await new Promise(resolve => setTimeout(resolve, 800));
-
-                let promptContext = `\n\nStartup Idea: ${idea}\n\nReturn ONLY the JSON object.`
-                
-                if (key === 'validation') {
-                    promptContext = `\n\nUSER MESSAGE:\nStartup idea: ${idea}\nPrimary niche from Engine 1: ${nicheData?.niche_name || 'N/A'}\nNiche description: ${nicheData?.niche_description || 'N/A'}\n\nReturn ONLY the JSON object.`
-                } else if (key === 'mvp') {
-                    promptContext = `\n\nUSER MESSAGE:\nStartup idea: ${idea}\nValidated niche: ${nicheData?.niche_name || 'N/A'}\nMarket verdict: ${validationData?.verdict || 'GO'}\nValidation score: ${validationData?.validation_score?.total || 50}/100\n\nReturn ONLY the JSON object.`
-                } else if (key === 'pricing') {
-                    // MOCK ARCHITECTURE FOR MVP: Simulate external Apify/ProductHunt fetching
-                    const mockMarketData = {
-                        upwork: "Average requests range from $45-$120/hr",
-                        fiverr: "Entry tiers ~$20, Pro tiers $300+",
-                        trends: "Stable growth over past 12 months",
-                        ph: "Similar tools charge $29/mo or $500 setup"
-                    }
-                    promptContext = `\n\nUSER MESSAGE:\nStartup idea: ${idea}\nNiche: ${nicheData?.niche_name || 'N/A'}\n\nEXTERNAL MARKET DATA SIGNALS:\nUpwork: ${mockMarketData.upwork}\nFiverr: ${mockMarketData.fiverr}\nTrends: ${mockMarketData.trends}\nProductHunt Competitors: ${mockMarketData.ph}\n\nReturn ONLY the JSON object.`
-                } else if (key === 'outreach') {
-                    promptContext = `\n\nUSER MESSAGE:\nStartup idea: ${idea}\nTarget Niche: ${nicheData?.niche_name || 'N/A'}\n\nCreate a comprehensive free and paid outreach strategy following Alex Hormozi's framework. Return ONLY the JSON object.`
-                }
-
-                const prompt = `${ENGINE_PROMPTS[key]}${promptContext}`
-                const parsedData = await callAI(prompt);
-                
-                if (parsedData) {
-                   if (key === 'niche') {
-                       nicheData = parsedData;
-                       // Enrichment 1: Reddit API
-                       const redditQuery = parsedData.niche_name || idea;
-                       try {
-                           const redditRes = await fetch(`https://www.reddit.com/search.json?q=${encodeURIComponent(redditQuery)}&sort=top&t=year&limit=3&type=link`, {
-                               headers: { 'User-Agent': 'launchOS/1.0 (founder@launchos.app)' }
-                           });
-                           if (redditRes.ok) {
-                               const redditJson = await redditRes.json();
-                               parsedData.reddit_posts = redditJson.data?.children?.map((c: any) => ({
-                                   title: c.data.title,
-                                   subreddit: c.data.subreddit_name_prefixed,
-                                   upvotes: c.data.score,
-                                   url: `https://reddit.com${c.data.permalink}`
-                               })) || [];
-                           }
-                       } catch (e) {
-                           console.error('Reddit API failed:', e);
-                           parsedData.reddit_posts = [];
-                       }
-
-                       // Enrichment 2: Google Trends API
-                       try {
-                           const googleTrends = require('google-trends-api');
-                           const trendsStr = await googleTrends.interestOverTime({ keyword: redditQuery });
-                           const trendsJson = JSON.parse(trendsStr);
-                           parsedData.trends = trendsJson?.default?.timelineData?.map((pt: any) => ({
-                               date: pt.formattedTime,
-                               value: pt.value[0]
-                           })) || [];
-                       } catch (e) {
-                           console.error('Trends API failed:', e);
-                           parsedData.trends = [];
-                       }
-                   }
-                   
-                   if (key === 'validation') {
-                       validationData = parsedData;
-                   }
-
-                   results.push({ key, data: parsedData, success: true })
-                } else {
-                   throw new Error('AI returned no data')
-                }
-            } catch (error: any) {
-                console.error(`[ERROR] Engine ${key} failed:`, error.message)
-                results.push({ key, data: null, success: false })
-            }
+        if (!creditCheck.success) {
+            return NextResponse.json({ 
+                error: creditCheck.error, 
+                message: creditCheck.message, 
+                code: 'UPGRADE_REQUIRED',
+                upgradeUrl: creditCheck.upgradeUrl
+            }, { status: 403 })
         }
-        console.log('All engines processed.')
+
+        // 2. Run engines using Hybrid Parallel Execution (Day 1 Fix)
+        console.log(`Running analysis using Hybrid Parallel Execution...`)
+        
+        // Step A: Run Niche Engine first (Base Dependency)
+        console.log('[1/3] Running Niche Engine...');
+        const nicheResult = await runEngine('niche', idea);
+        const nicheData = nicheResult.data;
+
+        // Step B: Run Validation Engine second (Depends on Niche)
+        console.log('[2/3] Running Validation Engine...');
+        const validationResult = await runEngine('validation', idea, nicheData);
+        const validationData = validationResult.data;
+
+        // Step C: Run remaining 8 engines in PARALLEL
+        console.log('[3/3] Running remaining 8 engines in parallel...');
+        const engineKeys = Object.keys(ENGINE_PROMPTS) as Array<keyof typeof ENGINE_PROMPTS>;
+        const remainingKeys = engineKeys.filter(k => k !== 'niche' && k !== 'validation');
+        
+        const remainingPromises = remainingKeys.map(key => runEngine(key, idea, nicheData, validationData));
+        const remainingResults = await Promise.all(remainingPromises);
+
+        // Reconstruct results array in correct order
+        const results = [
+            nicheResult,
+            validationResult,
+            ...remainingResults
+        ];
+
+        console.log('All engines processed successfully in hybrid mode.')
 
         // 3. Prepare data for Neon
         const engineData: Record<string, any> = {}
@@ -211,6 +236,9 @@ export async function POST(req: Request) {
         await sql`
             UPDATE users SET usage_count = usage_count + 1 WHERE id = ${userId}
         `
+
+        // 6. DEDUCT CREDITS AFTER SUCCESS
+        await deductCredits(userId, requiredCredits, 'validation', analysis.id);
 
         return NextResponse.json({
             success: true,
