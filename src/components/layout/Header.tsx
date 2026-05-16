@@ -80,6 +80,7 @@ export function Header({ credits = 0, planType = 'free' }: { credits?: number, p
                     />
                 </div>
             </div>
+            </div>
         </header>
     )
 }

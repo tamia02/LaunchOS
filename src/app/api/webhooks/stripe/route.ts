@@ -3,11 +3,11 @@ import Stripe from 'stripe';
 import sql from '@/lib/db';
 import { PLAN_CREDITS } from '@/lib/credits';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY || 'dummy_key', {
     apiVersion: '2023-10-16' as any,
 });
 
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || 'dummy_secret';
 
 export async function POST(req: Request) {
     try {
@@ -17,7 +17,7 @@ export async function POST(req: Request) {
         let event: Stripe.Event;
 
         try {
-            event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
+            event = getStripe().webhooks.constructEvent(body, signature, webhookSecret);
         } catch (err: any) {
             console.error(`Webhook signature verification failed.`, err.message);
             return NextResponse.json({ error: 'Webhook signature verification failed.' }, { status: 400 });
