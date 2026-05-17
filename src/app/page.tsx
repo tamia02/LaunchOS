@@ -138,7 +138,7 @@ export default function LandingPage() {
                         <span className="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
                         <span className="text-xs font-label uppercase tracking-widest text-on-surface-variant">Intelligence v2.4 Live</span>
                     </div>
-                    <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-on-surface max-w-5xl leading-[0.95] mb-8">
+                    <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-on-surface max-w-5xl leading-[0.95] mb-8">
                         From raw idea to <span className="text-tertiary">validation</span> in seconds.
                     </h1>
                     <p className="font-body text-lg md:text-xl text-on-surface-variant max-w-2xl leading-relaxed mb-12">
@@ -175,50 +175,50 @@ export default function LandingPage() {
                 </section>
 
                 {/* SECTION 2: HOW IT WORKS */}
-                <section className="py-24 px-6 border-t border-white/5 bg-[#0A0A0A]">
+                <section className="py-24 px-6 border-t border-outline-variant/10 bg-transparent">
                     <div className="max-w-6xl mx-auto">
-                        <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 tracking-tight">How launchOS works</h2>
+                        <h2 className="font-headline font-extrabold text-3xl md:text-4xl lg:text-5xl text-center mb-16 tracking-tight text-on-surface">How launchOS works</h2>
                         <div className="grid md:grid-cols-3 gap-8">
-                            <div className="bg-[#111111] p-8 rounded-2xl border border-white/10">
-                                <div className="w-12 h-12 bg-[#60A5FA]/10 rounded-xl flex items-center justify-center text-[#60A5FA] mb-6">
+                            <div className="bg-surface-container-low/50 p-8 rounded-2xl border border-outline-variant/15 backdrop-blur-sm">
+                                <div className="w-12 h-12 bg-tertiary/10 rounded-xl flex items-center justify-center text-tertiary mb-6">
                                     <Search className="w-6 h-6" />
                                 </div>
-                                <h3 className="text-xl font-bold mb-3">Type your idea</h3>
-                                <p className="text-[#888888] leading-relaxed">One sentence. That is all we need. No forms. No questionnaires. Just your idea.</p>
+                                <h3 className="font-headline font-bold text-xl mb-3 text-on-surface">Type your idea</h3>
+                                <p className="font-body text-on-surface-variant leading-relaxed">One sentence. That is all we need. No forms. No questionnaires. Just your idea.</p>
                             </div>
-                            <div className="bg-[#111111] p-8 rounded-2xl border border-white/10">
-                                <div className="w-12 h-12 bg-[#60A5FA]/10 rounded-xl flex items-center justify-center text-[#60A5FA] mb-6">
+                            <div className="bg-surface-container-low/50 p-8 rounded-2xl border border-outline-variant/15 backdrop-blur-sm">
+                                <div className="w-12 h-12 bg-tertiary/10 rounded-xl flex items-center justify-center text-tertiary mb-6">
                                     <Zap className="w-6 h-6" />
                                 </div>
-                                <h3 className="text-xl font-bold mb-3">10 engines analyze it</h3>
-                                <p className="text-[#888888] leading-relaxed">Our AI thinks like a market analyst, product strategist, pricing expert, and YC partner — all at once.</p>
+                                <h3 className="font-headline font-bold text-xl mb-3 text-on-surface">10 engines analyze it</h3>
+                                <p className="font-body text-on-surface-variant leading-relaxed">Our AI thinks like a market analyst, product strategist, pricing expert, and YC partner — all at once.</p>
                             </div>
-                            <div className="bg-[#111111] p-8 rounded-2xl border border-white/10">
-                                <div className="w-12 h-12 bg-[#60A5FA]/10 rounded-xl flex items-center justify-center text-[#60A5FA] mb-6">
+                            <div className="bg-surface-container-low/50 p-8 rounded-2xl border border-outline-variant/15 backdrop-blur-sm">
+                                <div className="w-12 h-12 bg-tertiary/10 rounded-xl flex items-center justify-center text-tertiary mb-6">
                                     <Target className="w-6 h-6" />
                                 </div>
-                                <h3 className="text-xl font-bold mb-3">Get your complete launch plan</h3>
-                                <p className="text-[#888888] leading-relaxed">Niche, validation, MVP, pricing, outreach, competitors, investor score — ready in under 2 minutes.</p>
+                                <h3 className="font-headline font-bold text-xl mb-3 text-on-surface">Get your complete launch plan</h3>
+                                <p className="font-body text-on-surface-variant leading-relaxed">Niche, validation, MVP, pricing, outreach, competitors, investor score — ready in under 2 minutes.</p>
                             </div>
                         </div>
                     </div>
                 </section>
 
                 {/* SECTION 3: WHAT YOU GET */}
-                <section className="py-24 px-6 border-t border-white/5 bg-[#0A0A0A]">
+                <section className="py-24 px-6 border-t border-outline-variant/10 bg-transparent">
                     <div className="max-w-6xl mx-auto">
-                        <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 tracking-tight">10 engines. One idea. Complete launch plan.</h2>
+                        <h2 className="font-headline font-extrabold text-3xl md:text-4xl lg:text-5xl text-center mb-16 tracking-tight text-on-surface">10 engines. One idea. Complete launch plan.</h2>
                         <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-4">
                             {engines.map((engine, idx) => (
-                                <div key={idx} className="bg-[#111111] p-6 rounded-2xl border border-white/10 flex flex-col hover:border-[#60A5FA]/30 transition-colors">
+                                <div key={idx} className="bg-surface-container-low/50 p-6 rounded-2xl border border-outline-variant/15 flex flex-col hover:border-tertiary/30 transition-all duration-300 backdrop-blur-sm">
                                     <div className="flex justify-between items-start mb-4">
-                                        <span className="text-[#60A5FA] font-mono font-bold text-sm">{engine.num}</span>
-                                        <div className="text-[#FAFAFA]/50">{engine.icon}</div>
+                                        <span className="text-tertiary font-mono font-bold text-sm">{engine.num}</span>
+                                        <div className="text-on-surface-variant/70">{engine.icon}</div>
                                     </div>
-                                    <h3 className="font-bold mb-2">{engine.name}</h3>
-                                    <p className="text-[#888888] text-sm mb-6 flex-1">{engine.desc}</p>
-                                    <div className="p-3 bg-[#0A0A0A] rounded-lg border border-white/5">
-                                        <p className="text-[11px] text-[#888888] font-mono leading-relaxed">{engine.sample}</p>
+                                    <h3 className="font-headline font-bold text-on-surface mb-2">{engine.name}</h3>
+                                    <p className="font-body text-on-surface-variant text-sm mb-6 flex-1">{engine.desc}</p>
+                                    <div className="p-3 bg-surface-container/50 rounded-lg border border-outline-variant/10">
+                                        <p className="text-[11px] text-on-surface-variant font-mono leading-relaxed">{engine.sample}</p>
                                     </div>
                                 </div>
                             ))}
@@ -227,15 +227,15 @@ export default function LandingPage() {
                 </section>
 
                 {/* SECTION 4: COST COMPARISON */}
-                <section className="py-24 px-6 border-t border-white/5 bg-[#0A0A0A]">
+                <section className="py-24 px-6 border-t border-outline-variant/10 bg-transparent">
                     <div className="max-w-6xl mx-auto">
-                        <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 tracking-tight">What founders normally spend to get this</h2>
+                        <h2 className="font-headline font-extrabold text-3xl md:text-4xl lg:text-5xl text-center mb-16 tracking-tight text-on-surface">What founders normally spend to get this</h2>
                         
                         <div className="flex flex-col lg:flex-row gap-8">
-                            <div className="flex-1 bg-[#111111] p-8 rounded-3xl border border-white/10">
-                                <h3 className="text-xl font-bold mb-8 text-[#FAFAFA]">Doing it the old way</h3>
+                            <div className="flex-1 bg-surface-container-low/50 p-8 rounded-3xl border border-outline-variant/15 backdrop-blur-sm">
+                                <h3 className="font-headline font-bold text-xl mb-8 text-on-surface">Doing it the old way</h3>
                                 <div className="space-y-4">
-                                    <div className="grid grid-cols-3 text-sm font-bold text-[#888888] pb-2 border-b border-white/10">
+                                    <div className="grid grid-cols-3 text-sm font-bold text-on-surface-variant/70 pb-2 border-b border-outline-variant/15">
                                         <span>Tool</span>
                                         <span>What it does</span>
                                         <span className="text-right">Monthly cost</span>
@@ -251,31 +251,31 @@ export default function LandingPage() {
                                         { tool: "Hiring a consultant", does: "Competitor research", cost: "$200/session" },
                                         { tool: "Manual research", does: "Investor preparation", cost: "$150/session" },
                                     ].map((item, i) => (
-                                        <div key={i} className="grid grid-cols-3 text-sm text-[#FAFAFA] py-2 border-b border-white/5 last:border-0">
+                                        <div key={i} className="grid grid-cols-3 text-sm text-on-surface py-2 border-b border-outline-variant/10 last:border-0">
                                             <span>{item.tool}</span>
-                                            <span className="text-[#888888]">{item.does}</span>
+                                            <span className="text-on-surface-variant/80">{item.does}</span>
                                             <span className="text-right">{item.cost}</span>
                                         </div>
                                     ))}
-                                    <div className="grid grid-cols-3 text-lg font-bold text-[#FAFAFA] pt-4 mt-2 border-t border-white/20">
+                                    <div className="grid grid-cols-3 text-lg font-bold text-on-surface pt-4 mt-2 border-t border-outline-variant/15">
                                         <span>TOTAL</span>
                                         <span></span>
                                         <span className="text-right">$1,013+/month</span>
                                     </div>
                                 </div>
-                                <p className="text-sm text-[#888888] mt-8 bg-[#0A0A0A] p-4 rounded-xl border border-white/5">
+                                <p className="text-sm text-on-surface-variant/80 mt-8 bg-surface-container/50 p-4 rounded-xl border border-outline-variant/10">
                                     And there is NO dedicated pricing tool for founders. No tool for YC application writing. No tool for pivot suggestions. You were paying over $1,000/month for an incomplete solution.
                                 </p>
                             </div>
 
-                            <div className="lg:w-[400px] bg-[#60A5FA] p-10 rounded-3xl text-black flex flex-col justify-center">
-                                <h3 className="text-3xl font-black mb-6 tracking-tight">launchOS replaces all of it</h3>
-                                <ul className="space-y-4 mb-10 text-lg font-medium">
-                                    <li className="flex items-center gap-3"><CheckCircle2 className="w-5 h-5" /> Starting at ₹499/month</li>
-                                    <li className="flex items-center gap-3"><CheckCircle2 className="w-5 h-5" /> That is 95% cheaper</li>
-                                    <li className="flex items-center gap-3"><CheckCircle2 className="w-5 h-5" /> And it covers what they all missed.</li>
+                            <div className="lg:w-[400px] bg-gradient-to-br from-tertiary/25 via-surface-container/50 to-surface-container-low/80 p-10 rounded-3xl border border-tertiary/30 text-on-surface flex flex-col justify-center shadow-[0px_0px_50px_rgba(103,156,255,0.15)] backdrop-blur-sm">
+                                <h3 className="font-headline font-extrabold text-3xl mb-6 tracking-tight text-on-surface">launchOS replaces all of it</h3>
+                                <ul className="space-y-4 mb-10 text-lg font-medium font-body text-on-surface-variant">
+                                    <li className="flex items-center gap-3 text-on-surface"><CheckCircle2 className="w-5 h-5 text-tertiary" /> Starting at ₹499/month</li>
+                                    <li className="flex items-center gap-3 text-on-surface"><CheckCircle2 className="w-5 h-5 text-tertiary" /> That is 95% cheaper</li>
+                                    <li className="flex items-center gap-3 text-on-surface"><CheckCircle2 className="w-5 h-5 text-tertiary" /> And it covers what they missed.</li>
                                 </ul>
-                                <Link href="/login" className="bg-black text-white px-8 py-4 rounded-xl font-bold text-center hover:bg-black/80 transition-colors w-full">
+                                <Link href="/login" className="button-metallic text-on-primary px-8 py-4 rounded-xl font-headline font-bold text-center hover:brightness-110 active:scale-95 transition-all duration-300 w-full shadow-lg">
                                     Start Free →
                                 </Link>
                             </div>
@@ -284,130 +284,130 @@ export default function LandingPage() {
                 </section>
 
                 {/* SECTION 5: PRICING PLANS */}
-                <section className="py-24 px-6 border-t border-white/5 bg-[#0A0A0A]" id="pricing">
+                <section className="py-24 px-6 border-t border-outline-variant/10 bg-transparent" id="pricing">
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-16">
-                            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Simple, honest pricing</h2>
-                            <p className="text-[#888888]">Cancel anytime. No hidden fees.</p>
+                            <h2 className="font-headline font-extrabold text-3xl md:text-4xl lg:text-5xl tracking-tight mb-4 text-on-surface">Simple, honest pricing</h2>
+                            <p className="font-body text-on-surface-variant/80">Cancel anytime. No hidden fees.</p>
                         </div>
                         
                         <div className="grid md:grid-cols-4 gap-6">
                             {/* FREE */}
-                            <div className="bg-[#111111] p-6 rounded-3xl border border-white/10 flex flex-col">
-                                <h3 className="font-bold text-xl mb-2">FREE</h3>
-                                <p className="text-3xl font-black mb-1">₹0<span className="text-sm text-[#888888] font-normal">/month</span></p>
-                                <p className="text-sm text-[#888888] mb-6">Try before you commit</p>
-                                <ul className="space-y-3 mb-8 flex-1 text-sm">
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> 3 analyses total</li>
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> Niche engine (partial)</li>
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> Validation engine (partial)</li>
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> MVP engine (partial)</li>
-                                    <li className="flex items-center gap-2 text-[#888888]"><Lock className="w-4 h-4" /> Pricing engine locked</li>
-                                    <li className="flex items-center gap-2 text-[#888888]"><Lock className="w-4 h-4" /> Outreach engine locked</li>
-                                    <li className="flex items-center gap-2 text-[#888888]"><Lock className="w-4 h-4" /> Competitor engine locked</li>
-                                    <li className="flex items-center gap-2 text-[#888888]"><Lock className="w-4 h-4" /> Investor engine locked</li>
-                                    <li className="flex items-center gap-2 text-[#888888]"><Lock className="w-4 h-4" /> YC application locked</li>
-                                    <li className="flex items-center gap-2 text-[#888888]"><Lock className="w-4 h-4" /> Pivot engine locked</li>
-                                    <li className="flex items-center gap-2 text-[#888888]"><Lock className="w-4 h-4" /> Progress tracker locked</li>
-                                    <li className="flex items-center gap-2 text-[#888888]"><Lock className="w-4 h-4" /> No export</li>
+                            <div className="bg-surface-container-low/50 p-6 rounded-3xl border border-outline-variant/15 flex flex-col backdrop-blur-sm">
+                                <h3 className="font-headline font-bold text-xl mb-2 text-on-surface">FREE</h3>
+                                <p className="font-headline text-3xl font-black mb-1 text-on-surface">₹0<span className="text-sm text-on-surface-variant/60 font-normal">/month</span></p>
+                                <p className="font-body text-sm text-on-surface-variant/80 mb-6">Try before you commit</p>
+                                <ul className="space-y-3 mb-8 flex-1 text-sm font-body">
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> 3 analyses total</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Niche engine (partial)</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Validation engine (partial)</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> MVP engine (partial)</li>
+                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> Pricing engine locked</li>
+                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> Outreach engine locked</li>
+                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> Competitor engine locked</li>
+                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> Investor engine locked</li>
+                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> YC application locked</li>
+                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> Pivot engine locked</li>
+                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> Progress tracker locked</li>
+                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> No export</li>
                                 </ul>
-                                <Link href="/login" className="w-full text-center py-3 rounded-xl bg-[#222] text-white font-bold hover:bg-[#333] transition-colors">Start Free</Link>
+                                <Link href="/login" className="w-full text-center py-3 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/15 text-on-surface font-headline font-bold transition-all duration-300">Start Free</Link>
                             </div>
 
                             {/* BASIC */}
-                            <div className="bg-[#111111] p-6 rounded-3xl border border-white/10 flex flex-col">
-                                <h3 className="font-bold text-xl mb-2">BASIC</h3>
-                                <p className="text-3xl font-black mb-1">₹499<span className="text-sm text-[#888888] font-normal">/month</span></p>
-                                <p className="text-sm text-[#888888] mb-2">For founders exploring ideas</p>
-                                <p className="text-xs font-mono text-[#60A5FA] mb-6 bg-[#60A5FA]/10 inline-block px-2 py-1 rounded w-fit">500 credits/mo</p>
-                                <ul className="space-y-3 mb-8 flex-1 text-sm">
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> 3 ideas per month</li>
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> Niche engine (partial)</li>
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> Validation engine (partial)</li>
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> MVP engine (partial)</li>
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> Pricing engine (partial)</li>
-                                    <li className="flex items-center gap-2 text-[#888888]"><Lock className="w-4 h-4" /> Outreach engine locked</li>
-                                    <li className="flex items-center gap-2 text-[#888888]"><Lock className="w-4 h-4" /> Competitor engine locked</li>
-                                    <li className="flex items-center gap-2 text-[#888888]"><Lock className="w-4 h-4" /> Investor engine locked</li>
-                                    <li className="flex items-center gap-2 text-[#888888]"><Lock className="w-4 h-4" /> YC application locked</li>
-                                    <li className="flex items-center gap-2 text-[#888888]"><Lock className="w-4 h-4" /> Pivot engine locked</li>
-                                    <li className="flex items-center gap-2 text-[#888888]"><Lock className="w-4 h-4" /> Progress tracker locked</li>
-                                    <li className="flex items-center gap-2 text-[#888888]"><Lock className="w-4 h-4" /> No export</li>
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> 1 rerun allowed</li>
+                            <div className="bg-surface-container-low/50 p-6 rounded-3xl border border-outline-variant/15 flex flex-col backdrop-blur-sm">
+                                <h3 className="font-headline font-bold text-xl mb-2 text-on-surface">BASIC</h3>
+                                <p className="font-headline text-3xl font-black mb-1 text-on-surface">₹499<span className="text-sm text-on-surface-variant/60 font-normal">/month</span></p>
+                                <p className="font-body text-sm text-on-surface-variant/80 mb-2">For founders exploring ideas</p>
+                                <p className="text-xs font-mono text-tertiary mb-6 bg-tertiary/10 inline-block px-2 py-1 rounded w-fit">500 credits/mo</p>
+                                <ul className="space-y-3 mb-8 flex-1 text-sm font-body">
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> 3 ideas per month</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Niche engine (partial)</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Validation engine (partial)</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> MVP engine (partial)</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Pricing engine (partial)</li>
+                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> Outreach engine locked</li>
+                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> Competitor engine locked</li>
+                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> Investor engine locked</li>
+                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> YC application locked</li>
+                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> Pivot engine locked</li>
+                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> Progress tracker locked</li>
+                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> No export</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> 1 rerun allowed</li>
                                 </ul>
-                                <Link href="/login" className="w-full text-center py-3 rounded-xl bg-[#222] text-white font-bold hover:bg-[#333] transition-colors">Get Basic</Link>
+                                <Link href="/login" className="w-full text-center py-3 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/15 text-on-surface font-headline font-bold transition-all duration-300">Get Basic</Link>
                             </div>
 
                             {/* MEDIUM */}
-                            <div className="bg-[#111111] p-6 rounded-3xl border border-[#60A5FA]/50 flex flex-col relative shadow-[0_0_40px_rgba(200,241,53,0.1)] transform md:-translate-y-4">
-                                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#60A5FA] text-black text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest whitespace-nowrap">Most Popular</div>
-                                <h3 className="font-bold text-xl mb-2 text-[#60A5FA]">MEDIUM</h3>
-                                <p className="text-3xl font-black mb-1">₹799<span className="text-sm text-[#888888] font-normal">/month</span></p>
-                                <p className="text-sm text-[#888888] mb-2">For founders ready to build</p>
-                                <p className="text-xs font-mono text-[#60A5FA] mb-6 bg-[#60A5FA]/10 inline-block px-2 py-1 rounded w-fit">2,000 credits/mo</p>
-                                <ul className="space-y-3 mb-8 flex-1 text-sm">
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> 15 ideas per month</li>
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> Full niche engine</li>
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> Full validation engine</li>
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> Full MVP engine</li>
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> Full pricing engine</li>
-                                    <li className="flex items-center gap-2 text-[#888888]"><Lock className="w-4 h-4" /> Outreach engine locked</li>
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> Competitor engine unlocked</li>
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> Investor engine unlocked</li>
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> YC application unlocked</li>
-                                    <li className="flex items-center gap-2 text-[#888888]"><Lock className="w-4 h-4" /> Pivot engine locked</li>
-                                    <li className="flex items-center gap-2 text-[#888888]"><Lock className="w-4 h-4" /> Progress tracker locked</li>
-                                    <li className="flex items-center gap-2 text-[#888888]"><Lock className="w-4 h-4" /> No export</li>
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> 10 reruns allowed</li>
+                            <div className="bg-surface-container-low/50 p-6 rounded-3xl border border-tertiary/50 flex flex-col relative shadow-[0_0_40px_rgba(103,156,255,0.15)] transform md:-translate-y-4 backdrop-blur-sm">
+                                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-tertiary text-on-tertiary text-[10px] font-headline font-bold px-3 py-1 rounded-full uppercase tracking-widest whitespace-nowrap shadow-md">Most Popular</div>
+                                <h3 className="font-headline font-bold text-xl mb-2 text-tertiary">MEDIUM</h3>
+                                <p className="font-headline text-3xl font-black mb-1 text-on-surface">₹799<span className="text-sm text-on-surface-variant/60 font-normal">/month</span></p>
+                                <p className="font-body text-sm text-on-surface-variant/80 mb-2">For founders ready to build</p>
+                                <p className="text-xs font-mono text-tertiary mb-6 bg-tertiary/10 inline-block px-2 py-1 rounded w-fit">2,000 credits/mo</p>
+                                <ul className="space-y-3 mb-8 flex-1 text-sm font-body">
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> 15 ideas per month</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Full niche engine</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Full validation engine</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Full MVP engine</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Full pricing engine</li>
+                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> Outreach engine locked</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Competitor engine unlocked</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Investor engine unlocked</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> YC application unlocked</li>
+                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> Pivot engine locked</li>
+                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> Progress tracker locked</li>
+                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> No export</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> 10 reruns allowed</li>
                                 </ul>
-                                <Link href="/login" className="w-full text-center py-3 rounded-xl bg-[#60A5FA] text-black font-bold hover:bg-[#60A5FA]/90 transition-colors">Get Medium</Link>
+                                <Link href="/login" className="w-full text-center py-3 rounded-xl button-metallic text-on-primary font-headline font-bold hover:brightness-110 transition-all duration-300">Get Medium</Link>
                             </div>
 
                             {/* ADVANCED */}
-                            <div className="bg-[#111111] p-6 rounded-3xl border border-white/10 flex flex-col">
-                                <h3 className="font-bold text-xl mb-2">ADVANCED</h3>
-                                <p className="text-3xl font-black mb-1">₹999<span className="text-sm text-[#888888] font-normal">/month</span></p>
-                                <p className="text-sm text-[#888888] mb-2">For serious founders</p>
-                                <p className="text-xs font-mono text-[#60A5FA] mb-6 bg-[#60A5FA]/10 inline-block px-2 py-1 rounded w-fit">5,000 credits/mo</p>
-                                <ul className="space-y-3 mb-8 flex-1 text-sm">
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> 50 ideas per month</li>
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> All 10 engines fully unlocked</li>
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> Full outreach engine</li>
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> Full pivot engine</li>
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> Full progress tracker</li>
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> Pricing chatbot</li>
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> Export PDF reports</li>
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> Priority AI processing</li>
-                                    <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-green-500" /> Unlimited reruns (100 cr/each)</li>
+                            <div className="bg-surface-container-low/50 p-6 rounded-3xl border border-outline-variant/15 flex flex-col backdrop-blur-sm">
+                                <h3 className="font-headline font-bold text-xl mb-2 text-on-surface">ADVANCED</h3>
+                                <p className="font-headline text-3xl font-black mb-1 text-on-surface">₹999<span className="text-sm text-on-surface-variant/60 font-normal">/month</span></p>
+                                <p className="font-body text-sm text-on-surface-variant/80 mb-2">For serious founders</p>
+                                <p className="text-xs font-mono text-tertiary mb-6 bg-tertiary/10 inline-block px-2 py-1 rounded w-fit">5,000 credits/mo</p>
+                                <ul className="space-y-3 mb-8 flex-1 text-sm font-body">
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> 50 ideas per month</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> All 10 engines fully unlocked</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Full outreach engine</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Full pivot engine</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Full progress tracker</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Pricing chatbot</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Export PDF reports</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Priority AI processing</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Unlimited reruns (100 cr/each)</li>
                                 </ul>
-                                <Link href="/login" className="w-full text-center py-3 rounded-xl bg-[#222] text-white font-bold hover:bg-[#333] transition-colors">Get Advanced</Link>
+                                <Link href="/login" className="w-full text-center py-3 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/15 text-on-surface font-headline font-bold transition-all duration-300">Get Advanced</Link>
                             </div>
                         </div>
 
-                        <div className="mt-12 p-4 bg-[#111111] rounded-xl border border-white/10 text-center text-sm text-[#888888] max-w-2xl mx-auto">
+                        <div className="mt-12 p-4 bg-surface-container-low/50 rounded-xl border border-outline-variant/15 text-center text-sm font-body text-on-surface-variant/80 max-w-2xl mx-auto backdrop-blur-sm">
                             Your cost per analysis: ₹0.83 · Our cost to run it: ₹0.83 · Our margin funds the team that improves it daily.
                         </div>
                     </div>
                 </section>
 
                 {/* SECTION 6: FAQ */}
-                <section className="py-24 px-6 border-t border-white/5 bg-[#0A0A0A]">
+                <section className="py-24 px-6 border-t border-outline-variant/10 bg-transparent">
                     <div className="max-w-3xl mx-auto">
-                        <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 tracking-tight">Frequently asked questions</h2>
+                        <h2 className="font-headline font-extrabold text-3xl md:text-4xl lg:text-5xl text-center mb-16 tracking-tight text-on-surface">Frequently asked questions</h2>
                         <div className="space-y-4">
                             {faqs.map((faq, idx) => (
-                                <div key={idx} className="bg-[#111111] border border-white/10 rounded-2xl overflow-hidden transition-all duration-300">
+                                <div key={idx} className="bg-surface-container-low/50 border border-outline-variant/15 rounded-2xl overflow-hidden transition-all duration-300 backdrop-blur-sm">
                                     <button 
                                         onClick={() => toggleFaq(idx)}
-                                        className="w-full p-6 text-left flex justify-between items-center hover:bg-white/5 transition-colors"
+                                        className="w-full p-6 text-left flex justify-between items-center hover:bg-surface-container-high/30 transition-colors"
                                     >
-                                        <span className="font-bold text-[#FAFAFA] pr-8">{faq.q}</span>
+                                        <span className="font-headline font-bold text-on-surface pr-8">{faq.q}</span>
                                         {openFaq === idx ? 
-                                            <ChevronUp className="w-5 h-5 text-[#888888] flex-shrink-0" /> : 
-                                            <ChevronDown className="w-5 h-5 text-[#888888] flex-shrink-0" />
+                                            <ChevronUp className="w-5 h-5 text-on-surface-variant/80 flex-shrink-0" /> : 
+                                            <ChevronDown className="w-5 h-5 text-on-surface-variant/80 flex-shrink-0" />
                                         }
                                     </button>
-                                    <div className={`px-6 pb-6 text-[#888888] leading-relaxed transition-all duration-300 ${openFaq === idx ? 'block' : 'hidden'}`}>
+                                    <div className={`px-6 pb-6 font-body text-on-surface-variant leading-relaxed transition-all duration-300 ${openFaq === idx ? 'block' : 'hidden'}`}>
                                         {faq.a}
                                     </div>
                                 </div>
@@ -417,31 +417,31 @@ export default function LandingPage() {
                 </section>
 
                 {/* SECTION 7: FINAL CTA */}
-                <section className="py-32 px-6 border-t border-white/5 bg-[#0A0A0A] text-center">
-                    <div className="max-w-4xl mx-auto bg-[#111111] p-16 rounded-[2rem] border border-white/10 relative overflow-hidden">
-                        <div className="absolute top-0 right-0 -mr-32 -mt-32 w-96 h-96 bg-[#60A5FA]/10 rounded-full blur-3xl pointer-events-none"></div>
-                        <div className="absolute bottom-0 left-0 -ml-32 -mb-32 w-96 h-96 bg-[#60A5FA]/5 rounded-full blur-3xl pointer-events-none"></div>
+                <section className="py-32 px-6 border-t border-outline-variant/10 bg-transparent text-center">
+                    <div className="max-w-4xl mx-auto bg-surface-container/50 p-16 rounded-[2rem] border border-outline-variant/15 relative overflow-hidden backdrop-blur-md">
+                        <div className="absolute top-0 right-0 -mr-32 -mt-32 w-96 h-96 bg-tertiary/15 rounded-full blur-3xl pointer-events-none animate-pulse"></div>
+                        <div className="absolute bottom-0 left-0 -ml-32 -mb-32 w-96 h-96 bg-tertiary/5 rounded-full blur-3xl pointer-events-none"></div>
                         
                         <div className="relative z-10">
-                            <h2 className="text-4xl md:text-5xl font-extrabold mb-6 tracking-tight text-[#FAFAFA]">Stop guessing. Start building.</h2>
-                            <p className="text-xl text-[#888888] mb-10 max-w-2xl mx-auto">
+                            <h2 className="font-headline font-extrabold text-4xl md:text-5xl mb-6 tracking-tight text-on-surface">Stop guessing. Start building.</h2>
+                            <p className="font-body text-xl text-on-surface-variant/80 mb-10 max-w-2xl mx-auto">
                                 3 free analyses. No credit card. <br/>2 minutes to your first launch plan.
                             </p>
-                            <Link href="/login" className="bg-[#60A5FA] text-black px-12 py-5 rounded-xl font-bold text-lg tracking-wide hover:bg-[#60A5FA]/90 transition-all inline-block mb-6">
+                            <Link href="/login" className="button-metallic text-on-primary px-12 py-5 rounded-xl font-headline font-bold text-lg tracking-wide hover:brightness-110 active:scale-95 transition-all inline-block mb-6 shadow-xl">
                                 Analyze My Idea →
                             </Link>
-                            <p className="text-sm text-[#888888]">Join 2,847 founders who already used launchOS</p>
+                            <p className="font-body text-sm text-on-surface-variant/80">Join 2,847 founders who already used launchOS</p>
                         </div>
                     </div>
                 </section>
 
                 {/* Footer */}
-                <footer className="py-8 border-t border-white/5 bg-[#0A0A0A]">
-                    <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-sm text-[#888888]">
+                <footer className="py-8 border-t border-outline-variant/10 bg-transparent">
+                    <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-sm font-body text-on-surface-variant/80">
                         <p>© {new Date().getFullYear()} launchOS. All rights reserved.</p>
                         <div className="flex gap-6 mt-4 md:mt-0">
-                            <Link href="/docs" className="hover:text-white transition-colors">Documentation</Link>
-                            <Link href="/support" className="hover:text-white transition-colors">Support</Link>
+                            <Link href="/docs" className="hover:text-on-surface transition-colors">Documentation</Link>
+                            <Link href="/support" className="hover:text-on-surface transition-colors">Support</Link>
                         </div>
                     </div>
                 </footer>

@@ -104,25 +104,25 @@ export function Header({ credits = 0, planType = 'free' }: { credits?: number, p
                     </button>
 
                     {showNotifMenu && (
-                        <div className="absolute right-0 mt-2 w-80 bg-[#111111] border border-white/10 rounded-xl shadow-2xl py-2 z-50">
-                            <div className="px-4 py-2 border-b border-white/5 flex justify-between items-center">
-                                <h3 className="font-bold text-sm text-white">Notifications</h3>
-                                <button onClick={markAllRead} className="text-xs text-[#888888] hover:text-white transition-colors">Mark all as read</button>
+                        <div className="absolute right-0 mt-2 w-80 bg-surface-container/95 border border-outline-variant/15 rounded-xl shadow-2xl py-2 z-50 backdrop-blur-md">
+                            <div className="px-4 py-2 border-b border-outline-variant/10 flex justify-between items-center">
+                                <h3 className="font-headline font-bold text-sm text-on-surface">Notifications</h3>
+                                <button onClick={markAllRead} className="font-body text-xs text-on-surface-variant/80 hover:text-on-surface transition-colors">Mark all as read</button>
                             </div>
                             <div className="max-h-80 overflow-y-auto">
                                 {notifications.length === 0 ? (
-                                    <div className="px-4 py-6 text-center text-sm text-[#888888]">No new notifications</div>
+                                    <div className="px-4 py-6 text-center text-sm font-body text-on-surface-variant/80">No new notifications</div>
                                 ) : (
                                     notifications.map((n, i) => (
-                                        <div key={i} className={cn("px-4 py-3 border-b border-white/5 last:border-0", !n.is_read ? "bg-white/5" : "")}>
-                                            <div className="text-sm font-bold text-white mb-1">{n.title}</div>
-                                            <div className="text-xs text-[#888888]">{n.message}</div>
+                                        <div key={i} className={cn("px-4 py-3 border-b border-outline-variant/10 last:border-0", !n.is_read ? "bg-white/5" : "")}>
+                                            <div className="text-sm font-headline font-bold text-on-surface mb-1">{n.title}</div>
+                                            <div className="text-xs font-body text-on-surface-variant/80">{n.message}</div>
                                         </div>
                                     ))
                                 )}
                             </div>
-                            <div className="px-4 py-2 border-t border-white/5 text-center">
-                                <Link href="/dashboard" className="text-xs text-[#C8F135] hover:underline">View all</Link>
+                            <div className="px-4 py-2 border-t border-outline-variant/10 text-center">
+                                <Link href="/dashboard" className="font-headline font-bold text-xs text-tertiary hover:underline">View all</Link>
                             </div>
                         </div>
                     )}
@@ -145,12 +145,12 @@ export function Header({ credits = 0, planType = 'free' }: { credits?: number, p
                     </div>
 
                     {showProfileMenu && (
-                        <div className="absolute right-0 mt-2 w-48 bg-[#111111] border border-white/10 rounded-xl shadow-2xl py-1 z-50 flex flex-col text-sm">
-                            <Link href="/profile" className="px-4 py-2 text-[#888888] hover:text-white hover:bg-white/5 transition-colors">My Profile</Link>
-                            <Link href="/settings" className="px-4 py-2 text-[#888888] hover:text-white hover:bg-white/5 transition-colors">Settings</Link>
-                            <Link href="/support" className="px-4 py-2 text-[#888888] hover:text-white hover:bg-white/5 transition-colors">Support</Link>
-                            <div className="h-px bg-white/10 my-1"></div>
-                            <button onClick={() => signOut({ callbackUrl: '/' })} className="px-4 py-2 text-red-500 hover:bg-red-500/10 text-left transition-colors font-medium">Sign out</button>
+                        <div className="absolute right-0 mt-2 w-48 bg-surface-container/95 border border-outline-variant/15 rounded-xl shadow-2xl py-1 z-50 flex flex-col text-sm backdrop-blur-md">
+                            <Link href="/profile" className="px-4 py-2 font-body text-on-surface-variant/80 hover:text-on-surface hover:bg-surface-container-high/30 transition-colors">My Profile</Link>
+                            <Link href="/settings" className="px-4 py-2 font-body text-on-surface-variant/80 hover:text-on-surface hover:bg-surface-container-high/30 transition-colors">Settings</Link>
+                            <Link href="/support" className="px-4 py-2 font-body text-on-surface-variant/80 hover:text-on-surface hover:bg-surface-container-high/30 transition-colors">Support</Link>
+                            <div className="h-px bg-outline-variant/10 my-1 font-body"></div>
+                            <button onClick={() => signOut({ callbackUrl: '/' })} className="px-4 py-2 font-headline text-error hover:bg-error/10 text-left transition-colors font-medium">Sign out</button>
                         </div>
                     )}
                 </div>
