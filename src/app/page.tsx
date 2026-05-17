@@ -108,50 +108,69 @@ export default function LandingPage() {
     };
 
     return (
-        <div className="bg-[#0A0A0A] text-[#FAFAFA] selection:bg-[#60A5FA]/30 selection:text-[#60A5FA] min-h-screen antialiased font-sans">
+        <div className="bg-surface text-on-surface selection:bg-tertiary/30 selection:text-tertiary-fixed min-h-screen antialiased font-sans">
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
             {/* TopNavBar */}
-            <nav className="fixed top-0 w-full z-50 bg-[#0A0A0A]/80 backdrop-blur-xl flex justify-between items-center h-16 px-8 max-w-full border-b border-white/10">
+            <nav className="fixed top-0 w-full z-50 bg-slate-900/60 backdrop-blur-xl flex justify-between items-center h-16 px-8 max-w-full shadow-[0px_4px_12px_rgba(0,0,0,0.2)]">
                 <div className="flex items-center gap-8">
-                    <span className="text-xl font-bold tracking-tighter text-white font-headline">launchOS</span>
+                    <span className="text-xl font-bold tracking-tighter text-slate-100 font-headline">launchOS</span>
+                    <div className="hidden md:flex gap-6 items-center">
+                        <Link href="/dashboard" className="text-slate-400 font-medium hover:text-slate-200 transition-colors duration-200 font-body text-sm">Dashboard</Link>
+                        <Link href="/projects" className="text-slate-400 font-medium hover:text-slate-200 transition-colors duration-200 font-body text-sm">Projects</Link>
+                        <Link href="/insights" className="text-slate-400 font-medium hover:text-slate-200 transition-colors duration-200 font-body text-sm">Insights</Link>
+                    </div>
                 </div>
                 <div className="flex items-center gap-4">
-                    <Link href="/login" className="text-[#888888] hover:text-white transition-colors text-sm font-medium">Log in</Link>
-                    <Link href="/login" className="bg-[#60A5FA] text-black px-4 py-2 rounded-lg text-sm font-bold hover:bg-[#60A5FA]/90 transition-all">
+                    <Link href="/login" className="text-slate-400 hover:text-slate-200 transition-colors text-sm font-medium">Log in</Link>
+                    <Link href="/login" className="bg-surface-container-high text-slate-200 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-surface-bright transition-all duration-300 scale-95 active:scale-90 border border-outline-variant/20">
                         Start Free
                     </Link>
                 </div>
             </nav>
 
-            <main className="relative min-h-screen flex flex-col pt-16">
+            <main className="relative min-h-screen flex flex-col hero-gradient pt-16">
                 
                 {/* SECTION 1: HERO */}
-                <section className="flex flex-col items-center justify-center px-6 text-center py-24 lg:py-32 bg-[#050A15]">
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-xs font-medium text-blue-400 mb-8">
-                        <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
-                        Intelligence v2.4 Live
+                <section className="flex-1 flex flex-col items-center justify-center px-6 text-center py-20 lg:py-32">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-variant/40 border border-outline-variant/10 mb-8">
+                        <span className="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+                        <span className="text-xs font-label uppercase tracking-widest text-on-surface-variant">Intelligence v2.4 Live</span>
                     </div>
-                    <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight max-w-4xl leading-[1.1] mb-8">
-                        From raw idea to <br className="hidden md:block" /> <span className="text-blue-400">validation</span> in seconds.
+                    <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-on-surface max-w-5xl leading-[0.95] mb-8">
+                        From raw idea to <span className="text-tertiary">validation</span> in seconds.
                     </h1>
-                    <p className="text-xl text-[#888888] max-w-3xl leading-relaxed mb-12">
+                    <p className="font-body text-lg md:text-xl text-on-surface-variant max-w-2xl leading-relaxed mb-12">
                         The AI-powered operating system for ambitious founders. Go from a raw concept to a fully validated MVP plan, pricing strategy, and outreach roadmap.
                     </p>
                     
-                    <div className="w-full max-w-2xl relative flex items-center bg-[#111827] border border-white/10 rounded-2xl p-2 shadow-2xl">
-                        <div className="pl-4 pr-3 text-blue-400">
-                            <Lightbulb className="w-5 h-5" />
+                    {/* Centered Input Command Bar */}
+                    <div className="w-full max-w-3xl relative group">
+                        <div className="absolute -inset-1 bg-gradient-to-r from-tertiary/20 to-primary/20 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div className="relative flex flex-col md:flex-row p-2 bg-surface-container-low rounded-xl border border-outline-variant/15 shadow-[0px_20px_40px_rgba(0,0,0,0.4)]">
+                            <div className="flex-1 flex items-center px-4">
+                                <Lightbulb className="w-5 h-5 text-outline mr-3" />
+                                <input 
+                                    className="w-full bg-transparent border-none outline-none focus:ring-0 text-on-surface placeholder:text-on-surface-variant/50 font-body py-4" 
+                                    placeholder="Enter your startup idea here..." 
+                                    type="text"
+                                />
+                            </div>
+                            <button className="button-metallic text-on-primary px-8 py-4 rounded-lg font-headline font-bold text-sm tracking-tight hover:brightness-110 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2">
+                                Analyze Idea
+                                <ArrowRight className="w-4 h-4" />
+                            </button>
                         </div>
-                        <input 
-                            type="text" 
-                            placeholder="Enter your startup idea here..." 
-                            className="flex-1 bg-transparent border-none text-white outline-none placeholder:text-[#888888] text-lg py-3"
-                        />
-                        <button className="bg-gradient-to-r from-gray-100 to-gray-300 text-black px-6 py-3 rounded-xl font-bold text-sm tracking-wide hover:opacity-90 transition-opacity flex items-center gap-2">
-                            Analyze Idea <ArrowRight className="w-4 h-4" />
-                        </button>
+                    </div>
+                    
+                    <p className="font-body text-sm text-on-surface-variant/80 mt-6 mb-2">No credit card required · 3 free analyses</p>
+                    <div className="inline-flex flex-wrap justify-center items-center gap-3 px-6 py-2.5 rounded-full bg-surface-container-low/50 border border-outline-variant/15 text-xs md:text-sm text-on-surface-variant font-body shadow-sm">
+                        <span>2,847 founders analyzed this week</span>
+                        <span className="w-1 h-1 rounded-full bg-outline-variant"></span>
+                        <span>4.9/5 from early users</span>
+                        <span className="w-1 h-1 rounded-full bg-outline-variant"></span>
+                        <span>Built for Indian founders</span>
                     </div>
                 </section>
 
