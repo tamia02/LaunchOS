@@ -3,7 +3,7 @@
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
-import { logout } from '@/lib/actions/auth-actions'
+import { signOut } from 'next-auth/react'
 
 const engineNavItems = [
     { id: 'niche', name: 'Niche', icon: 'category' },
@@ -82,16 +82,16 @@ export function Sidebar() {
                     <span className="material-symbols-outlined text-[13px]">bolt</span>
                 </button>
                 <div className="flex flex-col gap-1 pt-3">
-                    <Link href="/dashboard" className="text-slate-500 hover:text-slate-300 px-2.5 py-1.5 flex items-center gap-2.5 text-[11px] transition-colors rounded-md hover:bg-slate-900/80">
+                    <Link href="/docs" className="text-slate-500 hover:text-slate-300 px-2.5 py-1.5 flex items-center gap-2.5 text-[11px] transition-colors rounded-md hover:bg-slate-900/80">
                         <span className="material-symbols-outlined text-[16px]">description</span>
                         <span>Docs</span>
                     </Link>
-                    <Link href="/dashboard" className="text-slate-500 hover:text-slate-300 px-2.5 py-1.5 flex items-center gap-2.5 text-[11px] transition-colors rounded-md hover:bg-slate-900/80">
+                    <Link href="/support" className="text-slate-500 hover:text-slate-300 px-2.5 py-1.5 flex items-center gap-2.5 text-[11px] transition-colors rounded-md hover:bg-slate-900/80">
                         <span className="material-symbols-outlined text-[16px]">help</span>
                         <span>Support</span>
                     </Link>
                     <button
-                        onClick={() => logout()}
+                        onClick={() => signOut({ callbackUrl: '/' })}
                         className="text-error/60 hover:text-error px-2.5 py-1.5 flex items-center gap-2.5 text-[11px] transition-colors rounded-md hover:bg-error/5 mt-2 w-full text-left"
                     >
                         <span className="material-symbols-outlined text-[16px]">logout</span>
