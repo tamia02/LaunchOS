@@ -139,7 +139,7 @@ export default function LandingPage() {
                         <span className="text-xs font-label uppercase tracking-widest text-on-surface-variant">Intelligence v2.4 Live</span>
                     </div>
                     <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-on-surface max-w-5xl leading-[0.95] mb-8">
-                        From raw idea to <span className="text-tertiary">validation</span> in seconds.
+                        From raw idea to <br className="hidden md:inline" /> <span className="text-tertiary">validation</span> in seconds.
                     </h1>
                     <p className="font-body text-lg md:text-xl text-on-surface-variant max-w-2xl leading-relaxed mb-12">
                         The AI-powered operating system for ambitious founders. Go from a raw concept to a fully validated MVP plan, pricing strategy, and outreach roadmap.
@@ -157,7 +157,7 @@ export default function LandingPage() {
                                     type="text"
                                 />
                             </div>
-                            <button className="button-metallic text-on-primary px-8 py-4 rounded-lg font-headline font-bold text-sm tracking-tight hover:brightness-110 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2">
+                            <button className="button-metallic text-black px-8 py-4 rounded-lg font-headline font-bold text-sm tracking-tight hover:brightness-110 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2">
                                 Analyze Idea
                                 <ArrowRight className="w-4 h-4" />
                             </button>
@@ -427,7 +427,7 @@ export default function LandingPage() {
                             <p className="font-body text-xl text-on-surface-variant/80 mb-10 max-w-2xl mx-auto">
                                 3 free analyses. No credit card. <br/>2 minutes to your first launch plan.
                             </p>
-                            <Link href="/login" className="button-metallic text-on-primary px-12 py-5 rounded-xl font-headline font-bold text-lg tracking-wide hover:brightness-110 active:scale-95 transition-all inline-block mb-6 shadow-xl">
+                            <Link href="/login" className="button-metallic text-black px-12 py-5 rounded-xl font-headline font-bold text-lg tracking-wide hover:brightness-110 active:scale-95 transition-all inline-block mb-6 shadow-xl">
                                 Analyze My Idea →
                             </Link>
                             <p className="font-body text-sm text-on-surface-variant/80">Join 2,847 founders who already used launchOS</p>
