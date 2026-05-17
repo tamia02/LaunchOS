@@ -2,18 +2,11 @@
 
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import Script from 'next/script'
 
 export default function PricingPage() {
     const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
     const router = useRouter();
-
-    useEffect(() => {
-        // Load Razorpay script
-        const script = document.createElement('script');
-        script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-        script.async = true;
-        document.body.appendChild(script);
-    }, []);
 
     const handleUpgrade = async (planType: string, amount: number) => {
         try {
@@ -79,6 +72,8 @@ export default function PricingPage() {
     ];
 
     return (
+        <>
+        <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
         <div className="max-w-4xl mx-auto space-y-10 pt-10">
             <div className="text-center space-y-4">
                 <h1 className="text-4xl font-headline font-black text-white tracking-tight">Upgrade Your Plan</h1>
@@ -109,5 +104,6 @@ export default function PricingPage() {
                 ))}
             </div>
         </div>
+        </>
     )
 }
