@@ -3,6 +3,7 @@ import GoogleProvider from "next-auth/providers/google"
 import sql from "@/lib/db"
 import { cookies } from "next/headers"
 import { randomUUID } from "crypto"
+import { sendWelcomeEmail } from "@/lib/resend/emails"
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -30,6 +31,11 @@ export const authOptions: NextAuthOptions = {
             INSERT INTO users (id, email, full_name, plan_type, usage_count)
             VALUES (${userId}, ${user.email.toLowerCase()}, ${user.name || 'Founder'}, 'free', 0)
           `
+          
+          // Send beautiful premium onboarding email asynchronously via Resend
+          sendWelcomeEmail(user.email, user.name || 'Founder').catch(err => {
+            console.error("Failed to send welcome email in background:", err)
+          })
         }
 
         return true

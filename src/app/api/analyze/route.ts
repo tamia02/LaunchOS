@@ -3,6 +3,7 @@ import sql from '@/lib/db'
 import { getGeminiModel } from '@/lib/gemini/client'
 import { ENGINE_PROMPTS } from '@/lib/gemini/prompts'
 import { checkCredits, deductCredits } from '@/lib/credits'
+import { sendAnalysisEmail } from '@/lib/resend/emails'
 
 // DAY 1 FIX: Prevent Vercel from timing out at 10 seconds.
 export const maxDuration = 60; 
@@ -131,7 +132,7 @@ export async function POST(req: Request) {
 
         // 1. Check user usage
         const [user] = await sql`
-            SELECT plan_type, usage_count FROM users WHERE id = ${userId}
+            SELECT email, full_name, plan_type, usage_count FROM users WHERE id = ${userId}
         ` as any[]
 
         if (!user) {
@@ -239,6 +240,21 @@ export async function POST(req: Request) {
 
         // 6. DEDUCT CREDITS AFTER SUCCESS
         await deductCredits(userId, requiredCredits, 'validation', analysis.id);
+
+        // 7. SEND TRANSACTIONAL EMAIL REPORT VIA RESEND
+        if (user && user.email) {
+            sendAnalysisEmail(
+                user.email,
+                user.full_name || 'Founder',
+                idea,
+                analysis.id,
+                nicheData?.niche_name || 'Startup Niche',
+                validationData?.validation_score?.total || 75,
+                validationData?.verdict || 'GO'
+            ).catch(err => {
+                console.error("Failed to send analysis report email:", err)
+            })
+        }
 
         return NextResponse.json({
             success: true,
