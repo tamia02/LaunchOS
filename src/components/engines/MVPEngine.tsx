@@ -50,14 +50,33 @@ interface MVPData {
 
 interface MVPEngineProps {
     data: MVPData
+    planType?: string
 }
 
-export function MVPEngine({ data }: MVPEngineProps) {
+export function MVPEngine({ data, planType = 'free' }: MVPEngineProps) {
     const [openWeek, setOpenWeek] = useState<number>(1)
     const [isMounted, setIsMounted] = useState(false)
     useEffect(() => { setIsMounted(true) }, [])
 
     if (!data) return null
+
+    const isLocked = planType === 'free' || planType === 'basic';
+
+    const lockedOverlay = (requiredPlan: string = 'Medium', price: string = '₹799/month') => (
+        <div className="absolute inset-0 bg-surface-container-lowest/80 backdrop-blur-md z-20 flex flex-col items-center justify-center p-4 text-center">
+            <div className="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center border border-white/10 shadow-lg mb-2">
+                <span className="material-symbols-outlined text-on-surface-variant/70 text-lg">lock</span>
+            </div>
+            <p className="text-xs font-bold text-white mb-0.5">Premium Section Locked</p>
+            <p className="text-[10px] text-on-surface-variant mb-2">Unlock with the {requiredPlan} Plan</p>
+            <a 
+                href="/pricing" 
+                className="inline-flex items-center justify-center px-3 py-1.5 rounded-lg bg-tertiary/20 text-tertiary hover:bg-tertiary hover:text-white transition-all duration-300 text-[9px] font-black uppercase tracking-widest border border-tertiary/30 hover:border-tertiary shadow-[0_0_15px_rgba(103,156,255,0.15)]"
+            >
+                Upgrade — {price}
+            </a>
+        </div>
+    );
 
     const techCategories = ['frontend', 'backend', 'database', 'ai_layer', 'payments', 'email', 'deployment', 'analytics']
     
@@ -193,7 +212,8 @@ export function MVPEngine({ data }: MVPEngineProps) {
             </div>
 
             {/* COMPONENT 3: TECH STACK GRID */}
-            <div>
+            <div className="relative overflow-hidden min-h-[220px] pb-4">
+                {isLocked && lockedOverlay()}
                 <h3 className="text-[10px] text-on-surface-variant font-black uppercase tracking-[0.2em] mb-4">Opinionated Tech Stack</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {techCategories.map((cat, i) => {
@@ -235,7 +255,8 @@ export function MVPEngine({ data }: MVPEngineProps) {
             </div>
 
             {/* COMPONENT 5: FIRST PAYING CUSTOMER PATH */}
-            <div className="bg-surface-container-high rounded-2xl p-6 border border-white/5 shadow-2xl glass-edge">
+            <div className="bg-surface-container-high rounded-2xl p-6 border border-white/5 shadow-2xl glass-edge relative overflow-hidden min-h-[240px]">
+                {isLocked && lockedOverlay()}
                 <h3 className="text-[10px] text-primary font-black uppercase tracking-[0.2em] mb-8 flex items-center gap-2">
                     <span className="material-symbols-outlined text-sm">payments</span> Path to First $1
                 </h3>
@@ -261,7 +282,8 @@ export function MVPEngine({ data }: MVPEngineProps) {
             </div>
 
             {/* COMPONENT 4: BUILD TIMELINE ACCORDION */}
-            <div>
+            <div className="relative overflow-hidden min-h-[200px] pb-4">
+                {isLocked && lockedOverlay()}
                 <h3 className="text-[10px] text-on-surface-variant font-black uppercase tracking-[0.2em] mb-4">4-Week Build Sprint</h3>
                 <div className="space-y-3">
                     {data.build_timeline?.map((week) => (

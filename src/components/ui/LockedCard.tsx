@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 interface LockedCardProps {
     feature: string;
-    requiredPlan: 'Medium' | 'Advanced';
+    requiredPlan: 'Basic' | 'Medium' | 'Premium';
     price: string;
 }
 

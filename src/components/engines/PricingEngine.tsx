@@ -50,14 +50,33 @@ export interface PricingData {
 
 interface PricingEngineProps {
     data: PricingData
+    planType?: string
 }
 
-export function PricingEngine({ data }: PricingEngineProps) {
+export function PricingEngine({ data, planType = 'free' }: PricingEngineProps) {
     const [isMounted, setIsMounted] = useState(false)
     useEffect(() => { setIsMounted(true) }, [])
 
     if (!data) return null
     if (!isMounted) return <div className="animate-pulse bg-white/5 h-[800px] rounded-2xl"></div>
+
+    const isLocked = planType === 'free' || planType === 'basic';
+
+    const lockedOverlay = (requiredPlan: string = 'Medium', price: string = '₹799/month') => (
+        <div className="absolute inset-0 bg-surface-container-lowest/80 backdrop-blur-md z-20 flex flex-col items-center justify-center p-4 text-center">
+            <div className="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center border border-white/10 shadow-lg mb-2">
+                <span className="material-symbols-outlined text-on-surface-variant/70 text-lg">lock</span>
+            </div>
+            <p className="text-xs font-bold text-white mb-0.5">Premium Section Locked</p>
+            <p className="text-[10px] text-on-surface-variant mb-2">Unlock with the {requiredPlan} Plan</p>
+            <a 
+                href="/pricing" 
+                className="inline-flex items-center justify-center px-3 py-1.5 rounded-lg bg-tertiary/20 text-tertiary hover:bg-tertiary hover:text-white transition-all duration-300 text-[9px] font-black uppercase tracking-widest border border-tertiary/30 hover:border-tertiary shadow-[0_0_15px_rgba(103,156,255,0.15)]"
+            >
+                Upgrade — {price}
+            </a>
+        </div>
+    );
 
     return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -223,7 +242,8 @@ export function PricingEngine({ data }: PricingEngineProps) {
             </div>
 
             {/* Recommendation & Psychology */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 relative overflow-hidden min-h-[260px]">
+                {isLocked && lockedOverlay()}
                 <div className="p-8 rounded-3xl bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10">
                     <h3 className="text-lg font-bold text-white mb-4 flex items-center">
                         <svg className="w-5 h-5 text-yellow-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
@@ -250,7 +270,8 @@ export function PricingEngine({ data }: PricingEngineProps) {
             </div>
 
             {/* Red Flags */}
-            <div className="p-6 rounded-3xl bg-rose-500/5 border border-rose-500/20">
+            <div className="p-6 rounded-3xl bg-rose-500/5 border border-rose-500/20 relative overflow-hidden min-h-[140px]">
+                {isLocked && lockedOverlay()}
                 <h3 className="text-sm font-bold text-rose-400 mb-4 uppercase tracking-wider flex items-center">
                     <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
                     Pricing Mistakes to Avoid

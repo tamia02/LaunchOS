@@ -50,13 +50,32 @@ interface ValidationData {
 
 interface ValidationEngineProps {
     data: ValidationData
+    planType?: string
 }
 
-export function ValidationEngine({ data }: ValidationEngineProps) {
+export function ValidationEngine({ data, planType = 'free' }: ValidationEngineProps) {
     const [isMounted, setIsMounted] = useState(false)
     useEffect(() => { setIsMounted(true) }, [])
 
     if (!data) return null
+
+    const isLocked = planType === 'free' || planType === 'basic';
+
+    const lockedOverlay = (requiredPlan: string = 'Medium', price: string = '₹799/month') => (
+        <div className="absolute inset-0 bg-surface-container-lowest/80 backdrop-blur-md z-20 flex flex-col items-center justify-center p-4 text-center">
+            <div className="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center border border-white/10 shadow-lg mb-2">
+                <span className="material-symbols-outlined text-on-surface-variant/70 text-lg">lock</span>
+            </div>
+            <p className="text-xs font-bold text-white mb-0.5">Premium Section Locked</p>
+            <p className="text-[10px] text-on-surface-variant mb-2">Unlock with the {requiredPlan} Plan</p>
+            <a 
+                href="/pricing" 
+                className="inline-flex items-center justify-center px-3 py-1.5 rounded-lg bg-tertiary/20 text-tertiary hover:bg-tertiary hover:text-white transition-all duration-300 text-[9px] font-black uppercase tracking-widest border border-tertiary/30 hover:border-tertiary shadow-[0_0_15px_rgba(103,156,255,0.15)]"
+            >
+                Upgrade — {price}
+            </a>
+        </div>
+    );
 
     // Verdict Coloring Logic
     let heroBg = "bg-surface-container-high"
@@ -198,7 +217,8 @@ export function ValidationEngine({ data }: ValidationEngineProps) {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* COMPONENT 5: KEYWORD DEMAND CHART */}
-                <div className="lg:col-span-2 bg-surface-container rounded-2xl p-6 border border-white/5 shadow-2xl glass-edge flex flex-col">
+                <div className="lg:col-span-2 bg-surface-container rounded-2xl p-6 border border-white/5 shadow-2xl glass-edge flex flex-col relative overflow-hidden min-h-[260px]">
+                    {isLocked && lockedOverlay()}
                     <div className="flex justify-between items-end mb-6">
                         <h3 className="text-[10px] text-tertiary font-black uppercase tracking-[0.2em] flex items-center gap-2">
                             <span className="material-symbols-outlined text-sm">bar_chart</span> Search Intent
@@ -245,7 +265,8 @@ export function ValidationEngine({ data }: ValidationEngineProps) {
                 </div>
 
                 {/* COMPONENT 6: TIMING INDICATOR */}
-                <div className="bg-surface-container rounded-2xl p-6 border border-white/5 shadow-2xl glass-edge flex flex-col relative overflow-hidden">
+                <div className="bg-surface-container rounded-2xl p-6 border border-white/5 shadow-2xl glass-edge flex flex-col relative overflow-hidden min-h-[260px]">
+                    {isLocked && lockedOverlay()}
                     <div className="absolute top-0 right-0 w-32 h-32 bg-tertiary/5 rounded-full blur-3xl" />
                     <h3 className="text-[10px] text-tertiary font-black uppercase tracking-[0.2em] mb-6 flex items-center gap-2 relative z-10">
                         <span className="material-symbols-outlined text-sm">schedule</span> Timing Analysis
@@ -276,7 +297,8 @@ export function ValidationEngine({ data }: ValidationEngineProps) {
             </div>
 
             {/* COMPONENT 4: COMPETITOR TABLE */}
-            <div className="bg-surface-container-low rounded-2xl p-6 border border-white/5 shadow-2xl glass-edge">
+            <div className="bg-surface-container-low rounded-2xl p-6 border border-white/5 shadow-2xl glass-edge relative overflow-hidden min-h-[240px]">
+                {isLocked && lockedOverlay()}
                 <div className="mb-6">
                     <h3 className="text-[10px] text-tertiary font-black uppercase tracking-[0.2em] flex items-center gap-2 mb-1">
                         <span className="material-symbols-outlined text-sm">query_stats</span> Competitor Proof

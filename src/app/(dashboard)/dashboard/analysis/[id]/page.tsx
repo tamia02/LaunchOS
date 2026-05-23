@@ -444,6 +444,16 @@ function AnalysisPageInner() {
         downloadAnchorNode.remove()
     }
 
+    const handleDownloadPDF = () => {
+        if (!analysis) return
+        if (analysis.plan_type !== 'advanced') {
+            alert('PDF download is a Premium feature. Upgrade to Premium to unlock!')
+            router.push('/pricing')
+            return
+        }
+        window.open(`/api/pdf?id=${id}`, '_blank')
+    }
+
     const handleRerun = () => {
         router.push('/dashboard')
     }
@@ -495,37 +505,51 @@ function AnalysisPageInner() {
         )
         if (!analysis) return <div className="text-center py-20 text-on-surface-variant/40">Protocol not found.</div>
 
-        const plan = analysis.plan_type;
+        const plan = analysis.plan_type || 'free';
 
         switch (activeTab) {
-            case 'niche': return <NicheEngine data={analysis.niche} />
-            case 'validation': return <ValidationEngine data={analysis.validation} />
-            case 'mvp': return <MVPEngine data={analysis.mvp} />
-            case 'pricing': return <PricingEngine data={analysis.pricing} />
+            case 'niche': return <NicheEngine data={analysis.niche} planType={plan} />
+            case 'validation': return <ValidationEngine data={analysis.validation} planType={plan} />
+            case 'mvp': 
+                if (plan === 'free') {
+                    return <LockedCard feature="MVP & Tech Stack Architecture" requiredPlan="Medium" price="₹799/month" />
+                }
+                return <MVPEngine data={analysis.mvp} planType={plan} />
+            case 'pricing': 
+                if (plan === 'free') {
+                    return <LockedCard feature="Pricing Strategy & Models" requiredPlan="Medium" price="₹799/month" />
+                }
+                return <PricingEngine data={analysis.pricing} planType={plan} />
             case 'outreach': 
-                return canAccessFeature(plan, 'outreach_engine') ? 
-                    <OutreachEngine data={analysis.outreach} /> : 
-                    <LockedCard feature="Outreach & Acquisition Strategy" requiredPlan="Advanced" price="₹999/month" />
+                if (plan === 'free' || plan === 'basic') {
+                    return <LockedCard feature="Outreach & Acquisition Strategy" requiredPlan="Medium" price="₹799/month" />
+                }
+                return <OutreachEngine data={analysis.outreach} planType={plan} />
             case 'competitor': 
-                return canAccessFeature(plan, 'competitor_engine') ? 
-                    <CompetitorEngine data={analysis.competitor} /> : 
-                    <LockedCard feature="Deep Competitor Intelligence" requiredPlan="Medium" price="₹799/month" />
+                if (plan === 'free' || plan === 'basic') {
+                    return <LockedCard feature="Deep Competitor Intelligence" requiredPlan="Medium" price="₹799/month" />
+                }
+                return <CompetitorEngine data={analysis.competitor} planType={plan} />
             case 'investor': 
-                return canAccessFeature(plan, 'investor_engine') ? 
-                    <InvestorEngine data={analysis.investor} /> : 
-                    <LockedCard feature="Investor Vitals & Pitch" requiredPlan="Medium" price="₹799/month" />
+                if (plan !== 'advanced') {
+                    return <LockedCard feature="Investor Vitals & Pitch" requiredPlan="Premium" price="₹999/month" />
+                }
+                return <InvestorEngine data={analysis.investor} />
             case 'yc': 
-                return canAccessFeature(plan, 'yc_engine') ? 
-                    <YCEngine data={analysis.yc} /> : 
-                    <LockedCard feature="Y-Combinator Application Generator" requiredPlan="Medium" price="₹799/month" />
+                if (plan !== 'advanced') {
+                    return <LockedCard feature="Y-Combinator Application Generator" requiredPlan="Premium" price="₹999/month" />
+                }
+                return <YCEngine data={analysis.yc} />
             case 'pivot': 
-                return canAccessFeature(plan, 'pivot_engine') ? 
-                    <PivotEngine data={analysis.pivot} /> : 
-                    <LockedCard feature="Intelligent Pivot Strategies" requiredPlan="Advanced" price="₹999/month" />
+                if (plan !== 'advanced') {
+                    return <LockedCard feature="Intelligent Pivot Strategies" requiredPlan="Premium" price="₹999/month" />
+                }
+                return <PivotEngine data={analysis.pivot} />
             case 'progress': 
-                return canAccessFeature(plan, 'progress_engine') ? 
-                    <ProgressEngine data={analysis.progress} /> : 
-                    <LockedCard feature="Daily Progress Tracker" requiredPlan="Advanced" price="₹999/month" />
+                if (plan === 'free') {
+                    return <LockedCard feature="Daily Progress Tracker" requiredPlan="Basic" price="₹599/month" />
+                }
+                return <ProgressEngine data={analysis.progress} />
             default: return null
         }
     }
@@ -542,11 +566,8 @@ function AnalysisPageInner() {
                     <h1 className="text-3xl md:text-4xl font-headline font-black tracking-tighter text-white leading-tight">
                         {analysis?.idea}
                     </h1>
-                    <div className="flex flex-wrap items-center gap-6">
-                        <span className="text-[10px] text-on-surface-variant font-black uppercase tracking-widest opacity-40">
-                            ID: <span className="text-tertiary">{String(id).slice(0, 8)}</span>
-                        </span>
-                        {analysis?.[activeTab]?._simulated ? (
+                    <div className="flex flex-wrap items-center gap-4 text-xs font-mono">
+                        {analysis?._simulated ? (
                             <span className="text-[10px] text-on-surface-variant font-black uppercase tracking-widest">
                                 Status: <span className="text-orange-400">SIMULATED DATA</span>
                             </span>
@@ -568,6 +589,20 @@ function AnalysisPageInner() {
                     <button onClick={handleExport} className="flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-container-high/60 text-on-surface-variant hover:text-white hover:bg-surface-container-highest transition-all duration-300 font-headline font-bold text-[9px] tracking-widest border border-white/5">
                         <span className="material-symbols-outlined text-base">description</span>
                         Export
+                    </button>
+                    <button 
+                        onClick={handleDownloadPDF} 
+                        className={cn(
+                            "flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 font-headline font-bold text-[9px] tracking-widest border",
+                            analysis?.plan_type === 'advanced'
+                                ? "bg-surface-container-high/60 text-on-surface-variant hover:text-white hover:bg-surface-container-highest border-white/5"
+                                : "bg-black/20 text-on-surface-variant/40 border-white/5 cursor-not-allowed"
+                        )}
+                    >
+                        <span className="material-symbols-outlined text-base">
+                            {analysis?.plan_type === 'advanced' ? 'picture_as_pdf' : 'lock'}
+                        </span>
+                        PDF
                     </button>
                     <button onClick={handleRerun} className="bg-tertiary text-white flex items-center gap-2 px-5 py-2 rounded-lg font-headline font-bold text-[9px] tracking-widest shadow-lg hover:brightness-110 active:scale-95 transition-all duration-300 border border-white/10">
                         <span className="material-symbols-outlined text-base">sync</span>

@@ -131,16 +131,18 @@ export async function POST(req: Request) {
         }
 
         // 1. Check user usage
-        const [user] = await sql`
+        let [user] = await sql`
             SELECT email, full_name, plan_type, usage_count FROM users WHERE id = ${userId}
         ` as any[]
 
         if (!user) {
             console.log('Auto-creating user:', userId)
-            await sql`
+            const [newUser] = await sql`
                 INSERT INTO users (id, email, plan_type, usage_count)
                 VALUES (${userId}, 'demo@founder.os', 'free', 0)
-            `
+                RETURNING email, full_name, plan_type, usage_count
+            ` as any[]
+            user = newUser
         }
 
         // --- 1.5 CHECK CREDITS BEFORE RUNNING AI ---

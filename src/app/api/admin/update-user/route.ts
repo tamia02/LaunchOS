@@ -35,21 +35,27 @@ export async function POST(req: Request) {
         if (creditsTotal !== undefined || creditsRemaining !== undefined) {
             // Check if user_credits record exists
             const [existingCredits] = await sql`
-                SELECT id FROM user_credits WHERE user_id = ${targetUserId}
+                SELECT id, credits_total, credits_used, credits_remaining 
+                FROM user_credits 
+                WHERE user_id = ${targetUserId}
             ` as any[]
 
             if (existingCredits) {
+                const finalTotal = creditsTotal !== undefined ? creditsTotal : existingCredits.credits_total;
+                const finalUsed = creditsRemaining !== undefined ? (finalTotal - creditsRemaining) : existingCredits.credits_used;
                 await sql`
                     UPDATE user_credits
                     SET 
-                        credits_total = ${creditsTotal !== undefined ? creditsTotal : existingCredits.credits_total},
-                        credits_remaining = ${creditsRemaining !== undefined ? creditsRemaining : existingCredits.credits_remaining}
+                        credits_total = ${finalTotal},
+                        credits_used = ${finalUsed}
                     WHERE user_id = ${targetUserId}
                 `
             } else {
+                const finalTotal = creditsTotal !== undefined ? creditsTotal : 0;
+                const finalUsed = creditsRemaining !== undefined ? (finalTotal - creditsRemaining) : 0;
                 await sql`
-                    INSERT INTO user_credits (user_id, plan_type, credits_total, credits_remaining, credits_used)
-                    VALUES (${targetUserId}, ${planType || 'free'}, ${creditsTotal || 0}, ${creditsRemaining || 0}, 0)
+                    INSERT INTO user_credits (user_id, plan_type, credits_total, credits_used)
+                    VALUES (${targetUserId}, ${planType || 'free'}, ${finalTotal}, ${finalUsed})
                 `
             }
         }

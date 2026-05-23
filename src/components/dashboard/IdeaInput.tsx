@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Input } from '@/components/ui/Input'
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
 import { useRouter } from 'next/navigation'
@@ -10,6 +10,16 @@ export function IdeaInput({ userId }: { userId: string }) {
     const [idea, setIdea] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const pending = sessionStorage.getItem('pendingIdea');
+            if (pending) {
+                setIdea(pending);
+                sessionStorage.removeItem('pendingIdea');
+            }
+        }
+    }, []);
 
     const handleAnalyze = async () => {
         if (!idea.trim()) return
@@ -23,11 +33,17 @@ export function IdeaInput({ userId }: { userId: string }) {
             })
 
             const data = await res.json()
-            if (data.analysisId) {
+            if (res.ok && data.analysisId) {
                 router.push(`/dashboard/analysis/${data.analysisId}`)
+            } else {
+                alert(data.message || data.error || 'Analysis failed')
+                if (data.upgradeUrl) {
+                    router.push(data.upgradeUrl)
+                }
             }
         } catch (error) {
             console.error('Analysis failed:', error)
+            alert('An unexpected error occurred while executing the analysis.')
         } finally {
             setIsLoading(false)
         }

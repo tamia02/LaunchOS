@@ -31,12 +31,28 @@ interface CompetitorData {
     pricing_gap: string
 }
 
-export function CompetitorEngine({ data }: { data: CompetitorData }) {
+export function CompetitorEngine({ data, planType = 'free' }: { data: CompetitorData, planType?: string }) {
     const [isMounted, setIsMounted] = useState(false)
 
     useEffect(() => {
         setIsMounted(true)
     }, [])
+
+    const lockedOverlay = (requiredPlan: string = 'Premium', price: string = '₹999/month') => (
+        <div className="absolute inset-0 bg-surface-container-lowest/80 backdrop-blur-md z-20 flex flex-col items-center justify-center p-4 text-center">
+            <div className="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center border border-white/10 shadow-lg mb-2">
+                <span className="material-symbols-outlined text-on-surface-variant/70 text-lg">lock</span>
+            </div>
+            <p className="text-xs font-bold text-white mb-0.5">Opportunities Section Locked</p>
+            <p className="text-[10px] text-on-surface-variant mb-2">Unlock with the {requiredPlan} Plan</p>
+            <a 
+                href="/pricing" 
+                className="inline-flex items-center justify-center px-3 py-1.5 rounded-lg bg-tertiary/20 text-tertiary hover:bg-tertiary hover:text-white transition-all duration-300 text-[9px] font-black uppercase tracking-widest border border-tertiary/30 hover:border-tertiary shadow-[0_0_15px_rgba(103,156,255,0.15)]"
+            >
+                Upgrade — {price}
+            </a>
+        </div>
+    );
 
     if (!isMounted) return <div className="h-64 flex items-center justify-center text-zinc-500">Loading UI...</div>
 
@@ -126,7 +142,8 @@ export function CompetitorEngine({ data }: { data: CompetitorData }) {
             </div>
 
             {/* Market Opportunities */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 relative overflow-hidden min-h-[300px]">
+                {planType === 'medium' && lockedOverlay()}
                 <Card className="bg-zinc-900/50 border-zinc-800/80 p-6 flex flex-col">
                     <div className="flex items-center gap-2 mb-4 text-emerald-400 font-semibold tracking-wider text-sm uppercase">
                         <Lightbulb className="w-4 h-4" /> Blue Ocean Opportunity

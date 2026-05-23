@@ -49,7 +49,7 @@ interface NicheData {
     }>
 }
 
-export function NicheEngine({ data }: { data: NicheData }) {
+export function NicheEngine({ data, planType = 'free' }: { data: NicheData, planType?: string }) {
     const [copied, setCopied] = useState(false)
 
     if (!data || Object.keys(data).length < 5) return null
@@ -75,6 +75,22 @@ export function NicheEngine({ data }: { data: NicheData }) {
         return 'bg-surface-container-high text-on-surface-variant'
     }
 
+    const lockedOverlay = (requiredPlan: string = 'Basic', price: string = '₹599/month') => (
+        <div className="absolute inset-0 bg-surface-container-lowest/80 backdrop-blur-md z-20 flex flex-col items-center justify-center p-4 text-center">
+            <div className="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center border border-white/10 shadow-lg mb-2">
+                <span className="material-symbols-outlined text-on-surface-variant/70 text-lg">lock</span>
+            </div>
+            <p className="text-xs font-bold text-white mb-0.5">Premium Section Locked</p>
+            <p className="text-[10px] text-on-surface-variant mb-2">Unlock with the {requiredPlan} Plan</p>
+            <a 
+                href="/pricing" 
+                className="inline-flex items-center justify-center px-3 py-1.5 rounded-lg bg-tertiary/20 text-tertiary hover:bg-tertiary hover:text-white transition-all duration-300 text-[9px] font-black uppercase tracking-widest border border-tertiary/30 hover:border-tertiary"
+            >
+                Upgrade — {price}
+            </a>
+        </div>
+    );
+
     // Determine trend direction for chart color
     let trendColor = '#679cff' // default blue
     if (data.trends && data.trends.length > 1) {
@@ -98,24 +114,31 @@ export function NicheEngine({ data }: { data: NicheData }) {
                             <h2 className="text-2xl md:text-3xl font-headline font-black text-white tracking-tight">
                                 {data.niche_name || "Primary Target Engine"}
                             </h2>
-                            <span className={cn("px-2.5 py-1 text-[9px] font-black uppercase tracking-widest rounded-full border", getPainColor(data.pain_level))}>
-                                PAIN: {data.pain_level}
-                            </span>
-                            <span className="px-2.5 py-1 text-[9px] font-black uppercase tracking-widest rounded-full border border-tertiary/30 bg-tertiary/10 text-tertiary">
-                                WTP: {data.willingness_to_pay}
-                            </span>
+                            {planType !== 'free' && (
+                                <>
+                                    <span className={cn("px-2.5 py-1 text-[9px] font-black uppercase tracking-widest rounded-full border", getPainColor(data.pain_level))}>
+                                        PAIN: {data.pain_level}
+                                    </span>
+                                    <span className="px-2.5 py-1 text-[9px] font-black uppercase tracking-widest rounded-full border border-tertiary/30 bg-tertiary/10 text-tertiary">
+                                        WTP: {data.willingness_to_pay}
+                                    </span>
+                                </>
+                            )}
                         </div>
 
                         <p className="text-[14px] text-on-surface-variant leading-relaxed max-w-2xl mb-6">
                             {data.niche_description}
                         </p>
                         
-                        <div className="pl-4 border-l-2 border-tertiary/50 italic">
-                            <p className="text-[13px] text-white/90">"{data.why_this_niche_first}"</p>
-                        </div>
+                        {planType !== 'free' && data.why_this_niche_first && (
+                            <div className="pl-4 border-l-2 border-tertiary/50 italic">
+                                <p className="text-[13px] text-white/90">"{data.why_this_niche_first}"</p>
+                            </div>
+                        )}
                     </div>
 
-                    <div className="mt-8 flex items-center justify-between border-t border-white/5 pt-5">
+                    <div className="mt-8 flex items-center justify-between border-t border-white/5 pt-5 relative min-h-[60px]">
+                        {planType === 'free' && lockedOverlay()}
                         <div className="flex flex-col">
                             <span className="text-[9px] font-black uppercase tracking-widest text-on-surface-variant mb-1">
                                 Market Reach Segment
@@ -141,7 +164,8 @@ export function NicheEngine({ data }: { data: NicheData }) {
                 </div>
 
                 {/* Trends Mini Chart (Component 5) */}
-                <div className="col-span-12 lg:col-span-4 bg-surface-container-low rounded-xl p-5 border border-white/5 shadow-lg flex flex-col">
+                <div className="col-span-12 lg:col-span-4 bg-surface-container-low rounded-xl p-5 border border-white/5 shadow-lg flex flex-col relative overflow-hidden min-h-[180px]">
+                    {planType === 'free' && lockedOverlay()}
                     <h3 className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-4">
                         Search Interest — Last 12 Months
                     </h3>
@@ -216,7 +240,8 @@ export function NicheEngine({ data }: { data: NicheData }) {
                 </div>
 
                 {/* Where They Hang Out Card (Component 3) */}
-                <div className="col-span-12 lg:col-span-6 bg-surface-container-low rounded-xl p-6 border border-white/5 shadow-lg flex flex-col">
+                <div className="col-span-12 lg:col-span-6 bg-surface-container-low rounded-xl p-6 border border-white/5 shadow-lg flex flex-col relative overflow-hidden min-h-[300px]">
+                    {planType === 'free' && lockedOverlay()}
                     <h3 className="text-sm font-headline font-black text-white uppercase tracking-widest mb-5 flex items-center gap-2">
                         <span className="material-symbols-outlined text-tertiary text-lg">public</span>
                         Where They Hang Out
@@ -275,7 +300,8 @@ export function NicheEngine({ data }: { data: NicheData }) {
             </div>
 
             {/* AUDIENCE TAGS (Component 4) */}
-            <div className="bg-surface-container-low rounded-xl py-4 px-6 border border-white/5 flex flex-wrap gap-2 items-center">
+            <div className="bg-surface-container-low rounded-xl py-4 px-6 border border-white/5 flex flex-wrap gap-2 items-center relative overflow-hidden min-h-[60px]">
+                {planType === 'free' && lockedOverlay()}
                 <span className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mr-3">Tags:</span>
                 {data.audience_tags?.map((tag, i) => (
                     <span key={i} className="px-2.5 py-1 bg-surface-container-high text-white text-[10px] rounded-md font-medium border border-white/5">
@@ -285,7 +311,8 @@ export function NicheEngine({ data }: { data: NicheData }) {
             </div>
 
             {/* SECONDARY NICHES (Component 6) */}
-            <div>
+            <div className="relative overflow-hidden min-h-[160px] pb-4">
+                {planType === 'free' && lockedOverlay()}
                 <h3 className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-4 pl-1">
                     Pivot Opportunities (Secondary Niches)
                 </h3>
@@ -308,7 +335,8 @@ export function NicheEngine({ data }: { data: NicheData }) {
             </div>
 
             {/* IMMEDIATE ACTION (Component 7) */}
-            <div className="bg-surface-container-high rounded-xl p-6 md:p-8 border-l-4 border-l-tertiary border-y border-r border-white/5 shadow-2xl relative overflow-hidden group">
+            <div className="bg-surface-container-high rounded-xl p-6 md:p-8 border-l-4 border-l-tertiary border-y border-r border-white/5 shadow-2xl relative overflow-hidden group min-h-[120px]">
+                {planType === 'free' && lockedOverlay()}
                 <div className="absolute inset-0 bg-gradient-to-r from-tertiary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <div className="relative z-10 flex flex-col md:flex-row gap-6 justify-between items-start md:items-center">
                     <div className="max-w-3xl">

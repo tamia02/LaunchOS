@@ -2,12 +2,10 @@ export type PlanType = 'free' | 'basic' | 'medium' | 'advanced';
 
 export const PLAN_FEATURES: Record<PlanType, Record<string, boolean>> = {
     free: {
-        niche_search_intent: false,
-        niche_action_24h: false,
-        validation_all_signals: false,
-        mvp_path_to_first_dollar: false,
-        pricing_mistakes: false,
-        pricing_anchor: false,
+        niche_engine: true,
+        validation_engine: true,
+        mvp_engine: false,
+        pricing_engine: false,
         outreach_engine: false,
         competitor_engine: false,
         investor_engine: false,
@@ -18,44 +16,38 @@ export const PLAN_FEATURES: Record<PlanType, Record<string, boolean>> = {
         pricing_chatbot: false
     },
     basic: {
-        niche_search_intent: false,
-        niche_action_24h: false,
-        validation_all_signals: false,
-        mvp_path_to_first_dollar: false,
-        pricing_mistakes: false,
-        pricing_anchor: false,
+        niche_engine: true,
+        validation_engine: true,
+        mvp_engine: true,
+        pricing_engine: true,
         outreach_engine: false,
         competitor_engine: false,
         investor_engine: false,
         yc_engine: false,
         pivot_engine: false,
-        progress_engine: false,
+        progress_engine: true,
         export_pdf: false,
         pricing_chatbot: false
     },
     medium: {
-        niche_search_intent: true,
-        niche_action_24h: true,
-        validation_all_signals: true,
-        mvp_path_to_first_dollar: true,
-        pricing_mistakes: true,
-        pricing_anchor: true,
-        outreach_engine: false,
+        niche_engine: true,
+        validation_engine: true,
+        mvp_engine: true,
+        pricing_engine: true,
+        outreach_engine: true,
         competitor_engine: true,
-        investor_engine: true,
-        yc_engine: true,
+        investor_engine: false,
+        yc_engine: false,
         pivot_engine: false,
-        progress_engine: false,
+        progress_engine: true,
         export_pdf: false,
         pricing_chatbot: false
     },
-    advanced: {
-        niche_search_intent: true,
-        niche_action_24h: true,
-        validation_all_signals: true,
-        mvp_path_to_first_dollar: true,
-        pricing_mistakes: true,
-        pricing_anchor: true,
+    advanced: { // premium
+        niche_engine: true,
+        validation_engine: true,
+        mvp_engine: true,
+        pricing_engine: true,
         outreach_engine: true,
         competitor_engine: true,
         investor_engine: true,
@@ -71,3 +63,4 @@ export function canAccessFeature(plan: string | null | undefined, featureKey: st
     const safePlan = (plan || 'free') as PlanType;
     return PLAN_FEATURES[safePlan]?.[featureKey] ?? false;
 }
+

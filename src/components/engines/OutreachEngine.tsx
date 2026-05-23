@@ -35,9 +35,10 @@ export interface OutreachData {
 
 interface OutreachEngineProps {
     data: OutreachData
+    planType?: string
 }
 
-export function OutreachEngine({ data }: OutreachEngineProps) {
+export function OutreachEngine({ data, planType = 'free' }: OutreachEngineProps) {
     const [isMounted, setIsMounted] = useState(false)
     const [view, setView] = useState<'free' | 'paid'>('free')
 
@@ -45,6 +46,22 @@ export function OutreachEngine({ data }: OutreachEngineProps) {
 
     if (!data) return null
     if (!isMounted) return <div className="animate-pulse bg-white/5 h-[800px] rounded-2xl"></div>
+
+    const lockedOverlay = (requiredPlan: string = 'Premium', price: string = '₹999/month') => (
+        <div className="absolute inset-0 bg-surface-container-lowest/80 backdrop-blur-md z-20 flex flex-col items-center justify-center p-4 text-center">
+            <div className="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center border border-white/10 shadow-lg mb-2">
+                <span className="material-symbols-outlined text-on-surface-variant/70 text-lg">lock</span>
+            </div>
+            <p className="text-xs font-bold text-white mb-0.5">Paid Pipeline Locked</p>
+            <p className="text-[10px] text-on-surface-variant mb-2">Unlock with the {requiredPlan} Plan</p>
+            <a 
+                href="/pricing" 
+                className="inline-flex items-center justify-center px-3 py-1.5 rounded-lg bg-tertiary/20 text-tertiary hover:bg-tertiary hover:text-white transition-all duration-300 text-[9px] font-black uppercase tracking-widest border border-tertiary/30 hover:border-tertiary shadow-[0_0_15px_rgba(103,156,255,0.15)]"
+            >
+                Upgrade — {price}
+            </a>
+        </div>
+    );
 
     return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -73,10 +90,11 @@ export function OutreachEngine({ data }: OutreachEngineProps) {
                     <button 
                         onClick={() => setView('paid')}
                         className={cn(
-                            "px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300",
+                            "px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 flex items-center gap-1.5",
                             view === 'paid' ? "bg-amber-400 text-black shadow-[0_0_20px_rgba(251,191,36,0.5)]" : "text-white/50 hover:text-white"
                         )}
                     >
+                        {planType === 'medium' && <span className="material-symbols-outlined text-xs">lock</span>}
                         Paid Pipeline ($)
                     </button>
                 </div>
@@ -185,7 +203,8 @@ export function OutreachEngine({ data }: OutreachEngineProps) {
 
                 </div>
             ) : (
-                <div className="space-y-8 animate-in fade-in slide-in-from-left-4 duration-500">
+                <div className="space-y-8 animate-in fade-in slide-in-from-left-4 duration-500 relative overflow-hidden min-h-[400px]">
+                    {planType === 'medium' && lockedOverlay()}
                     
                     {/* The 5 Stage Visual Pipeline */}
                     <div className="relative pt-6 pb-12">

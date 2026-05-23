@@ -66,9 +66,50 @@ export default function PricingPage() {
     };
 
     const plans = [
-        { id: 'basic', name: 'Basic', price: '₹499', credits: '500 Credits', amount: 499 },
-        { id: 'medium', name: 'Medium', price: '₹799', credits: '2000 Credits', amount: 799 },
-        { id: 'advanced', name: 'Advanced', price: '₹999', credits: '5000 Credits', amount: 999 },
+        { 
+            id: 'basic', 
+            name: 'Basic', 
+            price: '₹599', 
+            credits: '300 Credits (3 Runs)', 
+            amount: 599,
+            features: [
+                '3 ideas analyzed',
+                'Niche engine (full)',
+                'Validation engine (partial)',
+                'MVP engine (partial)',
+                'Pricing engine (partial)',
+                'Progress engine (full)',
+                'No PDF Export'
+            ]
+        },
+        { 
+            id: 'medium', 
+            name: 'Medium', 
+            price: '₹799', 
+            credits: '500 Credits (5 Runs)', 
+            amount: 799,
+            features: [
+                '5 ideas analyzed',
+                'Niche, Validation, MVP, Pricing, Progress (full)',
+                'Outreach engine (partial)',
+                'Competitor engine (partial)',
+                'No PDF Export'
+            ]
+        },
+        { 
+            id: 'advanced', 
+            name: 'Premium', 
+            price: '₹999', 
+            credits: '250 Credits/mo (Unlimited Runs)', 
+            amount: 999,
+            features: [
+                'Unlimited runs & validations',
+                'All 10 engines fully unlocked',
+                'Full outreach & competitors',
+                'Full investor engine & YC app',
+                'Export PDF reports'
+            ]
+        },
     ];
 
     return (
@@ -79,24 +120,46 @@ export default function PricingPage() {
                 <h1 className="text-4xl font-headline font-black text-white tracking-tight">Upgrade Your Plan</h1>
                 <p className="text-on-surface-variant max-w-xl mx-auto">Get more credits and unlock advanced analysis engines to validate your startup idea faster.</p>
             </div>
-
+ 
             <div className="grid md:grid-cols-3 gap-6">
                 {plans.map(plan => (
-                    <div key={plan.id} className="bg-surface-container border border-white/10 rounded-2xl p-6 flex flex-col items-center text-center space-y-6">
+                    <div key={plan.id} className={`bg-surface-container border ${plan.id === 'medium' ? 'border-tertiary/50 shadow-[0_0_30px_rgba(103,156,255,0.1)]' : 'border-white/10'} rounded-2xl p-6 flex flex-col items-center text-center space-y-6 relative`}>
+                        {plan.id === 'medium' && (
+                            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-tertiary text-on-tertiary text-[10px] font-headline font-bold px-3 py-1 rounded-full uppercase tracking-widest whitespace-nowrap shadow-md">
+                                Most Popular
+                            </div>
+                        )}
                         <div className="space-y-2">
                             <h2 className="text-xl font-bold text-white">{plan.name}</h2>
                             <p className="text-3xl font-black text-tertiary">{plan.price}</p>
                             <p className="text-sm text-on-surface-variant">per month</p>
                         </div>
                         <div className="w-full h-px bg-white/5" />
-                        <ul className="space-y-3 text-sm text-on-surface-variant flex-1">
-                            <li className="flex items-center gap-2"><span className="material-symbols-outlined text-green-400 text-sm">check_circle</span> {plan.credits}</li>
-                            <li className="flex items-center gap-2"><span className="material-symbols-outlined text-green-400 text-sm">check_circle</span> Unlock Full Features</li>
+                        <ul className="space-y-3 text-sm text-on-surface-variant flex-1 w-full text-left">
+                            <li className="flex items-center gap-2 font-semibold text-white">
+                                <span className="material-symbols-outlined text-tertiary text-sm">check_circle</span>
+                                {plan.credits}
+                            </li>
+                            {plan.features.map((feature, idx) => (
+                                <li key={idx} className="flex items-start gap-2">
+                                    {feature.includes('No PDF') || feature.includes('locked') ? (
+                                        <>
+                                            <span className="material-symbols-outlined text-on-surface-variant/40 text-sm mt-0.5">lock</span>
+                                            <span className="text-on-surface-variant/60">{feature}</span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <span className="material-symbols-outlined text-tertiary text-sm mt-0.5">check_circle</span>
+                                            <span>{feature}</span>
+                                        </>
+                                    )}
+                                </li>
+                            ))}
                         </ul>
                         <button 
                             onClick={() => handleUpgrade(plan.id, plan.amount)}
                             disabled={loadingPlan === plan.id}
-                            className="w-full py-3 rounded-lg bg-tertiary text-white font-bold tracking-wider hover:bg-tertiary/90 transition disabled:opacity-50"
+                            className={`w-full py-3 rounded-lg font-bold tracking-wider hover:brightness-110 transition disabled:opacity-50 ${plan.id === 'medium' ? 'button-metallic text-on-primary' : 'bg-tertiary text-white'}`}
                         >
                             {loadingPlan === plan.id ? 'Processing...' : `Get ${plan.name}`}
                         </button>

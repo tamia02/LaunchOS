@@ -68,6 +68,7 @@ const engines = [
 
 export default function LandingPage() {
     const [openFaq, setOpenFaq] = useState<number | null>(null);
+    const [landingIdea, setLandingIdea] = useState('');
 
     const toggleFaq = (index: number) => {
         setOpenFaq(openFaq === index ? null : index);
@@ -81,7 +82,7 @@ export default function LandingPage() {
       description: 'AI startup engine for solo founders. Validates ideas, generates MVP plans, pricing strategies, and outreach plans in 2 minutes.',
       url: 'https://launchos.io',
       offers: [
-        { '@type': 'Offer', name: 'Basic Plan', price: '499', priceCurrency: 'INR', billingIncrement: 'P1M' },
+        { '@type': 'Offer', name: 'Basic Plan', price: '599', priceCurrency: 'INR', billingIncrement: 'P1M' },
         { '@type': 'Offer', name: 'Medium Plan', price: '799', priceCurrency: 'INR', billingIncrement: 'P1M' },
         { '@type': 'Offer', name: 'Advanced Plan', price: '999', priceCurrency: 'INR', billingIncrement: 'P1M' },
       ],
@@ -155,16 +156,32 @@ export default function LandingPage() {
                                     className="w-full bg-transparent border-none outline-none focus:ring-0 text-on-surface placeholder:text-on-surface-variant/50 font-body py-4" 
                                     placeholder="Enter your startup idea here..." 
                                     type="text"
+                                    value={landingIdea}
+                                    onChange={(e) => setLandingIdea(e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' && landingIdea.trim()) {
+                                            sessionStorage.setItem('pendingIdea', landingIdea.trim());
+                                            window.location.href = '/dashboard';
+                                        }
+                                    }}
                                 />
                             </div>
-                            <button className="button-metallic text-black px-8 py-4 rounded-lg font-headline font-bold text-sm tracking-tight hover:brightness-110 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2">
+                            <button 
+                                onClick={() => {
+                                    if (landingIdea.trim()) {
+                                        sessionStorage.setItem('pendingIdea', landingIdea.trim());
+                                        window.location.href = '/dashboard';
+                                    }
+                                }}
+                                className="button-metallic text-black px-8 py-4 rounded-lg font-headline font-bold text-sm tracking-tight hover:brightness-110 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2"
+                            >
                                 Analyze Idea
                                 <ArrowRight className="w-4 h-4" />
                             </button>
                         </div>
                     </div>
                     
-                    <p className="font-body text-sm text-on-surface-variant/80 mt-6 mb-2">No credit card required · 3 free analyses</p>
+                    <p className="font-body text-sm text-on-surface-variant/80 mt-6 mb-2">No credit card required · 1 free analysis</p>
                     <div className="inline-flex flex-wrap justify-center items-center gap-3 px-6 py-2.5 rounded-full bg-surface-container-low/50 border border-outline-variant/15 text-xs md:text-sm text-on-surface-variant font-body shadow-sm">
                         <span>2,847 founders analyzed this week</span>
                         <span className="w-1 h-1 rounded-full bg-outline-variant"></span>
@@ -271,7 +288,7 @@ export default function LandingPage() {
                             <div className="lg:w-[400px] bg-gradient-to-br from-tertiary/25 via-surface-container/50 to-surface-container-low/80 p-10 rounded-3xl border border-tertiary/30 text-on-surface flex flex-col justify-center shadow-[0px_0px_50px_rgba(103,156,255,0.15)] backdrop-blur-sm">
                                 <h3 className="font-headline font-extrabold text-3xl mb-6 tracking-tight text-on-surface">launchOS replaces all of it</h3>
                                 <ul className="space-y-4 mb-10 text-lg font-medium font-body text-on-surface-variant">
-                                    <li className="flex items-center gap-3 text-on-surface"><CheckCircle2 className="w-5 h-5 text-tertiary" /> Starting at ₹499/month</li>
+                                    <li className="flex items-center gap-3 text-on-surface"><CheckCircle2 className="w-5 h-5 text-tertiary" /> Starting at ₹599/month</li>
                                     <li className="flex items-center gap-3 text-on-surface"><CheckCircle2 className="w-5 h-5 text-tertiary" /> That is 95% cheaper</li>
                                     <li className="flex items-center gap-3 text-on-surface"><CheckCircle2 className="w-5 h-5 text-tertiary" /> And it covers what they missed.</li>
                                 </ul>
@@ -298,7 +315,7 @@ export default function LandingPage() {
                                 <p className="font-headline text-3xl font-black mb-1 text-on-surface">₹0<span className="text-sm text-on-surface-variant/60 font-normal">/month</span></p>
                                 <p className="font-body text-sm text-on-surface-variant/80 mb-6">Try before you commit</p>
                                 <ul className="space-y-3 mb-8 flex-1 text-sm font-body">
-                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> 3 analyses total</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> 1 analysis total</li>
                                     <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Niche engine (partial)</li>
                                     <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Validation engine (partial)</li>
                                     <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> MVP engine (partial)</li>
@@ -317,23 +334,22 @@ export default function LandingPage() {
                             {/* BASIC */}
                             <div className="bg-surface-container-low/50 p-6 rounded-3xl border border-outline-variant/15 flex flex-col backdrop-blur-sm">
                                 <h3 className="font-headline font-bold text-xl mb-2 text-on-surface">BASIC</h3>
-                                <p className="font-headline text-3xl font-black mb-1 text-on-surface">₹499<span className="text-sm text-on-surface-variant/60 font-normal">/month</span></p>
-                                <p className="font-body text-sm text-on-surface-variant/80 mb-2">For founders exploring ideas</p>
-                                <p className="text-xs font-mono text-tertiary mb-6 bg-tertiary/10 inline-block px-2 py-1 rounded w-fit">500 credits/mo</p>
+                                <p className="font-headline text-3xl font-black mb-1 text-on-surface">₹599<span className="text-sm text-on-surface-variant/60 font-normal">/month</span></p>
+                                <p className="font-body text-sm text-on-surface-variant/80 mb-2">Founder Discovery & Structuring</p>
+                                <p className="text-xs font-mono text-tertiary mb-6 bg-tertiary/10 inline-block px-2 py-1 rounded w-fit">3 Runs (300 Credits)</p>
                                 <ul className="space-y-3 mb-8 flex-1 text-sm font-body">
-                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> 3 ideas per month</li>
-                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Niche engine (partial)</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> 3 ideas analyzed</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Niche engine (full)</li>
                                     <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Validation engine (partial)</li>
                                     <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> MVP engine (partial)</li>
                                     <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Pricing engine (partial)</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Progress engine (full)</li>
                                     <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> Outreach engine locked</li>
                                     <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> Competitor engine locked</li>
                                     <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> Investor engine locked</li>
                                     <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> YC application locked</li>
                                     <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> Pivot engine locked</li>
-                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> Progress tracker locked</li>
-                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> No export</li>
-                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> 1 rerun allowed</li>
+                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> No PDF Export</li>
                                 </ul>
                                 <Link href="/login" className="w-full text-center py-3 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/15 text-on-surface font-headline font-bold transition-all duration-300">Get Basic</Link>
                             </div>
@@ -343,44 +359,44 @@ export default function LandingPage() {
                                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-tertiary text-on-tertiary text-[10px] font-headline font-bold px-3 py-1 rounded-full uppercase tracking-widest whitespace-nowrap shadow-md">Most Popular</div>
                                 <h3 className="font-headline font-bold text-xl mb-2 text-tertiary">MEDIUM</h3>
                                 <p className="font-headline text-3xl font-black mb-1 text-on-surface">₹799<span className="text-sm text-on-surface-variant/60 font-normal">/month</span></p>
-                                <p className="font-body text-sm text-on-surface-variant/80 mb-2">For founders ready to build</p>
-                                <p className="text-xs font-mono text-tertiary mb-6 bg-tertiary/10 inline-block px-2 py-1 rounded w-fit">2,000 credits/mo</p>
+                                <p className="font-body text-sm text-on-surface-variant/80 mb-2">Business Building & Growth Intelligence</p>
+                                <p className="text-xs font-mono text-tertiary mb-6 bg-tertiary/10 inline-block px-2 py-1 rounded w-fit">5 Runs (500 Credits)</p>
                                 <ul className="space-y-3 mb-8 flex-1 text-sm font-body">
-                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> 15 ideas per month</li>
-                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Full niche engine</li>
-                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Full validation engine</li>
-                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Full MVP engine</li>
-                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Full pricing engine</li>
-                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> Outreach engine locked</li>
-                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Competitor engine unlocked</li>
-                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Investor engine unlocked</li>
-                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> YC application unlocked</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> 5 ideas analyzed</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Niche engine (full)</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Validation engine (full)</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> MVP engine (full)</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Pricing engine (full)</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Progress engine (full)</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Outreach engine (partial)</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Competitor engine (partial)</li>
+                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> Investor engine locked</li>
+                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> YC application locked</li>
                                     <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> Pivot engine locked</li>
-                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> Progress tracker locked</li>
-                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> No export</li>
-                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> 10 reruns allowed</li>
+                                    <li className="flex items-center gap-2 text-on-surface-variant/40"><Lock className="w-4 h-4" /> No PDF Export</li>
                                 </ul>
                                 <Link href="/login" className="w-full text-center py-3 rounded-xl button-metallic text-on-primary font-headline font-bold hover:brightness-110 transition-all duration-300">Get Medium</Link>
                             </div>
 
-                            {/* ADVANCED */}
+                            {/* PREMIUM */}
                             <div className="bg-surface-container-low/50 p-6 rounded-3xl border border-outline-variant/15 flex flex-col backdrop-blur-sm">
-                                <h3 className="font-headline font-bold text-xl mb-2 text-on-surface">ADVANCED</h3>
+                                <h3 className="font-headline font-bold text-xl mb-2 text-on-surface">PREMIUM</h3>
                                 <p className="font-headline text-3xl font-black mb-1 text-on-surface">₹999<span className="text-sm text-on-surface-variant/60 font-normal">/month</span></p>
-                                <p className="font-body text-sm text-on-surface-variant/80 mb-2">For serious founders</p>
-                                <p className="text-xs font-mono text-tertiary mb-6 bg-tertiary/10 inline-block px-2 py-1 rounded w-fit">5,000 credits/mo</p>
+                                <p className="font-body text-sm text-on-surface-variant/80 mb-2">Full Founder Operating System</p>
+                                <p className="text-xs font-mono text-tertiary mb-6 bg-tertiary/10 inline-block px-2 py-1 rounded w-fit">Unlimited Runs (250 Monthly Credits)</p>
                                 <ul className="space-y-3 mb-8 flex-1 text-sm font-body">
-                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> 50 ideas per month</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Unlimited idea runs</li>
                                     <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> All 10 engines fully unlocked</li>
                                     <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Full outreach engine</li>
-                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Full pivot engine</li>
-                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Full progress tracker</li>
-                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Pricing chatbot</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Full competitor engine</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Full investor engine</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> YC application builder</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Pivot engine & strategy</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Progress engine & streak tracker</li>
                                     <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Export PDF reports</li>
-                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Priority AI processing</li>
-                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Unlimited reruns (100 cr/each)</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> 250 credits/mo for refreshes</li>
                                 </ul>
-                                <Link href="/login" className="w-full text-center py-3 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/15 text-on-surface font-headline font-bold transition-all duration-300">Get Advanced</Link>
+                                <Link href="/login" className="w-full text-center py-3 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/15 text-on-surface font-headline font-bold transition-all duration-300">Get Premium</Link>
                             </div>
                         </div>
 
