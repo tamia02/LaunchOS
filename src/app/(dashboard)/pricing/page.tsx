@@ -6,7 +6,41 @@ import Script from 'next/script'
 
 export default function PricingPage() {
     const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+    const [promoCode, setPromoCode] = useState('');
+    const [promoError, setPromoError] = useState('');
+    const [promoSuccess, setPromoSuccess] = useState('');
+    const [applyingPromo, setApplyingPromo] = useState(false);
     const router = useRouter();
+
+    const handleApplyPromo = async () => {
+        if (!promoCode.trim()) return;
+        setApplyingPromo(true);
+        setPromoError('');
+        setPromoSuccess('');
+
+        try {
+            const res = await fetch('/api/promo/apply', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ promoCode: promoCode.trim(), planType: 'basic' })
+            });
+
+            const data = await res.json();
+            if (res.ok) {
+                setPromoSuccess(data.message || 'Promo code applied! Redirecting to dashboard...');
+                setTimeout(() => {
+                    router.push('/dashboard');
+                }, 2000);
+            } else {
+                setPromoError(data.error || 'Failed to apply promo code.');
+            }
+        } catch (error) {
+            console.error('Promo error:', error);
+            setPromoError('An unexpected error occurred while applying the promo code.');
+        } finally {
+            setApplyingPromo(false);
+        }
+    };
 
     const handleUpgrade = async (planType: string, amount: number) => {
         try {
@@ -165,6 +199,34 @@ export default function PricingPage() {
                         </button>
                     </div>
                 ))}
+            </div>
+
+            {/* Promo Code section */}
+            <div className="bg-surface-container border border-white/10 rounded-2xl p-6 max-w-md mx-auto space-y-4">
+                <h3 className="text-lg font-bold text-white text-center">Have a promo code?</h3>
+                <div className="flex gap-2">
+                    <input 
+                        type="text" 
+                        placeholder="Enter code (e.g. LAUNCH14)" 
+                        value={promoCode}
+                        onChange={(e) => setPromoCode(e.target.value)}
+                        className="flex-1 bg-surface-container-low border border-white/10 rounded-lg px-4 py-2 text-white placeholder:text-on-surface-variant/30 text-sm focus:border-tertiary focus:outline-none"
+                        disabled={applyingPromo}
+                    />
+                    <button 
+                        onClick={handleApplyPromo}
+                        disabled={applyingPromo || !promoCode.trim()}
+                        className="px-6 py-2 rounded-lg bg-tertiary text-white text-sm font-bold hover:bg-tertiary/90 transition disabled:opacity-50"
+                    >
+                        {applyingPromo ? 'Applying...' : 'Apply'}
+                    </button>
+                </div>
+                {promoError && (
+                    <p className="text-red-400 text-xs text-center">{promoError}</p>
+                )}
+                {promoSuccess && (
+                    <p className="text-green-400 text-xs text-center">{promoSuccess}</p>
+                )}
             </div>
         </div>
         </>
