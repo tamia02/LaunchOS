@@ -46,6 +46,25 @@ export default function PricingPage() {
         try {
             setLoadingPlan(planType);
 
+            // Load Razorpay Script dynamically to ensure it's available
+            const isLoaded = await new Promise((resolve) => {
+                if ((window as any).Razorpay) {
+                    resolve(true);
+                    return;
+                }
+                const script = document.createElement('script');
+                script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+                script.onload = () => resolve(true);
+                script.onerror = () => resolve(false);
+                document.body.appendChild(script);
+            });
+
+            if (!isLoaded) {
+                alert('Razorpay SDK failed to load. Please check your internet connection.');
+                setLoadingPlan(null);
+                return;
+            }
+
             // 1. Create Order on Backend
             const res = await fetch('/api/razorpay/order', {
                 method: 'POST',
@@ -63,7 +82,7 @@ export default function PricingPage() {
 
             // 2. Initialize Razorpay Checkout
             const options = {
-                key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, // Enter the Key ID generated from the Dashboard
+                key: data.keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, // Use dynamically returned key to avoid static build variables issue
                 amount: data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
                 currency: data.currency,
                 name: "LaunchOS",
@@ -207,7 +226,7 @@ export default function PricingPage() {
                 <div className="flex gap-2">
                     <input 
                         type="text" 
-                        placeholder="Enter code (e.g. LAUNCH14)" 
+                        placeholder="Enter code (e.g. PROMO10)" 
                         value={promoCode}
                         onChange={(e) => setPromoCode(e.target.value)}
                         className="flex-1 bg-surface-container-low border border-white/10 rounded-lg px-4 py-2 text-white placeholder:text-on-surface-variant/30 text-sm focus:border-tertiary focus:outline-none"
