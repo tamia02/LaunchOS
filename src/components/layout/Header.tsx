@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { signOut } from 'next-auth/react'
 
-export function Header({ credits = 0, planType = 'free' }: { credits?: number, planType?: string }) {
+export function Header({ credits = 0, planType = 'free', usageCount = 0 }: { credits?: number, planType?: string, usageCount?: number }) {
     const pathname = usePathname()
     const [showProfileMenu, setShowProfileMenu] = useState(false)
     const [showNotifMenu, setShowNotifMenu] = useState(false)
@@ -83,7 +83,15 @@ export function Header({ credits = 0, planType = 'free' }: { credits?: number, p
                 {/* Credit Display */}
                 <Link href="/pricing" className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container border border-white/5 hover:border-tertiary/50 transition-all duration-300 group">
                     <span className="material-symbols-outlined text-[14px] text-tertiary group-hover:animate-pulse">local_fire_department</span>
-                    <span className="text-xs font-bold text-white tracking-wider">{credits} <span className="text-on-surface-variant font-medium text-[10px] uppercase">Credits</span></span>
+                    {planType === 'free' ? (
+                        <span className="text-xs font-bold text-white tracking-wider">
+                            {usageCount >= 1 ? '0 Runs' : '1 Run'} <span className="text-on-surface-variant font-medium text-[10px] uppercase">Remaining</span>
+                        </span>
+                    ) : (
+                        <span className="text-xs font-bold text-white tracking-wider">
+                            {credits} <span className="text-on-surface-variant font-medium text-[10px] uppercase">Credits</span>
+                        </span>
+                    )}
                 </Link>
 
                 <div className="h-4 w-px bg-white/10" />

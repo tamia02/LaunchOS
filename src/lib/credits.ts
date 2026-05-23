@@ -126,7 +126,7 @@ export async function deductCredits(userId: string, amount: number, actionType: 
 export async function getUserCredits(userId: string) {
     try {
         const [userCredits] = await sql`
-            SELECT c.credits_remaining, c.credits_total, c.plan_type
+            SELECT c.credits_remaining, c.credits_total, u.plan_type, u.usage_count
             FROM users u
             LEFT JOIN user_credits c ON u.id = c.user_id
             WHERE u.id = ${userId}
@@ -134,14 +134,15 @@ export async function getUserCredits(userId: string) {
 
         if (!userCredits) return null;
 
-        if (!userCredits.plan_type) {
-             const [u] = await sql`SELECT plan_type FROM users WHERE id = ${userId}` as any[];
-             const planType = u?.plan_type || 'free';
-             const total = PLAN_CREDITS[planType as keyof typeof PLAN_CREDITS] || 0;
-             return { credits_remaining: total, credits_total: total, plan_type: planType };
-        }
+        const planType = userCredits.plan_type || 'free';
+        const total = PLAN_CREDITS[planType as keyof typeof PLAN_CREDITS] || 0;
 
-        return userCredits;
+        return {
+            credits_remaining: userCredits.credits_remaining !== null && userCredits.credits_remaining !== undefined ? userCredits.credits_remaining : total,
+            credits_total: userCredits.credits_total !== null && userCredits.credits_total !== undefined ? userCredits.credits_total : total,
+            plan_type: planType,
+            usage_count: userCredits.usage_count || 0
+        };
     } catch (error) {
         console.error('Error fetching user credits:', error);
         return null;
