@@ -1,9 +1,12 @@
 import sql from '@/lib/db'
 
 export const PLAN_CREDITS = {
-    basic: 300,      // Basic: 3 runs = 300 credits
-    medium: 500,     // Medium: 5 runs = 500 credits
-    advanced: 250,   // Premium (advanced): 250 credits/month
+    basic: 300,            // Basic: 3 runs = 300 credits
+    medium: 500,           // Medium: 5 runs = 500 credits
+    advanced: 250,         // Premium (advanced): 250 credits/month
+    basic_yearly: 3600,    // Basic Yearly: 36 runs = 3600 credits
+    medium_yearly: 6000,   // Medium Yearly: 60 runs = 6000 credits
+    advanced_yearly: 3000, // Premium Yearly
     free: 0,
 }
 

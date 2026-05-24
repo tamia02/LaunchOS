@@ -9,9 +9,12 @@ const getRazorpay = () => new Razorpay({
 
 // Map plan types to amounts in paise (INR)
 const PLAN_PRICES: Record<string, number> = {
-    basic: 59900,   // ₹599
-    medium: 79900,  // ₹799
-    advanced: 99900 // ₹999
+    basic: 59900,             // ₹599/mo
+    medium: 79900,            // ₹799/mo
+    advanced: 149900,         // ₹1,499/mo (updated from ₹999)
+    basic_yearly: 629900,     // ₹6,299/yr
+    medium_yearly: 819900,    // ₹8,199/yr
+    advanced_yearly: 1499900  // ₹14,999/yr
 };
 
 export async function POST(req: Request) {

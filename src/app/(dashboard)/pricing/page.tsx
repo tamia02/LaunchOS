@@ -10,6 +10,7 @@ export default function PricingPage() {
     const [promoError, setPromoError] = useState('');
     const [promoSuccess, setPromoSuccess] = useState('');
     const [applyingPromo, setApplyingPromo] = useState(false);
+    const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly');
     const router = useRouter();
 
     const handleApplyPromo = async () => {
@@ -122,11 +123,15 @@ export default function PricingPage() {
         { 
             id: 'basic', 
             name: 'Basic', 
-            price: '₹599', 
-            credits: '300 Credits (3 Runs)', 
-            amount: 599,
+            monthlyPrice: 599,
+            yearlyPrice: 6299,
+            monthlyDisplay: '₹599',
+            yearlyDisplay: '₹6,299',
+            monthlyEquivalent: '₹525',
+            creditsMonthly: '300 Credits (3 Runs)',
+            creditsYearly: '3,600 Credits (36 Runs)',
             features: [
-                '3 ideas analyzed',
+                'Idea analysis runs',
                 'Niche engine (full)',
                 'Validation engine (partial)',
                 'MVP engine (partial)',
@@ -138,11 +143,15 @@ export default function PricingPage() {
         { 
             id: 'medium', 
             name: 'Medium', 
-            price: '₹799', 
-            credits: '500 Credits (5 Runs)', 
-            amount: 799,
+            monthlyPrice: 799,
+            yearlyPrice: 8199,
+            monthlyDisplay: '₹799',
+            yearlyDisplay: '₹8,199',
+            monthlyEquivalent: '₹683',
+            creditsMonthly: '500 Credits (5 Runs)',
+            creditsYearly: '6,000 Credits (60 Runs)',
             features: [
-                '5 ideas analyzed',
+                'Idea analysis runs',
                 'Niche, Validation, MVP, Pricing, Progress (full)',
                 'Outreach engine (partial)',
                 'Competitor engine (partial)',
@@ -152,9 +161,13 @@ export default function PricingPage() {
         { 
             id: 'advanced', 
             name: 'Premium', 
-            price: '₹999', 
-            credits: '250 Credits/mo (Unlimited Runs)', 
-            amount: 999,
+            monthlyPrice: 1499,
+            yearlyPrice: 14999,
+            monthlyDisplay: '₹1,499',
+            yearlyDisplay: '₹14,999',
+            monthlyEquivalent: '₹1,249',
+            creditsMonthly: '250 Credits/mo (Unlimited Runs)',
+            creditsYearly: '3,000 Credits/yr (Unlimited Runs)',
             features: [
                 'Unlimited runs & validations',
                 'All 10 engines fully unlocked',
@@ -173,6 +186,35 @@ export default function PricingPage() {
                 <h1 className="text-4xl font-headline font-black text-white tracking-tight">Upgrade Your Plan</h1>
                 <p className="text-on-surface-variant max-w-xl mx-auto">Get more credits and unlock advanced analysis engines to validate your startup idea faster.</p>
             </div>
+
+            {/* Billing Period Toggle */}
+            <div className="flex flex-col items-center gap-2 bg-surface-container/30 border border-white/5 rounded-2xl p-4 max-w-md mx-auto shadow-sm">
+                <div className="inline-flex bg-surface-container border border-white/5 rounded-full p-1 relative shadow-inner">
+                    <button 
+                        onClick={() => setBillingPeriod('monthly')}
+                        className={`px-5 py-2 rounded-full text-sm font-bold tracking-wide transition relative z-10 ${billingPeriod === 'monthly' ? 'bg-tertiary text-white shadow' : 'text-on-surface-variant hover:text-white'}`}
+                    >
+                        Monthly
+                    </button>
+                    <button 
+                        onClick={() => setBillingPeriod('yearly')}
+                        className={`px-5 py-2 rounded-full text-sm font-bold tracking-wide transition relative z-10 flex items-center gap-1.5 ${billingPeriod === 'yearly' ? 'bg-tertiary text-white shadow' : 'text-on-surface-variant hover:text-white'}`}
+                    >
+                        Yearly
+                        <span className="bg-green-500/20 text-green-400 text-[10px] px-2 py-0.5 rounded-full font-extrabold uppercase tracking-wider">
+                            Save ~15%
+                        </span>
+                    </button>
+                </div>
+                <p className="text-xs text-tertiary/75 font-semibold text-center mt-1">
+                    🚀 Build for 12 months, not 12 days. Serious founders choose yearly.
+                </p>
+                <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[11px] text-on-surface-variant/70 font-medium mt-1">
+                    <span>✅ Save up to 16%</span>
+                    <span>✅ Priority access</span>
+                    <span>✅ Early feature releases</span>
+                </div>
+            </div>
  
             <div className="grid md:grid-cols-3 gap-6">
                 {plans.map(plan => (
@@ -182,16 +224,35 @@ export default function PricingPage() {
                                 Most Popular
                             </div>
                         )}
-                        <div className="space-y-2">
+                        <div className="space-y-2 w-full">
                             <h2 className="text-xl font-bold text-white">{plan.name}</h2>
-                            <p className="text-3xl font-black text-tertiary">{plan.price}</p>
-                            <p className="text-sm text-on-surface-variant">per month</p>
+                            {billingPeriod === 'yearly' ? (
+                                <div className="space-y-1">
+                                    <div className="flex items-baseline justify-center gap-2">
+                                        <p className="text-3xl font-black text-tertiary">{plan.yearlyDisplay}</p>
+                                        <p className="text-xs text-on-surface-variant/40 line-through">
+                                            {plan.id === 'basic' ? '₹7,188' : plan.id === 'medium' ? '₹9,588' : '₹17,988'}
+                                        </p>
+                                    </div>
+                                    <p className="text-[11px] text-green-400 font-bold bg-green-500/10 px-2 py-0.5 rounded-full inline-block">
+                                        Save {plan.id === 'basic' ? '₹889 (~12%)' : plan.id === 'medium' ? '₹1,389 (~14%)' : '₹2,989 (~16%)'}
+                                    </p>
+                                    <p className="text-xs text-on-surface-variant/70 font-semibold mt-1">
+                                        ({plan.monthlyEquivalent}/mo billed yearly)
+                                    </p>
+                                </div>
+                            ) : (
+                                <div className="space-y-1">
+                                    <p className="text-3xl font-black text-tertiary">{plan.monthlyDisplay}</p>
+                                    <p className="text-sm text-on-surface-variant">per month</p>
+                                </div>
+                            )}
                         </div>
                         <div className="w-full h-px bg-white/5" />
                         <ul className="space-y-3 text-sm text-on-surface-variant flex-1 w-full text-left">
                             <li className="flex items-center gap-2 font-semibold text-white">
                                 <span className="material-symbols-outlined text-tertiary text-sm">check_circle</span>
-                                {plan.credits}
+                                {billingPeriod === 'yearly' ? plan.creditsYearly : plan.creditsMonthly}
                             </li>
                             {plan.features.map((feature, idx) => (
                                 <li key={idx} className="flex items-start gap-2">
@@ -210,11 +271,14 @@ export default function PricingPage() {
                             ))}
                         </ul>
                         <button 
-                            onClick={() => handleUpgrade(plan.id, plan.amount)}
-                            disabled={loadingPlan === plan.id}
+                            onClick={() => handleUpgrade(
+                                billingPeriod === 'yearly' ? `${plan.id}_yearly` : plan.id, 
+                                billingPeriod === 'yearly' ? plan.yearlyPrice : plan.monthlyPrice
+                            )}
+                            disabled={loadingPlan === (billingPeriod === 'yearly' ? `${plan.id}_yearly` : plan.id)}
                             className={`w-full py-3 rounded-lg font-bold tracking-wider hover:brightness-110 transition disabled:opacity-50 ${plan.id === 'medium' ? 'button-metallic text-on-primary' : 'bg-tertiary text-white'}`}
                         >
-                            {loadingPlan === plan.id ? 'Processing...' : `Get ${plan.name}`}
+                            {loadingPlan === (billingPeriod === 'yearly' ? `${plan.id}_yearly` : plan.id) ? 'Processing...' : `Get ${plan.name}`}
                         </button>
                     </div>
                 ))}

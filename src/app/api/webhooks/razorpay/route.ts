@@ -37,10 +37,11 @@ export async function POST(req: Request) {
 
             console.log(`Processing Razorpay payment for User: ${userId}, Plan: ${planType}`);
 
-            // 1. Update user plan
+            // 1. Update user plan (strip _yearly suffix for the users table)
+            const basePlanType = planType.replace('_yearly', '');
             await sql`
                 UPDATE users 
-                SET plan_type = ${planType}
+                SET plan_type = ${basePlanType}
                 WHERE id = ${userId}
             `;
 
@@ -49,7 +50,7 @@ export async function POST(req: Request) {
             
             await sql`
                 INSERT INTO user_credits (user_id, plan_type, credits_total)
-                VALUES (${userId}, ${planType}, ${creditsToAdd})
+                VALUES (${userId}, ${basePlanType}, ${creditsToAdd})
                 ON CONFLICT (user_id) 
                 DO UPDATE SET 
                     plan_type = EXCLUDED.plan_type,
