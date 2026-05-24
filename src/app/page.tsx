@@ -21,7 +21,7 @@ const faqs = [
   },
   {
     q: "What are credits and how do they work?",
-    a: "Credits are your usage currency inside launchOS. Each full analysis costs 100 credits. Rerunning an analysis costs 100 credits. Single engine refresh costs 20 credits. Credits reset every month on your billing date. Basic plan gets 500 credits, Medium gets 2,000, Advanced gets 5,000."
+    a: "Credits are your usage currency inside launchOS. Each full analysis costs 100 credits. Rerunning an analysis costs 100 credits. Single engine refresh costs 20 credits. Credits reset every month on your billing date. Basic plan gets 300 credits (3 runs), Medium gets 500 credits (5 runs), Premium gets unlimited runs."
   },
   {
     q: "Is this useful if my idea is still vague?",
@@ -69,6 +69,7 @@ const engines = [
 export default function LandingPage() {
     const [openFaq, setOpenFaq] = useState<number | null>(null);
     const [landingIdea, setLandingIdea] = useState('');
+    const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly');
 
     const toggleFaq = (index: number) => {
         setOpenFaq(openFaq === index ? null : index);
@@ -84,7 +85,7 @@ export default function LandingPage() {
       offers: [
         { '@type': 'Offer', name: 'Basic Plan', price: '599', priceCurrency: 'INR', billingIncrement: 'P1M' },
         { '@type': 'Offer', name: 'Medium Plan', price: '799', priceCurrency: 'INR', billingIncrement: 'P1M' },
-        { '@type': 'Offer', name: 'Advanced Plan', price: '999', priceCurrency: 'INR', billingIncrement: 'P1M' },
+        { '@type': 'Offer', name: 'Advanced Plan', price: '1499', priceCurrency: 'INR', billingIncrement: 'P1M' },
       ],
       operatingSystem: 'Web Browser',
       applicationSubCategory: 'Startup Tools',
@@ -303,9 +304,38 @@ export default function LandingPage() {
                 {/* SECTION 5: PRICING PLANS */}
                 <section className="py-24 px-6 border-t border-outline-variant/10 bg-transparent" id="pricing">
                     <div className="max-w-6xl mx-auto">
-                        <div className="text-center mb-16">
+                        <div className="text-center mb-12">
                             <h2 className="font-headline font-extrabold text-3xl md:text-4xl lg:text-5xl tracking-tight mb-4 text-on-surface">Simple, honest pricing</h2>
                             <p className="font-body text-on-surface-variant/80">Cancel anytime. No hidden fees.</p>
+                        </div>
+
+                        {/* Billing Period Toggle */}
+                        <div className="flex flex-col items-center gap-2 bg-surface-container-low/30 border border-outline-variant/10 rounded-2xl p-4 max-w-md mx-auto shadow-sm mb-16 backdrop-blur-sm">
+                            <div className="inline-flex bg-surface-container border border-white/5 rounded-full p-1 relative shadow-inner">
+                                <button 
+                                    onClick={() => setBillingPeriod('monthly')}
+                                    className={`px-5 py-2 rounded-full text-sm font-bold tracking-wide transition relative z-10 ${billingPeriod === 'monthly' ? 'bg-tertiary text-white shadow' : 'text-on-surface-variant hover:text-white'}`}
+                                >
+                                    Monthly
+                                </button>
+                                <button 
+                                    onClick={() => setBillingPeriod('yearly')}
+                                    className={`px-5 py-2 rounded-full text-sm font-bold tracking-wide transition relative z-10 flex items-center gap-1.5 ${billingPeriod === 'yearly' ? 'bg-tertiary text-white shadow' : 'text-on-surface-variant hover:text-white'}`}
+                                >
+                                    Yearly
+                                    <span className="bg-green-500/20 text-green-400 text-[10px] px-2 py-0.5 rounded-full font-extrabold uppercase tracking-wider">
+                                        Save ~15%
+                                    </span>
+                                </button>
+                            </div>
+                            <p className="text-xs text-tertiary/75 font-semibold text-center mt-1">
+                                🚀 Build for 12 months, not 12 days. Serious founders choose yearly.
+                            </p>
+                            <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[11px] text-on-surface-variant/70 font-medium mt-1">
+                                <span>✅ Save up to 16%</span>
+                                <span>✅ Priority access</span>
+                                <span>✅ Early feature releases</span>
+                            </div>
                         </div>
                         
                         <div className="grid md:grid-cols-4 gap-6">
@@ -334,11 +364,26 @@ export default function LandingPage() {
                             {/* BASIC */}
                             <div className="bg-surface-container-low/50 p-6 rounded-3xl border border-outline-variant/15 flex flex-col backdrop-blur-sm">
                                 <h3 className="font-headline font-bold text-xl mb-2 text-on-surface">BASIC</h3>
-                                <p className="font-headline text-3xl font-black mb-1 text-on-surface">₹599<span className="text-sm text-on-surface-variant/60 font-normal">/month</span></p>
-                                <p className="font-body text-sm text-on-surface-variant/80 mb-2">Founder Discovery & Structuring</p>
-                                <p className="text-xs font-mono text-tertiary mb-6 bg-tertiary/10 inline-block px-2 py-1 rounded w-fit">3 Runs (300 Credits)</p>
+                                {billingPeriod === 'yearly' ? (
+                                    <div className="mb-2">
+                                        <div className="flex items-baseline gap-2">
+                                            <p className="font-headline text-3xl font-black text-on-surface">₹6,299</p>
+                                            <span className="text-xs text-on-surface-variant/50 line-through font-normal">₹7,188</span>
+                                        </div>
+                                        <p className="text-[11px] text-green-400 font-bold bg-green-500/10 px-2 py-0.5 rounded-full inline-block mt-1">Save ₹889 (~12%)</p>
+                                        <p className="text-xs text-on-surface-variant/70 font-semibold mt-1">(₹525/mo billed yearly)</p>
+                                    </div>
+                                ) : (
+                                    <div className="mb-2">
+                                        <p className="font-headline text-3xl font-black text-on-surface">₹599<span className="text-sm text-on-surface-variant/60 font-normal">/month</span></p>
+                                        <p className="font-body text-sm text-on-surface-variant/80">Founder Discovery & Structuring</p>
+                                    </div>
+                                )}
+                                <p className="text-xs font-mono text-tertiary mb-6 bg-tertiary/10 inline-block px-2 py-1 rounded w-fit mt-1">
+                                    {billingPeriod === 'yearly' ? '36 Runs (3600 Credits)' : '3 Runs (300 Credits)'}
+                                </p>
                                 <ul className="space-y-3 mb-8 flex-1 text-sm font-body">
-                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> 3 ideas analyzed</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> {billingPeriod === 'yearly' ? '36 ideas analyzed' : '3 ideas analyzed'}</li>
                                     <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Niche engine (full)</li>
                                     <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Validation engine (partial)</li>
                                     <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> MVP engine (partial)</li>
@@ -358,11 +403,26 @@ export default function LandingPage() {
                             <div className="bg-surface-container-low/50 p-6 rounded-3xl border border-tertiary/50 flex flex-col relative shadow-[0_0_40px_rgba(103,156,255,0.15)] transform md:-translate-y-4 backdrop-blur-sm">
                                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-tertiary text-on-tertiary text-[10px] font-headline font-bold px-3 py-1 rounded-full uppercase tracking-widest whitespace-nowrap shadow-md">Most Popular</div>
                                 <h3 className="font-headline font-bold text-xl mb-2 text-tertiary">MEDIUM</h3>
-                                <p className="font-headline text-3xl font-black mb-1 text-on-surface">₹799<span className="text-sm text-on-surface-variant/60 font-normal">/month</span></p>
-                                <p className="font-body text-sm text-on-surface-variant/80 mb-2">Business Building & Growth Intelligence</p>
-                                <p className="text-xs font-mono text-tertiary mb-6 bg-tertiary/10 inline-block px-2 py-1 rounded w-fit">5 Runs (500 Credits)</p>
+                                {billingPeriod === 'yearly' ? (
+                                    <div className="mb-2">
+                                        <div className="flex items-baseline gap-2">
+                                            <p className="font-headline text-3xl font-black text-on-surface">₹8,199</p>
+                                            <span className="text-xs text-on-surface-variant/50 line-through font-normal">₹9,588</span>
+                                        </div>
+                                        <p className="text-[11px] text-green-400 font-bold bg-green-500/10 px-2 py-0.5 rounded-full inline-block mt-1">Save ₹1,389 (~14%)</p>
+                                        <p className="text-xs text-on-surface-variant/70 font-semibold mt-1">(₹683/mo billed yearly)</p>
+                                    </div>
+                                ) : (
+                                    <div className="mb-2">
+                                        <p className="font-headline text-3xl font-black text-on-surface">₹799<span className="text-sm text-on-surface-variant/60 font-normal">/month</span></p>
+                                        <p className="font-body text-sm text-on-surface-variant/80">Business Building & Growth Intelligence</p>
+                                    </div>
+                                )}
+                                <p className="text-xs font-mono text-tertiary mb-6 bg-tertiary/10 inline-block px-2 py-1 rounded w-fit mt-1">
+                                    {billingPeriod === 'yearly' ? '60 Runs (6000 Credits)' : '5 Runs (500 Credits)'}
+                                </p>
                                 <ul className="space-y-3 mb-8 flex-1 text-sm font-body">
-                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> 5 ideas analyzed</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> {billingPeriod === 'yearly' ? '60 ideas analyzed' : '5 ideas analyzed'}</li>
                                     <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Niche engine (full)</li>
                                     <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Validation engine (full)</li>
                                     <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> MVP engine (full)</li>
@@ -381,9 +441,24 @@ export default function LandingPage() {
                             {/* PREMIUM */}
                             <div className="bg-surface-container-low/50 p-6 rounded-3xl border border-outline-variant/15 flex flex-col backdrop-blur-sm">
                                 <h3 className="font-headline font-bold text-xl mb-2 text-on-surface">PREMIUM</h3>
-                                <p className="font-headline text-3xl font-black mb-1 text-on-surface">₹999<span className="text-sm text-on-surface-variant/60 font-normal">/month</span></p>
-                                <p className="font-body text-sm text-on-surface-variant/80 mb-2">Full Founder Operating System</p>
-                                <p className="text-xs font-mono text-tertiary mb-6 bg-tertiary/10 inline-block px-2 py-1 rounded w-fit">Unlimited Runs (250 Monthly Credits)</p>
+                                {billingPeriod === 'yearly' ? (
+                                    <div className="mb-2">
+                                        <div className="flex items-baseline gap-2">
+                                            <p className="font-headline text-3xl font-black text-on-surface">₹14,999</p>
+                                            <span className="text-xs text-on-surface-variant/50 line-through font-normal">₹17,988</span>
+                                        </div>
+                                        <p className="text-[11px] text-green-400 font-bold bg-green-500/10 px-2 py-0.5 rounded-full inline-block mt-1">Save ₹2,989 (~16%)</p>
+                                        <p className="text-xs text-on-surface-variant/70 font-semibold mt-1">(₹1,249/mo billed yearly)</p>
+                                    </div>
+                                ) : (
+                                    <div className="mb-2">
+                                        <p className="font-headline text-3xl font-black text-on-surface">₹1,499<span className="text-sm text-on-surface-variant/60 font-normal">/month</span></p>
+                                        <p className="font-body text-sm text-on-surface-variant/80">Full Founder Operating System</p>
+                                    </div>
+                                )}
+                                <p className="text-xs font-mono text-tertiary mb-6 bg-tertiary/10 inline-block px-2 py-1 rounded w-fit mt-1">
+                                    {billingPeriod === 'yearly' ? 'Unlimited Runs (3000 Yearly Credits)' : 'Unlimited Runs (250 Monthly Credits)'}
+                                </p>
                                 <ul className="space-y-3 mb-8 flex-1 text-sm font-body">
                                     <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Unlimited idea runs</li>
                                     <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> All 10 engines fully unlocked</li>
@@ -394,7 +469,7 @@ export default function LandingPage() {
                                     <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Pivot engine & strategy</li>
                                     <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Progress engine & streak tracker</li>
                                     <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> Export PDF reports</li>
-                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> 250 credits/mo for refreshes</li>
+                                    <li className="flex items-center gap-2 text-on-surface"><CheckCircle2 className="w-4 h-4 text-tertiary" /> {billingPeriod === 'yearly' ? '3000 credits/yr for refreshes' : '250 credits/mo for refreshes'}</li>
                                 </ul>
                                 <Link href="/login" className="w-full text-center py-3 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/15 text-on-surface font-headline font-bold transition-all duration-300">Get Premium</Link>
                             </div>
