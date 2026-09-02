@@ -8,36 +8,105 @@ import { sendAnalysisEmail } from '@/lib/resend/emails'
 // DAY 1 FIX: Prevent Vercel from timing out at 10 seconds.
 export const maxDuration = 60; 
 
-async function callAI(prompt: string) {
-    // 1. Try OpenRouter first (User preference)
-    try {
-        if (!process.env.OPENROUTER_API_KEY) throw new Error('OPENROUTER_API_KEY missing');
-        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
-                "HTTP-Referer": "https://launch-os.app",
-                "X-Title": "LaunchOS",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                model: "google/gemini-2.0-flash-001",
-                messages: [{ role: "user", content: prompt }],
-                response_format: { type: "json_object" }
-            })
-        });
+function extractJson(text: string) {
+    const cleaned = text.replace(/```json\s*|```/g, '').trim()
 
-        const data = await response.json();
-        if (data.choices?.[0]?.message?.content) {
-            return JSON.parse(data.choices[0].message.content);
-        }
-    } catch (err) {
-        console.error('OpenRouter failed, falling back to Gemini SDK:', err);
+    // Try a straight parse first (covers the common well-formed case).
+    try {
+        return JSON.parse(cleaned)
+    } catch {
+        // fall through to brace-matching extraction below
     }
 
-    // 2. Fallback to Gemini SDK
+    const start = cleaned.indexOf('{')
+    if (start === -1) throw new Error('No JSON object found in response')
+
+    // Walk the string tracking brace depth so we stop at the FIRST object's
+    // true closing brace, ignoring braces that appear inside string values
+    // and any trailing commentary the model tacks on afterward.
+    let depth = 0
+    let inString = false
+    let escaped = false
+    for (let i = start; i < cleaned.length; i++) {
+        const ch = cleaned[i]
+        if (inString) {
+            if (escaped) escaped = false
+            else if (ch === '\\') escaped = true
+            else if (ch === '"') inString = false
+            continue
+        }
+        if (ch === '"') inString = true
+        else if (ch === '{') depth++
+        else if (ch === '}') {
+            depth--
+            if (depth === 0) return JSON.parse(cleaned.slice(start, i + 1))
+        }
+    }
+    throw new Error('No complete JSON object found in response')
+}
+
+async function callNvidia(prompt: string, model: string) {
+    const response = await fetch("https://integrate.api.nvidia.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${process.env.NVIDIA_API_KEY}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            model,
+            messages: [{ role: "user", content: `${prompt}\n\nRespond with ONLY the raw JSON object, no markdown fences, no commentary. The output must be strictly valid JSON: escape every double-quote character that appears inside a string value with a backslash, and never use a literal newline inside a string value.` }],
+            max_tokens: 6000,
+            temperature: 0.6
+        })
+    });
+
+    if (response.status === 503) {
+        throw Object.assign(new Error('NVIDIA overloaded'), { retryable: true });
+    }
+
+    const data = await response.json();
+    const content = data.choices?.[0]?.message?.content;
+    if (!content) {
+        throw new Error(`NVIDIA response missing content: ${JSON.stringify(data).slice(0, 500)}`);
+    }
+    return extractJson(content);
+}
+
+async function callNvidiaWithRetry(prompt: string, model: string) {
     try {
-        const model = getGeminiModel('gemini-1.5-flash')
+        return await callNvidia(prompt, model);
+    } catch (err: any) {
+        if (err.retryable) {
+            console.error(`NVIDIA (${model}) overloaded, retrying once after backoff...`);
+            await new Promise(resolve => setTimeout(resolve, 4000));
+            return await callNvidia(prompt, model);
+        }
+        throw err;
+    }
+}
+
+async function callAI(prompt: string) {
+    if (!process.env.NVIDIA_API_KEY) {
+        console.error('NVIDIA_API_KEY missing, skipping straight to Gemini SDK');
+    } else {
+        // 1. Try NVIDIA Nemotron (Primary), with one retry on overload
+        try {
+            return await callNvidiaWithRetry(prompt, "nvidia/nemotron-3-super-120b-a12b");
+        } catch (err) {
+            console.error('NVIDIA Nemotron (primary model) failed, trying secondary NVIDIA model:', err);
+        }
+
+        // 2. Try a second, different NVIDIA Nemotron model
+        try {
+            return await callNvidiaWithRetry(prompt, "nvidia/nemotron-3.5-lightning-30b-a3b");
+        } catch (err) {
+            console.error('NVIDIA Nemotron (secondary model) failed, falling back to Gemini SDK:', err);
+        }
+    }
+
+    // 3. Fallback to Gemini SDK
+    try {
+        const model = getGeminiModel('gemini-2.5-flash')
         const result = await model.generateContent({
             contents: [{ role: 'user', parts: [{ text: prompt }] }],
             generationConfig: { responseMimeType: "application/json" }
