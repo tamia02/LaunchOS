@@ -459,12 +459,24 @@ function AnalysisPageInner() {
     }
 
     useEffect(() => {
+        let cancelled = false
+        let intervalId: ReturnType<typeof setInterval> | null = null
+
         const fetchAnalysis = async () => {
             if (!id) return
             try {
                 const data = await getAnalysisById(id as string)
-                const finalData: any = data || { idea: 'LaunchOS Mock Prototype' }
-                
+                if (cancelled) return
+                const finalData: any = data || { idea: 'LaunchOS Mock Prototype', status: 'complete' }
+
+                if (finalData.status === 'processing') {
+                    // Still running in the background — show real partial data as it
+                    // lands, without substituting mock data for columns that just
+                    // haven't finished yet.
+                    setAnalysis({ ...finalData, plan_type: finalData.plan_type || 'free' })
+                    return
+                }
+
                 const isValid = (obj: any) => obj && typeof obj === 'object' && Object.keys(obj).length > 2;
                 const safeData = {
                     ...finalData,
@@ -485,10 +497,26 @@ function AnalysisPageInner() {
             } catch (err) {
                 console.error('Failed to fetch analysis:', err)
             } finally {
-                setLoading(false)
+                if (!cancelled) setLoading(false)
             }
         }
+
         fetchAnalysis()
+        intervalId = setInterval(async () => {
+            const data = await getAnalysisById(id as string)
+            if (cancelled) return
+            if (!data || data.status !== 'processing') {
+                if (intervalId) clearInterval(intervalId)
+                fetchAnalysis()
+                return
+            }
+            setAnalysis({ ...data, plan_type: data.plan_type || 'free' })
+        }, 4000)
+
+        return () => {
+            cancelled = true
+            if (intervalId) clearInterval(intervalId)
+        }
     }, [id])
 
     const activeTab = engines.find(e => e.id === engineParam) ? engineParam : 'niche'
@@ -504,6 +532,15 @@ function AnalysisPageInner() {
             </div>
         )
         if (!analysis) return <div className="text-center py-20 text-on-surface-variant/40">Protocol not found.</div>
+
+        if (analysis.status === 'processing' && !analysis[activeTab]) {
+            return (
+                <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
+                    <LoadingSpinner />
+                    <p className="text-xs font-mono text-on-surface-variant/50 uppercase tracking-widest">This engine is still processing...</p>
+                </div>
+            )
+        }
 
         const plan = analysis.plan_type || 'free';
 
@@ -567,7 +604,11 @@ function AnalysisPageInner() {
                         {analysis?.idea}
                     </h1>
                     <div className="flex flex-wrap items-center gap-4 text-xs font-mono">
-                        {analysis?._simulated ? (
+                        {analysis?.status === 'processing' ? (
+                            <span className="text-[10px] text-on-surface-variant font-black uppercase tracking-widest">
+                                Status: <span className="text-tertiary animate-pulse">PROCESSING — {engines.filter(e => analysis?.[e.id]).length}/{engines.length} COMPLETE</span>
+                            </span>
+                        ) : analysis?._simulated ? (
                             <span className="text-[10px] text-on-surface-variant font-black uppercase tracking-widest">
                                 Status: <span className="text-orange-400">SIMULATED DATA</span>
                             </span>
@@ -615,6 +656,8 @@ function AnalysisPageInner() {
             <div className="flex items-center gap-1 overflow-x-auto pb-2 no-scrollbar border-b border-white/5">
                 {engines.map((engine) => {
                     const isActive = activeTab === engine.id
+                    const isProcessing = analysis?.status === 'processing'
+                    const isEngineDone = !!analysis?.[engine.id]
                     return (
                         <button
                             key={engine.id}
@@ -626,8 +669,13 @@ function AnalysisPageInner() {
                                     : "text-on-surface-variant/50 hover:text-on-surface-variant hover:bg-surface-container-low"
                             )}
                         >
-                            <span className={cn("text-[9px] font-mono tracking-wider", isActive ? "text-tertiary" : "text-on-surface-variant/30")}>
+                            <span className={cn("text-[9px] font-mono tracking-wider flex items-center gap-1", isActive ? "text-tertiary" : "text-on-surface-variant/30")}>
                                 {engine.number}
+                                {isProcessing && (
+                                    isEngineDone
+                                        ? <span className="material-symbols-outlined text-[11px] text-green-400">check_circle</span>
+                                        : <span className="material-symbols-outlined text-[11px] animate-spin">progress_activity</span>
+                                )}
                             </span>
                             <span className="text-xs font-semibold">{engine.name}</span>
                             {isActive && <div className="absolute inset-x-0 bottom-0 h-0.5 bg-tertiary rounded-full shadow-[0_0_8px_#679cff]" />}

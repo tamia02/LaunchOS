@@ -27,6 +27,7 @@ export async function getAnalysisById(id: string) {
         return {
             id: data.id,
             idea: data.idea,
+            status: data.status || 'complete',
             plan_type: data.plan_type || 'free',
             created_at: new Date(data.created_at).toLocaleDateString('en-US', {
                 month: 'long',

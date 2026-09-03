@@ -1,200 +1,20 @@
 import { NextResponse } from 'next/server'
+import { after } from 'next/server'
 import sql from '@/lib/db'
-import { getGeminiModel } from '@/lib/gemini/client'
-import { ENGINE_PROMPTS } from '@/lib/gemini/prompts'
-import { checkCredits, deductCredits } from '@/lib/credits'
-import { sendAnalysisEmail } from '@/lib/resend/emails'
+import { checkCredits } from '@/lib/credits'
 
-// DAY 1 FIX: Prevent Vercel from timing out at 10 seconds.
-export const maxDuration = 60; 
-
-function extractJson(text: string) {
-    const cleaned = text.replace(/```json\s*|```/g, '').trim()
-
-    // Try a straight parse first (covers the common well-formed case).
-    try {
-        return JSON.parse(cleaned)
-    } catch {
-        // fall through to brace-matching extraction below
-    }
-
-    const start = cleaned.indexOf('{')
-    if (start === -1) throw new Error('No JSON object found in response')
-
-    // Walk the string tracking brace depth so we stop at the FIRST object's
-    // true closing brace, ignoring braces that appear inside string values
-    // and any trailing commentary the model tacks on afterward.
-    let depth = 0
-    let inString = false
-    let escaped = false
-    for (let i = start; i < cleaned.length; i++) {
-        const ch = cleaned[i]
-        if (inString) {
-            if (escaped) escaped = false
-            else if (ch === '\\') escaped = true
-            else if (ch === '"') inString = false
-            continue
-        }
-        if (ch === '"') inString = true
-        else if (ch === '{') depth++
-        else if (ch === '}') {
-            depth--
-            if (depth === 0) return JSON.parse(cleaned.slice(start, i + 1))
-        }
-    }
-    throw new Error('No complete JSON object found in response')
-}
-
-async function callNvidia(prompt: string, model: string) {
-    const response = await fetch("https://integrate.api.nvidia.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer ${process.env.NVIDIA_API_KEY}`,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            model,
-            messages: [{ role: "user", content: `${prompt}\n\nRespond with ONLY the raw JSON object, no markdown fences, no commentary. The output must be strictly valid JSON: escape every double-quote character that appears inside a string value with a backslash, and never use a literal newline inside a string value.` }],
-            max_tokens: 6000,
-            temperature: 0.6
-        })
-    });
-
-    if (response.status === 503) {
-        throw Object.assign(new Error('NVIDIA overloaded'), { retryable: true });
-    }
-
-    const data = await response.json();
-    const content = data.choices?.[0]?.message?.content;
-    if (!content) {
-        throw new Error(`NVIDIA response missing content: ${JSON.stringify(data).slice(0, 500)}`);
-    }
-    return extractJson(content);
-}
-
-async function callNvidiaWithRetry(prompt: string, model: string) {
-    try {
-        return await callNvidia(prompt, model);
-    } catch (err: any) {
-        if (err.retryable) {
-            console.error(`NVIDIA (${model}) overloaded, retrying once after backoff...`);
-            await new Promise(resolve => setTimeout(resolve, 4000));
-            return await callNvidia(prompt, model);
-        }
-        throw err;
-    }
-}
-
-async function callAI(prompt: string) {
-    if (!process.env.NVIDIA_API_KEY) {
-        console.error('NVIDIA_API_KEY missing, skipping straight to Gemini SDK');
-    } else {
-        // 1. Try NVIDIA Nemotron (Primary), with one retry on overload
-        try {
-            return await callNvidiaWithRetry(prompt, "nvidia/nemotron-3-super-120b-a12b");
-        } catch (err) {
-            console.error('NVIDIA Nemotron (primary model) failed, trying secondary NVIDIA model:', err);
-        }
-
-        // 2. Try a second, different NVIDIA Nemotron model
-        try {
-            return await callNvidiaWithRetry(prompt, "nvidia/nemotron-3.5-lightning-30b-a3b");
-        } catch (err) {
-            console.error('NVIDIA Nemotron (secondary model) failed, falling back to Gemini SDK:', err);
-        }
-    }
-
-    // 3. Fallback to Gemini SDK
-    try {
-        const model = getGeminiModel('gemini-2.5-flash')
-        const result = await model.generateContent({
-            contents: [{ role: 'user', parts: [{ text: prompt }] }],
-            generationConfig: { responseMimeType: "application/json" }
-        })
-        const text = result.response.text() || '{}'
-        return JSON.parse(text);
-    } catch (err) {
-        console.error('Gemini SDK also failed:', err);
-        return null;
-    }
-}
-
-// Helper function to run a single engine
-async function runEngine(key: string, idea: string, nicheData: any = null, validationData: any = null) {
-    try {
-        let promptContext = `\n\nStartup Idea: ${idea}\n\nReturn ONLY the JSON object.`
-        
-        if (key === 'validation') {
-            promptContext = `\n\nUSER MESSAGE:\nStartup idea: ${idea}\nPrimary niche from Engine 1: ${nicheData?.niche_name || 'N/A'}\nNiche description: ${nicheData?.niche_description || 'N/A'}\n\nReturn ONLY the JSON object.`
-        } else if (key === 'mvp') {
-            promptContext = `\n\nUSER MESSAGE:\nStartup idea: ${idea}\nValidated niche: ${nicheData?.niche_name || 'N/A'}\nMarket verdict: ${validationData?.verdict || 'GO'}\nValidation score: ${validationData?.validation_score?.total || 50}/100\n\nReturn ONLY the JSON object.`
-        } else if (key === 'pricing') {
-            const mockMarketData = {
-                upwork: "Average requests range from $45-$120/hr",
-                fiverr: "Entry tiers ~$20, Pro tiers $300+",
-                trends: "Stable growth over past 12 months",
-                ph: "Similar tools charge $29/mo or $500 setup"
-            }
-            promptContext = `\n\nUSER MESSAGE:\nStartup idea: ${idea}\nNiche: ${nicheData?.niche_name || 'N/A'}\n\nEXTERNAL MARKET DATA SIGNALS:\nUpwork: ${mockMarketData.upwork}\nFiverr: ${mockMarketData.fiverr}\nTrends: ${mockMarketData.trends}\nProductHunt Competitors: ${mockMarketData.ph}\n\nReturn ONLY the JSON object.`
-        } else if (key === 'outreach') {
-            promptContext = `\n\nUSER MESSAGE:\nStartup idea: ${idea}\nTarget Niche: ${nicheData?.niche_name || 'N/A'}\n\nCreate a comprehensive free and paid outreach strategy following Alex Hormozi's framework. Return ONLY the JSON object.`
-        }
-
-        const prompt = `${ENGINE_PROMPTS[key as keyof typeof ENGINE_PROMPTS]}${promptContext}`
-        const parsedData = await callAI(prompt);
-        
-        if (parsedData) {
-           if (key === 'niche') {
-               const redditQuery = parsedData.niche_name || idea;
-               try {
-                   const redditRes = await fetch(`https://www.reddit.com/search.json?q=${encodeURIComponent(redditQuery)}&sort=top&t=year&limit=3&type=link`, {
-                       headers: { 'User-Agent': 'launchOS/1.0 (founder@launchos.app)' }
-                   });
-                   if (redditRes.ok) {
-                       const redditJson = await redditRes.json();
-                       parsedData.reddit_posts = redditJson.data?.children?.map((c: any) => ({
-                           title: c.data.title,
-                           subreddit: c.data.subreddit_name_prefixed,
-                           upvotes: c.data.score,
-                           url: `https://reddit.com${c.data.permalink}`
-                       })) || [];
-                   }
-               } catch (e) {
-                   console.error('Reddit API failed:', e);
-                   parsedData.reddit_posts = [];
-               }
-
-               try {
-                   const googleTrends = require('google-trends-api');
-                   const trendsStr = await googleTrends.interestOverTime({ keyword: redditQuery });
-                   const trendsJson = JSON.parse(trendsStr);
-                   parsedData.trends = trendsJson?.default?.timelineData?.map((pt: any) => ({
-                       date: pt.formattedTime,
-                       value: pt.value[0]
-                   })) || [];
-               } catch (e) {
-                   console.error('Trends API failed:', e);
-                   parsedData.trends = [];
-               }
-           }
-           
-           return { key, data: parsedData, success: true }
-        } else {
-           throw new Error('AI returned no data')
-        }
-    } catch (error: any) {
-        console.error(`[ERROR] Engine ${key} failed:`, error.message)
-        return { key, data: null, success: false }
-    }
-}
+// This route only creates the analysis row and hands off to the background
+// processing route (see /api/analyze/process) — it must stay fast so the
+// client gets an analysisId back immediately instead of blocking on AI calls.
+export const maxDuration = 20;
 
 export async function POST(req: Request) {
     try {
         const { idea, userId } = await req.json()
-        console.log('--- STARTING ANALYSIS (Hybrid AI Stack) ---')
+        console.log('--- CREATING ANALYSIS ---')
         console.log('Idea:', idea)
         console.log('User:', userId)
-        
+
         if (!idea || !userId) {
             return NextResponse.json({ error: 'Missing idea or userId' }, { status: 400 })
         }
@@ -214,127 +34,55 @@ export async function POST(req: Request) {
             user = newUser
         }
 
-        // --- 1.5 CHECK CREDITS BEFORE RUNNING AI ---
+        // --- CHECK CREDITS BEFORE STARTING ---
         const requiredCredits = 100; // First validation is 100 credits
         const creditCheck = await checkCredits(userId, requiredCredits);
-        
+
         if (!creditCheck.success) {
-            return NextResponse.json({ 
-                error: creditCheck.error, 
-                message: creditCheck.message, 
+            return NextResponse.json({
+                error: creditCheck.error,
+                message: creditCheck.message,
                 code: 'UPGRADE_REQUIRED',
                 upgradeUrl: creditCheck.upgradeUrl
             }, { status: 403 })
         }
 
-        // 2. Run engines using Hybrid Parallel Execution (Day 1 Fix)
-        console.log(`Running analysis using Hybrid Parallel Execution...`)
-        
-        // Step A: Run Niche Engine first (Base Dependency)
-        console.log('[1/3] Running Niche Engine...');
-        const nicheResult = await runEngine('niche', idea);
-        const nicheData = nicheResult.data;
-
-        // Step B: Run Validation Engine second (Depends on Niche)
-        console.log('[2/3] Running Validation Engine...');
-        const validationResult = await runEngine('validation', idea, nicheData);
-        const validationData = validationResult.data;
-
-        // Step C: Run remaining 8 engines in PARALLEL
-        console.log('[3/3] Running remaining 8 engines in parallel...');
-        const engineKeys = Object.keys(ENGINE_PROMPTS) as Array<keyof typeof ENGINE_PROMPTS>;
-        const remainingKeys = engineKeys.filter(k => k !== 'niche' && k !== 'validation');
-        
-        const remainingPromises = remainingKeys.map(key => runEngine(key, idea, nicheData, validationData));
-        const remainingResults = await Promise.all(remainingPromises);
-
-        // Reconstruct results array in correct order
-        const results = [
-            nicheResult,
-            validationResult,
-            ...remainingResults
-        ];
-
-        console.log('All engines processed successfully in hybrid mode.')
-
-        // 3. Prepare data for Neon
-        const engineData: Record<string, any> = {}
-        const columns = [
-            'engine1_niche', 'engine2_validation', 'engine3_mvp', 'engine4_pricing',
-            'engine5_outreach', 'engine6_competitor', 'engine7_investor', 'engine8_yc',
-            'engine9_pivot', 'engine10_revenue'
-        ]
-
-        results.forEach((res, index) => {
-            const colName = columns[index]
-            engineData[colName] = res.data
-        })
-
-        // 4. Save to Neon
-        console.log('Saving results to Neon...')
+        // 2. Create the pending row immediately
         const [analysis] = await sql`
-            INSERT INTO analyses (
-                user_id, 
-                idea, 
-                engine1_niche, 
-                engine2_validation, 
-                engine3_mvp, 
-                engine4_pricing, 
-                engine5_outreach, 
-                engine6_competitor, 
-                engine7_investor, 
-                engine8_yc, 
-                engine9_pivot, 
-                engine10_revenue
-            ) VALUES (
-                ${userId}, 
-                ${idea}, 
-                ${engineData.engine1_niche}, 
-                ${engineData.engine2_validation}, 
-                ${engineData.engine3_mvp}, 
-                ${engineData.engine4_pricing}, 
-                ${engineData.engine5_outreach}, 
-                ${engineData.engine6_competitor}, 
-                ${engineData.engine7_investor}, 
-                ${engineData.engine8_yc}, 
-                ${engineData.engine9_pivot}, 
-                ${engineData.engine10_revenue}
-            )
+            INSERT INTO analyses (user_id, idea, status)
+            VALUES (${userId}, ${idea}, 'processing')
             RETURNING id
         ` as any[]
-        console.log('Analysis saved with ID:', analysis.id)
+        console.log('Analysis row created with ID:', analysis.id)
 
-        // 5. Increment usage count
-        await sql`
-            UPDATE users SET usage_count = usage_count + 1 WHERE id = ${userId}
-        `
-
-        // 6. DEDUCT CREDITS AFTER SUCCESS
-        await deductCredits(userId, requiredCredits, 'validation', analysis.id);
-
-        // 7. SEND TRANSACTIONAL EMAIL REPORT VIA RESEND
-        if (user && user.email) {
-            sendAnalysisEmail(
-                user.email,
-                user.full_name || 'Founder',
-                idea,
-                analysis.id,
-                nicheData?.niche_name || 'Startup Niche',
-                validationData?.validation_score?.total || 75,
-                validationData?.verdict || 'GO'
-            ).catch(err => {
-                console.error("Failed to send analysis report email:", err)
-            })
-        }
+        // 3. Hand off the actual AI work to the background processing route.
+        // after() keeps this invocation alive just long enough to dispatch the
+        // request and get Route B's quick acknowledgement — the client already
+        // has its response by the time this runs.
+        const baseUrl = process.env.NEXT_PUBLIC_APP_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+        after(async () => {
+            try {
+                const res = await fetch(`${baseUrl}/api/analyze/process`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-internal-secret': process.env.INTERNAL_API_SECRET!
+                    },
+                    body: JSON.stringify({ analysisId: analysis.id, idea, userId })
+                })
+                console.log('Dispatched background processing, status:', res.status)
+            } catch (err) {
+                console.error('Failed to dispatch background processing:', err)
+            }
+        })
 
         return NextResponse.json({
             success: true,
-            analysisId: analysis.id,
-            results: results.reduce((acc, curr) => ({ ...acc, [curr.key]: curr.data }), {})
+            analysisId: analysis.id
         })
 
     } catch (error: any) {
-        console.error('Analysis error:', error)
+        console.error('Analysis creation error:', error)
         return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 })
     }
 }
