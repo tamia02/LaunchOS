@@ -130,6 +130,9 @@ export default function LandingPageClient() {
         '@type': 'Person',
         name: 'Tasmiya Siddiqui',
       },
+      sameAs: [
+        'https://www.linkedin.com/company/launchos-co-in/',
+      ],
     };
 
     return (
