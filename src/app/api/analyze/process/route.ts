@@ -208,15 +208,24 @@ async function processAnalysis(analysisId: string, idea: string, userId: string)
     try {
         console.log(`[${analysisId}] Running analysis (NVIDIA-primary background job)...`)
 
-        // Step A: Niche (base dependency)
+        // Step A: Niche (base dependency). Retried once on failure since it's
+        // the first thing a user sees and everything else depends on it.
         console.log(`[${analysisId}] [1/3] Running Niche Engine...`);
-        const nicheResult = await runEngine('niche', idea);
+        let nicheResult = await runEngine('niche', idea);
+        if (!nicheResult.data) {
+            console.log(`[${analysisId}] Niche Engine failed, retrying once...`);
+            nicheResult = await runEngine('niche', idea);
+        }
         const nicheData = nicheResult.data;
         await updateEngineColumn(analysisId, 'niche', nicheData);
 
-        // Step B: Validation (depends on niche)
+        // Step B: Validation (depends on niche). Same single-retry treatment.
         console.log(`[${analysisId}] [2/3] Running Validation Engine...`);
-        const validationResult = await runEngine('validation', idea, nicheData);
+        let validationResult = await runEngine('validation', idea, nicheData);
+        if (!validationResult.data) {
+            console.log(`[${analysisId}] Validation Engine failed, retrying once...`);
+            validationResult = await runEngine('validation', idea, nicheData);
+        }
         const validationData = validationResult.data;
         await updateEngineColumn(analysisId, 'validation', validationData);
 
