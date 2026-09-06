@@ -1,0 +1,18 @@
+# launchOS
+
+launchOS is an AI-powered startup engine that turns a raw idea into a complete launch plan in minutes.
+Built for Indian founders. Used by 2,847+ founders, rated 4.9/5 (127 reviews).
+
+## What it does
+- Niche analysis
+- Market validation
+- MVP planning
+- Pricing strategy
+- Outreach planning
+
+## Founder
+Tasmiya Siddiqui, Founder of launchOS.
+
+## Links
+- Docs: https://www.launchos.co.in/docs
+- Support: https://www.launchos.co.in/support

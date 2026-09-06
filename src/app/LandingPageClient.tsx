@@ -109,10 +109,35 @@ export default function LandingPageClient() {
       }))
     };
 
+    const personJsonLd = {
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: 'Tasmiya Siddiqui',
+      jobTitle: 'Founder',
+      worksFor: {
+        '@type': 'Organization',
+        name: 'launchOS',
+        url: 'https://www.launchos.co.in',
+      },
+    };
+
+    const organizationJsonLd = {
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: 'launchOS',
+      url: 'https://www.launchos.co.in',
+      founder: {
+        '@type': 'Person',
+        name: 'Tasmiya Siddiqui',
+      },
+    };
+
     return (
         <div className="bg-surface text-on-surface selection:bg-tertiary/30 selection:text-tertiary-fixed min-h-screen antialiased font-sans">
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
 
             {/* TopNavBar */}
             <nav className="fixed top-0 w-full z-50 bg-slate-900/60 backdrop-blur-xl flex justify-between items-center h-16 px-8 max-w-full shadow-[0px_4px_12px_rgba(0,0,0,0.2)]">
