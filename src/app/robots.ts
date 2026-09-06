@@ -12,6 +12,6 @@ export default function robots(): MetadataRoute.Robots {
         '/profile/',
       ],
     },
-    sitemap: 'https://launchos.io/sitemap.xml',
+    sitemap: 'https://www.launchos.co.in/sitemap.xml',
   }
 }

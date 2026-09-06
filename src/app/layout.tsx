@@ -15,7 +15,10 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://launchos.io'),
+  metadataBase: new URL('https://www.launchos.co.in'),
+  alternates: {
+    canonical: 'https://www.launchos.co.in/',
+  },
   title: {
     default: 'launchOS — AI Startup Engine for Founders',
     template: '%s | launchOS'
@@ -48,7 +51,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_IN',
-    url: 'https://launchos.io',
+    url: 'https://www.launchos.co.in',
     siteName: 'launchOS',
     title: 'launchOS — AI Startup Engine for Founders',
     description: 'Turn your startup idea into a complete launch plan in 2 minutes. Used by 2,847 founders.',

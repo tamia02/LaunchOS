@@ -1,6 +1,13 @@
 import React from 'react'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Book, FileText, Zap, Shield, ArrowRight } from 'lucide-react'
+
+export const metadata: Metadata = {
+    alternates: {
+        canonical: 'https://www.launchos.co.in/docs',
+    },
+}
 
 export default function DocsPage() {
     return (
